@@ -26,9 +26,12 @@ namespace ProjetS3.Controllers
 
 
         [Route("BrowserRequests/{ObjectName}/{parameters?}")]
-        public IActionResult CommunicateToPeripheral(string ObjectName, string parameters)
-        { 
+        public string CommunicateToPeripheral(string ObjectName, string parameters)
+        {
+            string myString = "";
+
             string[] strlist1 = parameters.Split('?');
+
 
             var context = this.HttpContext;
             var query = context.Request.QueryString;
@@ -67,13 +70,21 @@ namespace ProjetS3.Controllers
                     }
                 }
                 _myFactory.faitMagie(ObjectName, strlist1[0], parametersArray);
-               
+
+                myString += "Objet : " + ObjectName+ "\n";
+                myString += "Methodes : " + strlist1[0] + "\n" ;
+
+                foreach(string word in parametersArray)
+                {
+                    myString += "Parameter : " + word + "\n";
+                }
+                 
             }
             /*
              * TODO: refaire la réponse, si l'objet ou la méthode n'existe pas => renvoyer un code d'erreur (300)
-             * si l'objet / methode n'existe pas, on catch l'exception d    ans faitMagie, on la recatch ici into code d'erreur
+             * si l'objet / methode n'existe pas, on catch l'exception dans faitMagie, on la recatch ici into code d'erreur
              */
-            return StatusCode(200);
+            return myString;
         }
     }
 }
