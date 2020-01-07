@@ -12,6 +12,17 @@ using System.Web;
  * envoyer des requêtes à localhost:5001/browserRequests/objet/method[?parameters]
  */
 
+ /*
+  * Cas d'erreurs dans l'URL => pointless étant donné qu'en navigateur l'user n'a pas accès à l'URL
+  * un ? et rien après
+  * plusieurs ?
+  * plusieurs & à la suite sans =
+  * plusieurs = à la suite sans &
+  * le mec met des ?,&,= dans le nom de l'objet
+  * le mec met pas de méthode -> appeler to String ?
+  * 
+  */
+
 namespace ProjetS3.Controllers
 {
     public class BrowserRequestsController : Controller
@@ -23,6 +34,7 @@ namespace ProjetS3.Controllers
         {
             _myFactory = theFactory;
         }
+        
 
 
 
