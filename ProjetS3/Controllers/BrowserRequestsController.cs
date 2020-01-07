@@ -25,20 +25,37 @@ namespace ProjetS3.Controllers
         }
 
 
-        [Route("BrowserRequests/{ObjectName}/{parameters?}")]
-        public string CommunicateToPeripheral(string ObjectName, string parameters)
-        {
-            string myString = "";
 
+        /**
+         * TODO: ne pas uiquement call la facto 
+         * -> la facto me renvoie un objet into j'applique un traitement sur l'objet renvoyé
+         */
+
+        [Route("BrowserRequests/{ObjectName}/{parameters?}")]
+        public IActionResult CommunicateToPeripheral(string ObjectName, string parameters)
+        {
             string[] strlist1 = parameters.Split('?');
 
-
+            //Getting ?param1=4&... part of the URL
             var context = this.HttpContext;
             var query = context.Request.QueryString;
 
+            //If there are no parameters in GET Request
             if (String.IsNullOrEmpty(query.ToString()))
             {
-                _myFactory.faitMagie(ObjectName, strlist1[0], new object[0]);
+                try
+                {
+                    _myFactory.faitMagie(ObjectName, strlist1[0], new object[0]);
+                }
+                catch (UncorrectMethodNameException e)
+                {
+                    return StatusCode(400);
+                }
+                catch (UncorrectObjectNameException e2)
+                {
+                    return StatusCode(400);
+                }
+                
             }
             else
             {
@@ -69,22 +86,25 @@ namespace ProjetS3.Controllers
                         counter++;
                     }
                 }
-                _myFactory.faitMagie(ObjectName, strlist1[0], parametersArray);
 
-                myString += "Objet : " + ObjectName+ "\n";
-                myString += "Methodes : " + strlist1[0] + "\n" ;
-
-                foreach(string word in parametersArray)
+                try
                 {
-                    myString += "Parameter : " + word + "\n";
+                    _myFactory.faitMagie(ObjectName, strlist1[0], parametersArray);
                 }
-                 
+                catch (UncorrectMethodNameException e)
+                {
+                    return StatusCode(400);
+                }
+                catch (UncorrectObjectNameException e2)
+                {
+                    return StatusCode(400);
+                }
+                catch (WrongParametersException e3)
+                {
+                    return StatusCode(400);
+                }
             }
-            /*
-             * TODO: refaire la réponse, si l'objet ou la méthode n'existe pas => renvoyer un code d'erreur (300)
-             * si l'objet / methode n'existe pas, on catch l'exception dans faitMagie, on la recatch ici into code d'erreur
-             */
-            return myString;
+            return StatusCode(200);
         }
     }
 }
