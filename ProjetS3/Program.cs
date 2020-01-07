@@ -14,9 +14,7 @@ namespace ProjetS3
     {
         public static void Main(string[] args)
         {
-            Thread t = new Thread(new ThreadStart(ThreadProc));
-            t.Start();
-            //t.Join();
+            PeripheralEventHandler p = new PeripheralEventHandler();
             CreateHostBuilder(args).Build().Run();
         }
 
@@ -26,18 +24,5 @@ namespace ProjetS3
                 {
                     webBuilder.UseStartup<Startup>();
                 });
-
-        public static void ThreadProc()
-        {
-            while(true)
-            {
-                for (int i = 0; i < 10; i++)
-                {
-                    Console.WriteLine("ThreadProc: {0}", i);
-                    // Yield the rest of the time slice.
-                    Thread.Sleep(0);
-                }
-            }
-        }
     }
 }

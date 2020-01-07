@@ -5,8 +5,8 @@ using System.Threading.Tasks;
 
 namespace ProjetS3
 {
-    public interface IFactory
+    public interface IEventHandler
     {
-        public object faitMagie(string ObjectName, string MethodName, object[] parameters);
+        public void send(string objectName, string eventName, string value);
     }
 }

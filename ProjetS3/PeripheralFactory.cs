@@ -10,9 +10,9 @@ namespace ProjetS3
     {
         public PeripheralFactory()
         {
-
+            
         }
-        string IFactory.faitMagie(string ObjectName, string MethodName, object[] parameters)
+        object IFactory.faitMagie(string ObjectName, string MethodName, object[] parameters)
         {
             if (ObjectName.Equals("bonjour"))
             {
