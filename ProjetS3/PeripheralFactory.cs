@@ -14,6 +14,18 @@ namespace ProjetS3
         }
         string IFactory.faitMagie(string ObjectName, string MethodName, object[] parameters)
         {
+            if (ObjectName.Equals("bonjour"))
+            {
+                throw new UncorrectObjectNameException();
+            }
+            if (MethodName.Equals("cava"))
+            {
+                throw new UncorrectMethodNameException();
+            }
+            if (parameters.Length > 0 && parameters[0].Equals("12"));
+            {
+                throw new WrongParametersException();
+            }
             string str = "Objet :" + ObjectName + "\n Methode :" + MethodName + "\n";
             for (int i=0; i<parameters.Length; i++)
             {
