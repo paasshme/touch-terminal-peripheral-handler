@@ -22,10 +22,12 @@ namespace ProjetS3
             {
                 throw new UncorrectMethodNameException();
             }
-            if (parameters.Length > 0 && parameters[0].Equals("12"));
+           
+            if (parameters.Length > 0 && parameters[0].Equals("12"))
             {
                 throw new WrongParametersException();
             }
+            
             string str = "Objet :" + ObjectName + "\n Methode :" + MethodName + "\n";
             for (int i=0; i<parameters.Length; i++)
             {
@@ -34,4 +36,5 @@ namespace ProjetS3
             return str;
         }
     }
+    
 }
