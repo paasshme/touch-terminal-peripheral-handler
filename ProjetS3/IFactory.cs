@@ -7,6 +7,6 @@ namespace ProjetS3
 {
     public interface IFactory
     {
-        public void faitMagie(string ObjectName, string MethodName, object[] parameters);
+        public string faitMagie(string ObjectName, string MethodName, object[] parameters);
     }
 }

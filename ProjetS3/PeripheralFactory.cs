@@ -12,9 +12,14 @@ namespace ProjetS3
         {
 
         }
-        void IFactory.faitMagie(string ObjectName, string MethodName, object[] parameters)
+        string IFactory.faitMagie(string ObjectName, string MethodName, object[] parameters)
         {
-            return;
+            string str = "Objet :" + ObjectName + "\n Methode :" + MethodName + "\n";
+            for (int i=0; i<parameters.Length; i++)
+            {
+                str = str + "Paramètre " + i + " : " + parameters[i];
+            }
+            return str;
         }
     }
 }
