@@ -36,6 +36,11 @@ namespace ProjetS3
             }
         }
 
+        public void putPeripheralEventInQueue(IEvent peripheralEvent)
+        {
+            this.PeripheralEventsQueue.Enqueue(peripheralEvent);
+        }
+
         public void send(string objectName, string eventName, string value)
         {
             //Ecrire dans le websocket
