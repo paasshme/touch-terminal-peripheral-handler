@@ -1,12 +1,5 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 
 namespace ProjetS3
 {
@@ -14,7 +7,7 @@ namespace ProjetS3
     {
         public static void Main(string[] args)
         {
-            PeripheralEventHandler p = new PeripheralEventHandler();
+            //PeripheralEventHandler p = new PeripheralEventHandler();
             CreateHostBuilder(args).Build().Run();
         }
 

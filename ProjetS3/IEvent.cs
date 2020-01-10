@@ -7,10 +7,10 @@ namespace ProjetS3
 {
     public interface IEvent
     {
-        public string objectName { get; set; }
+         string objectName { get; set; }
 
-        public string eventName { get; set; }
+         string eventName { get; set; }
 
-        public object value { get; set; }
+         object value { get; set; }
     }
 }

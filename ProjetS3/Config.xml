@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<libraries>
+<!--
+  <library name="InterfaceDLL">
+    <instance>BarCode</instance>
+  </library>
+  <library name="awesome">
+    <instance>TestObject</instance>
+    <instance>ITest</instance>
+  </library>
+
+
+  <library name="BarCodeLib">
+    <instance>BarCode</instance>
+  </library>
+-->
+
+  <!-- TODO: add properties/attributes for objects -->
+  <library name="AFakeProject">
+    <instance>FakeDevice</instance>
+  </library>
+
+
+</libraries>

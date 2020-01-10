@@ -9,5 +9,11 @@
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Reference Include="IDeviceLib">
+      <HintPath>..\..\..\IDeviceLib\bin\Debug\netcoreapp3.1\IDeviceLib.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
 
 </Project>

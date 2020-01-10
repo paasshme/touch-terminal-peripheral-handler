@@ -1,15 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc;
-using System.Text.Encodings.Web;
-using System.Web;
-using System.Net.WebSockets;
-using Microsoft.AspNetCore.Http;
-using System.Text;
-using System.Threading;
+using IDeviceLib;
+using System.Reflection;
 
 /*
  * Pour tester le controlleur :
@@ -32,11 +26,15 @@ namespace ProjetS3.Controllers
     public class BrowserRequestsController : Controller
     {
 
-        private readonly IFactory _myFactory;
+        //private readonly PeripheralFactory _myFactory;
 
-        public BrowserRequestsController(IFactory theFactory)
-        {
-            _myFactory = theFactory;
+        private readonly DispatcherMiddleware disp;
+
+        public BrowserRequestsController(/*PeripheralFactory theFactory*/)        {
+
+           // _myFactory = theFactory;
+
+           // PeripheralEventHandler peh = new PeripheralEventHandler(HttpContext);
         }
         
 
@@ -46,30 +44,39 @@ namespace ProjetS3.Controllers
          * TODO: ne pas uiquement call la facto 
          * -> la facto me renvoie un objet into j'applique un traitement sur l'objet renvoyé
          */
-
-        [Route("BrowserRequests/{ObjectName}/{parameters?}")]
-        public IActionResult CommunicateToPeripheral(string ObjectName, string parameters)
+        [Route("api")]
+        public async Task<string> testMethodAsync(string param)
         {
-            string[] strlist1 = parameters.Split('?');
+            PeripheralFactory.Init();
 
+            // PeripheralEventHandler peh = new PeripheralEventHandler(HttpContext);
+            return "Test app work & facto init!";
+        }
+
+
+        //TODO change return type to IActionResult 
+        [Route("api/{ObjectName}/{Method}")]
+        public string CommunicateToPeripheral(string ObjectName, string Method)
+        {
+            PeripheralFactory.Init();
             //Getting ?param1=4&... part of the URL
-            var context = this.HttpContext;
-            var query = context.Request.QueryString;
-
+            var query = this.HttpContext.Request.QueryString;
             //If there are no parameters in GET Request
             if (String.IsNullOrEmpty(query.ToString()))
             {
                 try
                 {
-                    _myFactory.faitMagie(ObjectName, strlist1[0], new object[0]);
+                    UseMethod(ObjectName, Method, new object[0]);
                 }
                 catch (UncorrectMethodNameException e)
                 {
-                    return StatusCode(400);
+                    return "400";
+                    //return StatusCode(400);
                 }
                 catch (UncorrectObjectNameException e2)
                 {
-                    return StatusCode(400);
+                    return "400";
+                    //return StatusCode(400);
                 }
                 
             }
@@ -78,12 +85,11 @@ namespace ProjetS3.Controllers
                 char[] separators = {'=', '&'};
                 int counter = 0;
 
-                string param = query.ToString();
+                string param = query.ToString().Substring(1);
 
-                string[] strlist2 = param.Split("?");
-                string[] strlist3 = strlist2[1].Split(separators);
+                string[] strlist = param.Split(separators);    
 
-                for(int i = 0; i < strlist3.Length; i++)
+                for(int i = 0; i < strlist.Length; i++)
                 {
                     if (i % 2 == 1)
                     {
@@ -94,36 +100,63 @@ namespace ProjetS3.Controllers
                 object[] parametersArray = new object[counter];
                 counter = 0;
 
-                for (int i = 0; i < strlist3.Length; i++)
+                string test = "";
+                for (int i = 0; i < strlist.Length; i++)
                 {
                     if (i % 2 == 1)
                     {
-                        parametersArray[counter] = strlist3[i];
+                        test += strlist[i];
+                        parametersArray[counter] = strlist[i];
                         counter++;
                     }
                 }
-
                 try
                 {
-                    _myFactory.faitMagie(ObjectName, strlist1[0], parametersArray);
+                    UseMethod(ObjectName, Method, parametersArray);
+                   // _myFactory.faitMagie(ObjectName, Method, parametersArray);
                 }
                 catch (UncorrectMethodNameException e)
                 {
-                    return StatusCode(400);
+                    return "400";
+                    //return StatusCode(400);
                 }
                 catch (UncorrectObjectNameException e2)
                 {
-                    return StatusCode(400);
+                    return "400";
+                    //return StatusCode(400);
                 }
                 catch (WrongParametersException e3)
                 {
-                    return StatusCode(400);
+                    //return StatusCode(400);
+                    return "400";
                 }
             }
-            return StatusCode(200);
+            //return StatusCode(200);
+            return "200";
         }
 
 
+        private void UseMethod(string objectName, string methodName, object[] methodParams)
+        {
+     /*       string methodNameGotFromAPICall = "Scan"; //For instance
+            string objectNameGotFromAPICall = "BarCode"; //For instance*/
+
+            IDevice device = PeripheralFactory.GetInstance(objectName);
+            List<MethodInfo> methodList = PeripheralFactory.FindMethods(device.GetType());
+            MethodInfo correctOne = null;
+
+            foreach (MethodInfo method in methodList)
+                if (method.Name.Equals(methodName))
+                    correctOne = method;
+            //Console.WriteLine(correctOne);
+            if (correctOne is null) throw new Exception("The Device does not own this function");
+
+            correctOne.Invoke(device, methodParams);
+        }
+
+
+
+        /*
         public async Task Test()
         {
             var context = ControllerContext.HttpContext;
@@ -136,7 +169,7 @@ namespace ProjetS3.Controllers
             }
             else
             {
-                context.Response.StatusCode =400;
+                context.Response.StatusCode = 400;
             }
         }
 
@@ -150,6 +183,7 @@ namespace ProjetS3.Controllers
 
             await socket.SendAsync(new ArraySegment<byte>(null), WebSocketMessageType.Binary, false, CancellationToken.None);
         }
+        */
     }
 }
  
