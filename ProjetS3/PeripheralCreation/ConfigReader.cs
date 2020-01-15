@@ -3,7 +3,7 @@ using System.Collections;
 using System.IO;
 using System.Xml;
 
-namespace ProjetS3
+namespace ProjetS3.PeripheralCreation
 {
     class ConfigReader : IConfigReader
     {

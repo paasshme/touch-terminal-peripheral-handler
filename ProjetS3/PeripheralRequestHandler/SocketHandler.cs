@@ -3,7 +3,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System;
 
-namespace ProjetS3
+namespace ProjetS3.PeripheralRequestHandler
 {
     public class SocketHandler
     {

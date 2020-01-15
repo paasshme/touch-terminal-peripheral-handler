@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using IDeviceLib;
 
 //Few line of comments
-namespace ProjetS3
+namespace ProjetS3.PeripheralCreation
 {
 
     public class PeripheralFactory

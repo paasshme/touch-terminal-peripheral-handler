@@ -4,7 +4,7 @@ using System.Text;
 using System.Threading;
 using IDeviceLib;
 
-namespace ProjetS3
+namespace ProjetS3.PeripheralRequestHandler
 {
     public class PeripheralEventHandler : IPeripheralEventHandler
     {

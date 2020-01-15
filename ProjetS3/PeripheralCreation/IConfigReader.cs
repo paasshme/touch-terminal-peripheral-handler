@@ -1,6 +1,6 @@
 ﻿using System.Collections;
 
-namespace ProjetS3
+namespace ProjetS3.PeripheralCreation
 {
     interface IConfigReader
     {
