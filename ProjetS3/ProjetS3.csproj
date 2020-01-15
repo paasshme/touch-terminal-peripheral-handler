@@ -11,7 +11,9 @@
 
   <ItemGroup>
     <Reference Include="IDeviceLib">
-      <HintPath>..\..\..\IDeviceLib\bin\Debug\netcoreapp3.1\IDeviceLib.dll</HintPath>
+    <!-- Need to rework -->
+
+      <HintPath>IDeviceLib.dll</HintPath>
     </Reference>
   </ItemGroup>
 

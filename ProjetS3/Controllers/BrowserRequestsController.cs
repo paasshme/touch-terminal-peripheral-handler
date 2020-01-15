@@ -28,7 +28,6 @@ namespace ProjetS3.Controllers
 
         //private readonly PeripheralFactory _myFactory;
 
-        private readonly DispatcherMiddleware disp;
 
         public BrowserRequestsController(/*PeripheralFactory theFactory*/)        {
 
