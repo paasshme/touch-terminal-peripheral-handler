@@ -1,12 +1,17 @@
-﻿using System;
+
+
+using System;
+using IDeviceLib;
 
 namespace TestDevices
 {
     class Program
     {
-        static void Main(string[] args)
+        public static void Main()
         {
-            Console.WriteLine("Hello World!");
+            IDevice i = new RandomDevice();
+            i.Start();
+            i.Stop();
         }
     }
 }

@@ -4,16 +4,18 @@ using IDeviceLib;
 
 namespace TestDevices
 {
-    class RandomDevice : IDevice
+    public class RandomDevice : IDevice
     {
         public IPeripheralEventHandler eventHandler {get; set;}
-        public void IDevice.Start()
+        void IDevice.Start()
         {
+            System.Console.WriteLine("Is starting !");
 
         }
 
-        public void IDevice.Stop()
+        void IDevice.Stop()
         {
+            System.Console.WriteLine("It's stoping dude");
 
         }
     }

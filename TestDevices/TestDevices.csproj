@@ -5,7 +5,7 @@
   </ItemGroup>
 
   <PropertyGroup>
-    <OutputType>library</OutputType>
+    <OutputType>Library</OutputType>
     <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
 
