@@ -5,7 +5,7 @@ using System.Xml;
 
 namespace ProjetS3
 {
-    class ConfigReader : IConfigReader
+    public class ConfigReader : IConfigReader
     {
         private XmlDocument xmldoc;
         public ConfigReader(string path)
