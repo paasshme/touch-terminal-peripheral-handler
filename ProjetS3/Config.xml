@@ -17,7 +17,7 @@
 -->
 
   <!-- TODO: add properties/attributes for objects -->
-  <library name="AFakeProject">
+  <library path="AFakeProject">
     <instance>FakeDevice</instance>
   </library>
 

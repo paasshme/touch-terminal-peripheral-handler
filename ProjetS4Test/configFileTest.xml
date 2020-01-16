@@ -1,12 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 
 <libraries>  
-  <library name="AFile/DLLTest">
-    <instance>TestObject</instance>
-    <instance></instance>
-  </library>
-
-  <library name="AFakeProject">
-    <instance>FakeDevice</instance>
+  <library path="../PeripheralLibraries/TestDevices">
+    <instance>RandomDevice</instance>
   </library>
 </libraries>

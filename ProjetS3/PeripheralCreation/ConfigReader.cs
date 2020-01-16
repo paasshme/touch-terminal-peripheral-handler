@@ -29,7 +29,7 @@ namespace ProjetS3.PeripheralCreation
             XmlNodeList nodeList = xmldoc.GetElementsByTagName("library");
             ArrayList strList = new ArrayList();
             foreach (XmlNode xmlNode in nodeList)
-                strList.Add(xmlNode.Attributes.GetNamedItem("name").Value);
+                strList.Add(xmlNode.Attributes.GetNamedItem("path").Value);
 
             return strList;
         }
@@ -41,7 +41,7 @@ namespace ProjetS3.PeripheralCreation
             ArrayList instances = new ArrayList();
             foreach (XmlNode nodes in dllNodes)
             {
-                if (nodes.Attributes["name"].Value == libName)
+                if (nodes.Attributes["path"].Value == libName)
                 {
                     foreach (XmlNode node in nodes.ChildNodes)
                     {

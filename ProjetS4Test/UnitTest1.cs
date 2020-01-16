@@ -1,15 +1,22 @@
 using System;
 using Xunit;
+using ProjetS3.PeripheralCreation;
+using System.Collections;
 
 namespace ProjetS4Test
 {
-    public class UnitTest1
+    public class ConfigReaderTest
     {
         [Fact]
-        public void TestConfigReader()
+        public void GetAllDllNameTest()
         {
-            ProjetS3.ConfigReader reader = new ProjetS3.ConfigReader("testConfig.xml");
+            ConfigReader reader = new ConfigReader("configFileTest.xml");
+            ArrayList dl = reader.GetAllDllName();
+            int numberOfDll = 1;
+            Assert.Equal(numberOfDll, dl.Count);
 
+            string dllName = ".. / PeripheralLibraries / TestDevices";
+            Assert.True(dl.Contains(dllName));
         }
     }
 }
