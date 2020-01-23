@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using IDeviceLib;
 using System.Reflection;
+using ProjetS3.PeripheralCreation;
 
 /*
  * Pour tester le controlleur :

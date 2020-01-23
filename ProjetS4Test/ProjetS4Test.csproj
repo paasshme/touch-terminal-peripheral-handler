@@ -14,6 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\IDeviceLib\IDeviceLib.csproj" />
     <ProjectReference Include="..\ProjetS3\ProjetS3.csproj" />
   </ItemGroup>
 
