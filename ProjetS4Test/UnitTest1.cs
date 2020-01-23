@@ -15,7 +15,7 @@ namespace ProjetS4Test
             int numberOfDll = 1;
             Assert.Equal(numberOfDll, dl.Count);
 
-            string dllName = ".. / PeripheralLibraries / TestDevices";
+            string dllName = "../PeripheralLibraries/TestDevices";
             Assert.True(dl.Contains(dllName));
         }
     }

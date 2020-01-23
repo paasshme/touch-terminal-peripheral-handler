@@ -3,6 +3,7 @@ using System.Reflection;
 using System.Collections;
 using System.Collections.Generic;
 using IDeviceLib;
+using ProjetS3.PeripheralRequestHandler;
 
 //Few line of comments
 namespace ProjetS3.PeripheralCreation
@@ -20,6 +21,7 @@ namespace ProjetS3.PeripheralCreation
                 return;*/
 
             System.Diagnostics.Debug.WriteLine("Init factory");
+            Console.WriteLine("Init factory");
 
             devices = new Dictionary<string, IDevice>();
             reader = new ConfigReader(CONFIGURATION_FILE_PATH);
@@ -34,7 +36,6 @@ namespace ProjetS3.PeripheralCreation
                 try
                 {
                     assembly = Assembly.LoadFrom(s + ".dll");
-                    
                 }
                 catch (Exception ex)
                 {
@@ -46,28 +47,50 @@ namespace ProjetS3.PeripheralCreation
 
                 foreach (string instanceName in instances)
                 {
-
-
                     try
                     {
-                        
                         System.Diagnostics.Debug.WriteLine(s + "." + instanceName);
+                        Console.WriteLine("[DEBUUUUUUUUUUUUUUG]");
+                        Console.WriteLine(s+"."+instanceName);
+                        string[] str = s.Split("/");
+                        string si = str[str.Length -1];
 
-                        var obj = assembly.CreateInstance(s + "." + instanceName) as IDevice;
+                        Console.WriteLine(si+"."+instanceName);
+                        var obj = assembly.CreateInstance(si + "." + instanceName) as IDevice;
+                        var oo = obj.GetType();
+                        System.Console.WriteLine(oo);
+
+                        var or = obj.GetType().GetMethods();
+
+                        foreach(var aa in or)
+                        {
+                            System.Console.WriteLine(aa);
+                        }
+
+                        
                         System.Diagnostics.Debug.WriteLine(peh);
+                        Console.WriteLine("[DEBUUUUUUUUUUUUUUG]");
+                        Console.WriteLine(peh);
                         obj.eventHandler = peh; //Might crash TODO raise exception
+                        Console.WriteLine("[DEBUUUUUUUUUUUUUUG]");
+                        Console.WriteLine(peh);
                         devices.Add(instanceName, obj);
                     }
                     catch (Exception ex)
                     {
-                        throw new Exception("Instance is not castable as Idevice", ex);
+                        throw new Exception("Instance is not castable as IDevice", ex);
                     }
                 }
             }
 
 
             foreach (var o in devices.Values)
+            {
+
+                System.Console.WriteLine("Devices are"+o);
+                o.Start();
                 System.Diagnostics.Debug.WriteLine("Devices are "+o);
+            }
 
 
         }

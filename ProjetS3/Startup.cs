@@ -6,7 +6,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
-
+using ProjetS3.PeripheralCreation;
+using ProjetS3.PeripheralRequestHandler;
 
 namespace ProjetS3
 {
