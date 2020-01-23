@@ -17,7 +17,7 @@
 -->
 
   <!-- TODO: add properties/attributes for objects -->
-  <library path="../../PeripheralLibraries/TestDevices">
+  <library path="../PeripheralLibraries/TestDevices">
     <instance>RandomDevice</instance>
   </library>
 

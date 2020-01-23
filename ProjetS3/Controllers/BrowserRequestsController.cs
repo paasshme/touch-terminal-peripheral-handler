@@ -6,6 +6,7 @@ using IDeviceLib;
 using System.Reflection;
 using ProjetS3.PeripheralCreation;
 
+
 /*
  * Pour tester le controlleur :
  * envoyer des requêtes à localhost:5001/browserRequests/objet/method[?parameters]
