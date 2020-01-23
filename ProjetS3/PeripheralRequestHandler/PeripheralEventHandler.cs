@@ -17,6 +17,7 @@ namespace ProjetS3.PeripheralRequestHandler
         public PeripheralEventHandler(SocketHandler socketHandler)
         {
             System.Diagnostics.Debug.WriteLine("Peh created");
+            Console.WriteLine("Peh created");
 
             this.PeripheralEventsQueue = new Queue<string>();
             this.socketHandler = socketHandler;
@@ -27,6 +28,7 @@ namespace ProjetS3.PeripheralRequestHandler
         public void QueueListening()
         {
             System.Diagnostics.Debug.WriteLine("thread launched");
+            System.Console.WriteLine("thread launched");
 
             while (true)
             {
@@ -36,6 +38,7 @@ namespace ProjetS3.PeripheralRequestHandler
                     string FirstTreated = this.PeripheralEventsQueue.Peek();
                     this.send(FirstTreated, FirstTreated, FirstTreated); //TODO change that way of sending
                     System.Diagnostics.Debug.WriteLine("Remove the sent event from the queue");
+                    System.Console.WriteLine("Remove the sent event from the queue");
                     this.PeripheralEventsQueue.Dequeue();
                 }
             }
@@ -44,6 +47,7 @@ namespace ProjetS3.PeripheralRequestHandler
         public async void send(string objectName, string eventName, string value)
         {
             System.Diagnostics.Debug.WriteLine("Trying to send a message :" + objectName + " "  + eventName + " " + value);
+            System.Console.WriteLine(objectName + eventName + value);
             byte[] bytes = Encoding.ASCII.GetBytes(objectName + eventName + value); //TODO do it in a cleaner way
             
             await this.socketHandler.Send(bytes);//Not working because of CORS ? 

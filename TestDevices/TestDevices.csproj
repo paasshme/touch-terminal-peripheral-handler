@@ -8,6 +8,7 @@
   </ItemGroup>
 
   <PropertyGroup>
+<Version>1.0.1</Version>
     <OutputType>Exe</OutputType>
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
