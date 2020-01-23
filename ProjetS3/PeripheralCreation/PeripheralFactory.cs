@@ -11,7 +11,7 @@ namespace ProjetS3.PeripheralCreation
 
     public class PeripheralFactory
     {
-        private const string CONFIGURATION_FILE_PATH = "Config.xml";
+        public static string CONFIGURATION_FILE_PATH = "Config.xml";
         private static ConfigReader reader;
         private static Dictionary<string, IDevice> devices;
         private static PeripheralEventHandler peh;

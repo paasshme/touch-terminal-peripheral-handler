@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 
 <libraries>  
-  <library path="../PeripheralLibraries/TestDevices">
+  <library path="C:/Users/adres/source/repos/ProjetS4/PeripheralLibraries/TestDevices">
     <instance>RandomDevice</instance>
   </library>
 </libraries>
