@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading;
 using IDeviceLib;
+using System.Collections.Concurrent;
 
 namespace ProjetS3.PeripheralRequestHandler
 {
     public class PeripheralEventHandler : IPeripheralEventHandler
     {
-        private Queue<string> PeripheralEventsQueue;
+        private ConcurrentQueue<string> PeripheralEventsQueue;
 
 
         private SocketHandler socketHandler;
@@ -19,7 +20,7 @@ namespace ProjetS3.PeripheralRequestHandler
             System.Diagnostics.Debug.WriteLine("Peh created");
             Console.WriteLine("Peh created");
 
-            this.PeripheralEventsQueue = new Queue<string>();
+            this.PeripheralEventsQueue = new ConcurrentQueue<string>();
             this.socketHandler = socketHandler;
             new Thread(new ThreadStart(QueueListening)).Start();
            
@@ -34,12 +35,17 @@ namespace ProjetS3.PeripheralRequestHandler
             {
                 if (this.PeripheralEventsQueue.Count != 0)
                 {
+                    string FirstTreated= "";
                     //Récupérer les données du premier       event (objectName, eventName, et value) et appeler send
-                    string FirstTreated = this.PeripheralEventsQueue.Peek();
-                    this.send(FirstTreated, FirstTreated, FirstTreated); //TODO change that way of sending
-                    System.Diagnostics.Debug.WriteLine("Remove the sent event from the queue");
-                    System.Console.WriteLine("Remove the sent event from the queue");
-                    this.PeripheralEventsQueue.Dequeue();
+                    bool state = this.PeripheralEventsQueue.TryPeek(out FirstTreated);
+                    if (state)
+                    {
+                        this.send(FirstTreated, FirstTreated, FirstTreated); //TODO change that way of sending
+                        System.Diagnostics.Debug.WriteLine("Remove the sent event from the queue");
+                        System.Console.WriteLine("Remove the sent event from the queue");
+                        string dequeued = "";
+                        this.PeripheralEventsQueue.TryDequeue(out dequeued);
+                    }
                 }
             }
         }
