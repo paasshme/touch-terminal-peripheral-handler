@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Text;
 using Xunit;
 using IDeviceLib;
+using System.Reflection;
 
 namespace ProjetS4Test
 {
@@ -16,6 +17,24 @@ namespace ProjetS4Test
             PeripheralFactory.Init();
 
             IDevice dev = PeripheralFactory.GetInstance("RandomDevice");
+        }
+
+        [Fact]
+        public void findMethodsTest()
+        {
+            IDevice dev = PeripheralFactory.GetInstance("RandomDevice");
+            List<MethodInfo> methodList = PeripheralFactory.FindMethods(dev.GetType());
+           
+            int nbMethodRandomDevice = 4;
+            Assert.Equal(nbMethodRandomDevice, methodList.Count);
+        }
+            
+
+        [Fact]
+        public void hasEventHandlerTest()
+        {
+            IDevice dev = PeripheralFactory.GetInstance("RandomDevice");
+            Assert.NotNull(dev.eventHandler);
         }
     }
 }
