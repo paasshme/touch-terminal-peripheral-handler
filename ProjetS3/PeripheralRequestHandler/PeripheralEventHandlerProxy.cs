@@ -10,14 +10,25 @@ namespace ProjetS3.PeripheralRequestHandler
     public class PeripheralEventHandlerProxy : IPeripheralEventHandler
     {
 
-        ConcurrentQueue<String[]> eventQueue;
+        private ConcurrentQueue<String[]> eventQueue;
 
-        PeripheralEventHandler eventHandler;
+        private PeripheralEventHandler eventHandler;
 
-        public PeripheralEventHandlerProxy()
+        private static PeripheralEventHandlerProxy pehp = null;
+
+        private PeripheralEventHandlerProxy()
         {
             this.eventQueue = new ConcurrentQueue<string[]>();
             this.eventHandler = null;
+        }
+
+        public static PeripheralEventHandlerProxy GetInstance()
+        {
+            if (pehp == null)
+            {
+                pehp = new PeripheralEventHandlerProxy();
+            }
+            return pehp;
         }
 
         /*
@@ -26,20 +37,25 @@ namespace ProjetS3.PeripheralRequestHandler
          */
         public void putPeripheralEventInQueue(string objectName, string eventName, string value)
         {
-            /*if (!this.eventHandler.GetSocketStatus())
+            System.Console.WriteLine("HERE THE PROXY YAY");
+            System.Console.WriteLine(this.eventHandler);
+           /* if (!this.eventHandler.socketHandler.GetWebsocketStatus())
             {
+                System.Console.WriteLine("1");
                 this.eventHandler = null;
-            }
-            */
+            }*/
 
             if (this.eventHandler == null)
             {
+                System.Console.WriteLine("[PROXY] The event handler is placed in a waiting queue...");
                 this.eventQueue.Enqueue(new string[3] { objectName, eventName, value });
             }
             else
             {
+                System.Console.WriteLine("[PROXY] everything went fine");
                 this.eventHandler.putPeripheralEventInQueue(objectName, eventName, value);
             }
+            System.Console.WriteLine("out of the fake");
         }
 
         public void SetEventHandler(PeripheralEventHandler eventHandler)

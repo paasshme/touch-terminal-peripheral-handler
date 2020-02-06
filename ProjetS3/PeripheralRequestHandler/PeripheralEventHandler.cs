@@ -11,7 +11,7 @@ namespace ProjetS3.PeripheralRequestHandler
     {
         private ConcurrentQueue<string> PeripheralEventsQueue;
 
-        private SocketHandler socketHandler;
+        public SocketHandler socketHandler {get; private set;}
 
         public PeripheralEventHandler(SocketHandler socketHandler)
         {
@@ -60,6 +60,7 @@ namespace ProjetS3.PeripheralRequestHandler
             System.Diagnostics.Debug.WriteLine("An event has been add in the queue by a device !" + objectName + " " + eventName + " " + value);
             this.PeripheralEventsQueue.Enqueue(objectName);
         }
+
         /*
         public void putPeripheralEventInQueue(IEvent peripheralEvent)
         {

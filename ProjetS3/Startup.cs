@@ -99,15 +99,12 @@ namespace ProjetS3
                         SocketHandler sh = new SocketHandler(webSocket, socketFinishedTcs);
                         PeripheralEventHandler peh = new PeripheralEventHandler(sh);
                         PeripheralFactory.SetHandler(peh);
+                        //PeripheralEventHandlerProxy.SetEventHandler(peh);
 
                         await socketFinishedTcs.Task;
-//TODO wip: (fix for websocket error)
-                        //var socketFinishedTcs = new TaskCompletionSource<object>();
 
-                        //BackgroundSocketProcessor.AddSocket(socket, socketFinishedTcs);
-                        //await socketFinishedTcs.Task;
                         //Test purpose only
-                     peh.send("aa", "bb", "cc");
+                        peh.send("aa", "bb", "cc");
                     }
                     else
                     {
@@ -120,6 +117,7 @@ namespace ProjetS3
                 }
             });
 
+            PeripheralFactory.Init();
         }
         /*
         private async void Start(HttpContext context, WebSocket webSocket)

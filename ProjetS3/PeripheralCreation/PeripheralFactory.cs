@@ -14,7 +14,8 @@ namespace ProjetS3.PeripheralCreation
         public static string CONFIGURATION_FILE_PATH = "Config.xml";
         private static ConfigReader reader;
         private static Dictionary<string, IDevice> devices;
-        private static PeripheralEventHandler peh;
+        private static PeripheralEventHandlerProxy peh = PeripheralEventHandlerProxy.GetInstance();
+
         public static void Init()
         {
             /*if (reader is null || peh is null) // Init already call or WebSocket not connected => TODO change to singleton
@@ -71,7 +72,7 @@ namespace ProjetS3.PeripheralCreation
                         System.Diagnostics.Debug.WriteLine(peh);
                         Console.WriteLine("[DEBUUUUUUUUUUUUUUG]");
                         Console.WriteLine(peh);
-                        obj.eventHandler = peh; //Might crash TODO raise exception
+                        obj.eventHandler = PeripheralEventHandlerProxy.GetInstance(); //Might crash TODO raise exception
                         Console.WriteLine("[DEBUUUUUUUUUUUUUUG]");
                         Console.WriteLine(peh);
                         devices.Add(instanceName, obj);
@@ -91,10 +92,10 @@ namespace ProjetS3.PeripheralCreation
                 System.Diagnostics.Debug.WriteLine("Devices are "+o);
             }*/
         }
-
         public static void SetHandler(PeripheralEventHandler _peh)
+
         {
-            peh = _peh;
+            peh.SetEventHandler(_peh);
         }
 
         public static IDevice GetInstance(string instance)
