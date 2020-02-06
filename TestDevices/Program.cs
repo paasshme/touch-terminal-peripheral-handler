@@ -1,5 +1,3 @@
-
-
 using System;
 using IDeviceLib;
 
@@ -12,6 +10,8 @@ namespace TestDevices
             IDevice i = new RandomDevice();
             i.Start();
             i.Stop();
+            IScanner i2 = new RandomScannerDevice();
+            i2.Foo();
         }
     }
 }

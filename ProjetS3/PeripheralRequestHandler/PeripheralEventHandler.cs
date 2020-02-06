@@ -11,9 +11,7 @@ namespace ProjetS3.PeripheralRequestHandler
     {
         private ConcurrentQueue<string> PeripheralEventsQueue;
 
-
         private SocketHandler socketHandler;
-
 
         public PeripheralEventHandler(SocketHandler socketHandler)
         {
@@ -23,7 +21,6 @@ namespace ProjetS3.PeripheralRequestHandler
             this.PeripheralEventsQueue = new ConcurrentQueue<string>();
             this.socketHandler = socketHandler;
             new Thread(new ThreadStart(QueueListening)).Start();
-           
         }
 
         public void QueueListening()
@@ -37,8 +34,7 @@ namespace ProjetS3.PeripheralRequestHandler
                 {
                     string FirstTreated= "";
                     //Récupérer les données du premier       event (objectName, eventName, et value) et appeler send
-                    bool state = this.PeripheralEventsQueue.TryPeek(out FirstTreated);
-                    if (state)
+                    if (this.PeripheralEventsQueue.TryPeek(out FirstTreated))
                     {
                         this.send(FirstTreated, FirstTreated, FirstTreated); //TODO change that way of sending
                         System.Diagnostics.Debug.WriteLine("Remove the sent event from the queue");
@@ -55,13 +51,7 @@ namespace ProjetS3.PeripheralRequestHandler
             System.Diagnostics.Debug.WriteLine("Trying to send a message :" + objectName + " "  + eventName + " " + value);
             System.Console.WriteLine(objectName + eventName + value);
             byte[] bytes = Encoding.ASCII.GetBytes(objectName + eventName + value); //TODO do it in a cleaner way
-            
             await this.socketHandler.Send(bytes);//Not working because of CORS ? 
-            /*
-              ObjectDisposedException : Cannot write to the response body, the response has completed.  
-              Object name: 'HttpResponseStream'.
-            */
- 
         }
 
         //Called by any device
@@ -69,7 +59,6 @@ namespace ProjetS3.PeripheralRequestHandler
         {
             System.Diagnostics.Debug.WriteLine("An event has been add in the queue by a device !" + objectName + " " + eventName + " " + value);
             this.PeripheralEventsQueue.Enqueue(objectName);
-            //throw new NotImplementedException();
         }
         /*
         public void putPeripheralEventInQueue(IEvent peripheralEvent)
@@ -81,11 +70,5 @@ namespace ProjetS3.PeripheralRequestHandler
          * Comment je connais le client (fichier de config ?) 
          * Est ce que je peux avoir plusieurs clients ? ( A priori non )
          */
-
-        public bool GetSocketStatus()
-        {
-            return this.socketHandler.GetWebsocketStatus();
-        }
     }
-
 }
