@@ -39,5 +39,12 @@ namespace ProjetS3.PeripheralRequestHandler
                 System.Console.WriteLine("Websocket doesn't exist anymore");
             }
         }
+
+        public bool GetWebsocketStatus()
+        {
+            if (this.ws == null)
+                return false;
+            return true;
+        }
     }
 }

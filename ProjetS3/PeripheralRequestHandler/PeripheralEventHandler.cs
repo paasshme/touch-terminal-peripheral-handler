@@ -81,6 +81,11 @@ namespace ProjetS3.PeripheralRequestHandler
          * Comment je connais le client (fichier de config ?) 
          * Est ce que je peux avoir plusieurs clients ? ( A priori non )
          */
+
+        public bool GetSocketStatus()
+        {
+            return this.socketHandler.GetWebsocketStatus();
+        }
     }
 
 }
