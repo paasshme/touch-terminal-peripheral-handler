@@ -26,10 +26,11 @@ namespace ProjetS3.PeripheralRequestHandler
          */
         public void putPeripheralEventInQueue(string objectName, string eventName, string value)
         {
-            if (!this.eventHandler.GetSocketStatus())
+            /*if (!this.eventHandler.GetSocketStatus())
             {
                 this.eventHandler = null;
             }
+            */
 
             if (this.eventHandler == null)
             {
