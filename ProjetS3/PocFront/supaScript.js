@@ -11,7 +11,8 @@ socket.onmessage = function(event) {
 function start()
 {
     let xhttp = new XMLHttpRequest();
-    xhttp.open("GET","https://localhost:5001/api/FakeDevice/Start",false)
+    xhttp.open("GET","https://localhost:5001/api/RandomDevice/Start",false)
+    xhttp.setRequestHeader("Access-Control-Allow-Origin", "*");
     xhttp.send();
     console.log("Start sent")
 }
@@ -19,7 +20,8 @@ function start()
 function stop()
 {
     let xhttp = new XMLHttpRequest();
-    xhttp.open("GET","https://localhost:5001/api/FakeDevice/Stop",false)
+    xhttp.open("GET","https://localhost:5001/api/RandomDevice/Stop",false)
+    xhttp.setRequestHeader("Access-Control-Allow-Origin", "*");
     xhttp.send();
     console.log("Stop sent")
 }

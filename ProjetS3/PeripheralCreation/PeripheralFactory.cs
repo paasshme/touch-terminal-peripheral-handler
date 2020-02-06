@@ -83,13 +83,13 @@ namespace ProjetS3.PeripheralCreation
                 }
             }
 
-
+/*
             foreach (var o in devices.Values)
             {
                 System.Console.WriteLine("Devices are"+o);
                 o.Start();
                 System.Diagnostics.Debug.WriteLine("Devices are "+o);
-            }
+            }*/
         }
 
         public static void SetHandler(PeripheralEventHandler _peh)

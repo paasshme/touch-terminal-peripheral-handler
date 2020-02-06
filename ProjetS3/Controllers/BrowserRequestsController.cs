@@ -67,6 +67,7 @@ namespace ProjetS3.Controllers
             {
                 try
                 {
+                    System.Console.WriteLine("Going to use the " + Method + "on the " + ObjectName);
                     UseMethod(ObjectName, Method, new object[0]);
                 }
                 catch (UncorrectMethodNameException e)
@@ -113,6 +114,7 @@ namespace ProjetS3.Controllers
                 }
                 try
                 {
+                    System.Console.WriteLine("GOnna call the "+Method + "on " + ObjectName);
                     UseMethod(ObjectName, Method, parametersArray);
                    // _myFactory.faitMagie(ObjectName, Method, parametersArray);
                 }
@@ -133,6 +135,7 @@ namespace ProjetS3.Controllers
                 }
             }
             //return StatusCode(200);
+            System.Console.WriteLine("Is called "+Method);
             return "200";
         }
 

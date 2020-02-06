@@ -3,6 +3,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System;
 
+
 namespace ProjetS3.PeripheralRequestHandler
 {
     public class SocketHandler
@@ -12,9 +13,13 @@ namespace ProjetS3.PeripheralRequestHandler
         
         private WebSocket ws;
 
-       public SocketHandler (WebSocket socket)
+
+       private TaskCompletionSource<object> tcs;
+
+       public SocketHandler (WebSocket socket, TaskCompletionSource<object> tcs)
        {
             this.ws = socket;
+            this.tcs = tcs;
        }
 
         public async Task Send (ArraySegment<byte> outg)
@@ -25,7 +30,16 @@ namespace ProjetS3.PeripheralRequestHandler
            // while (this.ws.State == WebSocketState.Open)
             //{
                 var outgoing = new ArraySegment<byte>(buffer, 0, outg.Count);
-                await this.ws.SendAsync(outgoing, WebSocketMessageType.Text, true, CancellationToken.None);
+                System.Console.WriteLine("Sending the thing" + outg.ToString());
+
+                try {
+                    await this.ws.SendAsync(outg, WebSocketMessageType.Text, true, CancellationToken.None);
+                }
+                catch (Exception e)
+                {
+                    System.Console.WriteLine("Websocket doesn't exist anymore");
+                }
+                //await this.ws.SendAsync(outgoing, WebSocketMessageType.Text, true, CancellationToken.None);
         //    }
         }
 

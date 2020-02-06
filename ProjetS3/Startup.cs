@@ -8,6 +8,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using ProjetS3.PeripheralCreation;
 using ProjetS3.PeripheralRequestHandler;
+using System.Threading.Tasks;
 
 namespace ProjetS3
 {
@@ -37,7 +38,7 @@ namespace ProjetS3
             services.AddSingleton<Sender>();
             services.AddSingleton<Receiver>();*/
 
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -56,10 +57,10 @@ namespace ProjetS3
 
             var webSocketOptions = new WebSocketOptions()
             {
-                KeepAliveInterval = TimeSpan.FromSeconds(120),
+                KeepAliveInterval = TimeSpan.FromSeconds(10),
                 ReceiveBufferSize = 4 * 1024
             };
-            webSocketOptions.AllowedOrigins.Add("*");
+//            webSocketOptions.AllowedOrigins.Add("*"); Default values allow every origin
 
             app.UseWebSockets(webSocketOptions);
 
@@ -94,17 +95,19 @@ namespace ProjetS3
                     {
 
                         WebSocket webSocket = await context.WebSockets.AcceptWebSocketAsync();
-                        SocketHandler sh = new SocketHandler(webSocket);
+                        var socketFinishedTcs = new TaskCompletionSource<object>();
+                        SocketHandler sh = new SocketHandler(webSocket, socketFinishedTcs);
                         PeripheralEventHandler peh = new PeripheralEventHandler(sh);
                         PeripheralFactory.SetHandler(peh);
 
+                        await socketFinishedTcs.Task;
+//TODO wip: (fix for websocket error)
+                        //var socketFinishedTcs = new TaskCompletionSource<object>();
 
+                        //BackgroundSocketProcessor.AddSocket(socket, socketFinishedTcs);
+                        //await socketFinishedTcs.Task;
                         //Test purpose only
-                       /* peh.send("aa", "bb", "cc");
-                        var buffer = new byte[2];
-                        buffer[0] = 1;*/
-                       // await sh.Send(buffer);
-                        //await Echo(context, webSocket);
+                     peh.send("aa", "bb", "cc");
                     }
                     else
                     {
