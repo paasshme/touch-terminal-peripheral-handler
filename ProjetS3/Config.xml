@@ -19,6 +19,7 @@
   <!-- TODO: add properties/attributes for objects -->
   <library path="../PeripheralLibraries/TestDevices">
     <instance>RandomDevice</instance>
+    <instance>RandomScannerDevice</instance>
   </library>
 
 
