@@ -27,8 +27,11 @@ function stop()
 }
 function init()
 {
-    let xhttp = new XMLHttpRequest();
-    xhttp.open("GET","https://localhost:5001/api",false)
-    xhttp.send();
-    console.log("Init sent")
+  
+  console.log("clos");
+  socket.close();
+}
+
+socket.onclose = () => {
+  console.log("CLOSED");
 }

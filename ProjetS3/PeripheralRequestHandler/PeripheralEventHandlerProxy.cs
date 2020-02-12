@@ -22,6 +22,9 @@ namespace ProjetS3.PeripheralRequestHandler
             this.eventHandler = null;
         }
 
+        /**
+        *   Singleton for the peripheral event handler proxy
+        */
         public static PeripheralEventHandlerProxy GetInstance()
         {
             if (pehp == null)
@@ -38,12 +41,7 @@ namespace ProjetS3.PeripheralRequestHandler
         public void putPeripheralEventInQueue(string objectName, string eventName, string value)
         {
             System.Console.WriteLine("HERE THE PROXY YAY");
-            System.Console.WriteLine(this.eventHandler);
-           /* if (!this.eventHandler.socketHandler.GetWebsocketStatus())
-            {
-                System.Console.WriteLine("1");
-                this.eventHandler = null;
-            }*/
+            //System.Console.WriteLine(this.eventHandler);
 
             if (this.eventHandler == null)
             {
@@ -52,10 +50,17 @@ namespace ProjetS3.PeripheralRequestHandler
             }
             else
             {
-                System.Console.WriteLine("[PROXY] everything went fine");
-                this.eventHandler.putPeripheralEventInQueue(objectName, eventName, value);
+                //Hypothetic case
+                if (!this.eventHandler.socketHandler.GetWebsocketStatus())
+                {
+                    System.Console.WriteLine("[PROXY] The websocket crashed !");
+                    this.eventHandler = null;
+                }
+                else {
+                    System.Console.WriteLine("[PROXY] Calling the event handler");
+                    this.eventHandler.putPeripheralEventInQueue(objectName, eventName, value);
+                }
             }
-            System.Console.WriteLine("out of the fake");
         }
 
         public void SetEventHandler(PeripheralEventHandler eventHandler)
@@ -69,6 +74,7 @@ namespace ProjetS3.PeripheralRequestHandler
          */
         private void CallEventInQueue()
         {
+            System.Console.WriteLine("[PROXY] Emptying the queue...");
             while(!this.eventQueue.IsEmpty)
             {
                 string[] outEvent;

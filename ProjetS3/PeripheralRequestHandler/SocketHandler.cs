@@ -22,6 +22,7 @@ namespace ProjetS3.PeripheralRequestHandler
 
         public async Task Send(ArraySegment<byte> outg)
         {
+            System.Console.WriteLine("[SOCKET STATUS]" + this.ws.State);
             var buffer = new byte[BufferSize];
             var seg = new ArraySegment<byte>(buffer);
 
