@@ -20,5 +20,7 @@ namespace TestDevices
             this.eventHandler.putPeripheralEventInQueue("stop", "stop", "stop");
             System.Console.WriteLine("Event added!");
         }
+
+        
     }
 }
