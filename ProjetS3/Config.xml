@@ -20,6 +20,7 @@
   <library path="../PeripheralLibraries/TestDevices">
     <instance>RandomDevice</instance>
     <instance>RandomScannerDevice</instance>
+    <instance>RandomCalculatorDevice</instance>
   </library>
   
   
