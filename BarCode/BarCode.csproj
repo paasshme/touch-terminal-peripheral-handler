@@ -4,6 +4,9 @@
     <OutputType>Exe</OutputType>
     <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include = "IDeviceLib" Version="1.0.1" />
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="System.IO.Ports" Version="4.7.0" />

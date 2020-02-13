@@ -21,6 +21,10 @@
     <instance>RandomDevice</instance>
     <instance>RandomScannerDevice</instance>
   </library>
-
+  
+  
+  <library path="../PeripheralLibraries/IScanner">
+    <instance>ScannerDevice</instance>
+  </library>
 
 </libraries>
