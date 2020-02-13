@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
+using System;
 
 namespace ProjetS3
 {
@@ -8,7 +9,14 @@ namespace ProjetS3
         public static void Main(string[] args)
         {
             //PeripheralEventHandler p = new PeripheralEventHandler();
-            CreateHostBuilder(args).Build().Run();
+            //try {
+
+                CreateHostBuilder(args).Build().Run();
+            /*}
+            catch (Exception e)
+            {
+                System.Console.WriteLine("Stoping...");
+            }*/
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>

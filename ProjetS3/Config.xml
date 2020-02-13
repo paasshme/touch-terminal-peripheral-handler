@@ -23,8 +23,8 @@
   </library>
   
   
-  <library path="../PeripheralLibraries/IScanner">
+  <!-- <library path="../PeripheralLibraries/IScanner">
     <instance>ScannerDevice</instance>
-  </library>
+  </library>-->
 
 </libraries>

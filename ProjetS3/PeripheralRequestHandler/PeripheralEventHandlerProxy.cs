@@ -40,7 +40,7 @@ namespace ProjetS3.PeripheralRequestHandler
          */
         public void putPeripheralEventInQueue(string objectName, string eventName, string value)
         {
-            System.Console.WriteLine("HERE THE PROXY YAY");
+            //System.Console.WriteLine("HERE THE PROXY YAY");
             //System.Console.WriteLine(this.eventHandler);
 
             if (this.eventHandler == null)
