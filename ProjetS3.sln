@@ -3,13 +3,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29613.14
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProjetS3", "ProjetS3\ProjetS3.csproj", "{C53E42F6-3B4F-4DF9-A92A-8A41CC4A3124}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProjetS3", "ProjetS3\ProjetS3.csproj", "{C53E42F6-3B4F-4DF9-A92A-8A41CC4A3124}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IDeviceLib", "IDeviceLib\IDeviceLib.csproj", "{B12AD0E6-3A04-4B2A-BC92-888C162C18F5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IDeviceLib", "IDeviceLib\IDeviceLib.csproj", "{B12AD0E6-3A04-4B2A-BC92-888C162C18F5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestDevices", "TestDevices\TestDevices.csproj", "{DD9A7454-88CE-4492-B1B6-E4089D2D0CD8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestDevices", "TestDevices\TestDevices.csproj", "{DD9A7454-88CE-4492-B1B6-E4089D2D0CD8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProjetS4Test", "ProjetS4Test\ProjetS4Test.csproj", "{D5106C29-928F-4A20-8EF8-62F37F88621F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProjetS4Test", "ProjetS4Test\ProjetS4Test.csproj", "{D5106C29-928F-4A20-8EF8-62F37F88621F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BarCode", "BarCode\BarCode.csproj", "{E7B12E17-9D62-4B0F-BF56-BD17B03711CD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{D5106C29-928F-4A20-8EF8-62F37F88621F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D5106C29-928F-4A20-8EF8-62F37F88621F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D5106C29-928F-4A20-8EF8-62F37F88621F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E7B12E17-9D62-4B0F-BF56-BD17B03711CD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E7B12E17-9D62-4B0F-BF56-BD17B03711CD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E7B12E17-9D62-4B0F-BF56-BD17B03711CD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E7B12E17-9D62-4B0F-BF56-BD17B03711CD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
