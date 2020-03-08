@@ -50,7 +50,7 @@ namespace ProjetS3.PeripheralRequestHandler
         {
             System.Diagnostics.Debug.WriteLine("Trying to send a message :" + objectName + " "  + eventName + " " + value);
             System.Console.WriteLine(objectName + eventName + value);
-            byte[] bytes = Encoding.ASCII.GetBytes("["+objectName+"]: " + eventName + " value: "+ value); //TODO do it in a cleaner way
+            byte[] bytes = Encoding.ASCII.GetBytes(""+objectName+" "+eventName+" "+value); //TODO do it in a cleaner way
             await this.socketHandler.Send(bytes);//Not working because of CORS ? 
         }
 

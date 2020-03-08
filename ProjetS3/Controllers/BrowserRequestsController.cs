@@ -29,6 +29,7 @@ namespace ProjetS3.Controllers
             PeripheralFactory.Init();
         }
 
+        [HttpGet]
         [Route("api")]
         public async Task<string> testMethodAsync(string param)
         { 
@@ -38,6 +39,7 @@ namespace ProjetS3.Controllers
 
 
         //Exception "wrong parameters" is commented because factory doesn't handle methods with parameters yet
+        [HttpGet]
         [Route("api/{ObjectName}/{Method}")]
         public IActionResult CommunicateToPeripheral(string ObjectName, string Method)
         {
