@@ -1,7 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 
 <libraries>  
-  <library path="C:/Users/adres/source/repos/ProjetS4/PeripheralLibraries/TestDevices">
-    <instance>RandomDevice</instance>
+  <library path="C:/Users/adres/source/repos/ProjetS4/ProjetS4Test/bin/Debug/netcoreapp3.1/TestDevices">
+    <instance name="RandomDevice">
+      
+    </instance>
+    <instance name="RandomDeviceWithParameters">
+      <attribut type="string" name="stringValue">StringTest</attribut>
+      <attribut type="int" name="intValue">7357</attribut>
+      <attribut type="boolean" name="boolValue">True</attribut>
+    </instance>
   </library>
 </libraries>

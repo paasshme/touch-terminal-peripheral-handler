@@ -41,16 +41,70 @@ namespace ProjetS3.PeripheralCreation
             ArrayList instances = new ArrayList();
             foreach (XmlNode nodes in dllNodes)
             {
+
+                //Find the good lib in all libraries
                 if (nodes.Attributes["path"].Value == libName)
                 {
                     foreach (XmlNode node in nodes.ChildNodes)
                     {
-                        instances.Add(node.InnerText);
+
+                        System.Diagnostics.Debug.WriteLine("Name : " + node.Attributes["name"].Value);
+                        instances.Add(node.Attributes["name"].Value);
                     }
                 }
             }
             if (instances.Count == 0) throw new MissingDllException();
             return instances;
+        }
+
+        public Object[] GetParametersForOneInsance(String libName, String instanceName)
+        {
+            XmlNodeList dllNodes = xmldoc.GetElementsByTagName("library");
+            ArrayList instances = new ArrayList();
+            foreach (XmlNode library in dllNodes)
+            {
+
+                //Find the good lib in all libraries
+                if (library.Attributes["path"].Value == libName)
+                {
+                    foreach (XmlNode instance in library)
+                    {
+                        //Find the good instance in all instance
+                        if (instance.Attributes["name"].Value == instanceName)
+                        {
+                            XmlNodeList parameters = instance.ChildNodes;
+                            int nbParams = parameters.Count;
+                            Object[] paramObjects = new object[nbParams];
+                            for (int i = 0; i < nbParams; i++)
+                            {
+                                String paramType = parameters.Item(i).Attributes["type"].Value;
+                                String paramValue = parameters.Item(i).InnerText;
+                                switch (paramType)
+                                {
+                                    case "string":
+                                        paramObjects[i] = paramValue;
+                                        break;
+                                    case "int":
+                                        paramObjects[i] = int.Parse(paramValue);
+                                        break;
+                                    case "boolean":
+                                        if (paramValue == "True")
+                                        {
+                                            paramObjects[i] = true;
+                                        }
+                                        else
+                                        {
+                                            paramObjects[i] = false;
+                                        }
+                                        break;
+                                }
+                            }
+                            return paramObjects;
+                        }
+                    }
+                }
+            }
+            return null;
         }
     }
 }

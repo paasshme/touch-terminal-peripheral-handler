@@ -17,12 +17,27 @@
 -->
 
   <!-- TODO: add properties/attributes for objects -->
+  <!--
   <library path="../PeripheralLibraries/TestDevices">
     <instance>RandomDevice</instance>
     <instance>RandomScannerDevice</instance>
     <instance>RandomCalculatorDevice</instance>
   </library>
-  
+  -->
+  <library path="../ProjetS4Test/bin/Debug/netcoreapp3.1/TestDevices">
+    <instance name="RandomDevice">
+    </instance>
+    <instance name="RandomScannerDevice">
+    </instance>
+    <instance name="RandomDeviceWithParameters">
+      <attribut type="string" name="stringValue">StringTest</attribut>
+      <attribut type="int" name="intValue">7357</attribut>
+      <attribut type="boolean" name="boolValue">True</attribut>
+    </instance>
+    <instance name="BarCodePOC">
+      <attribut type="int">COM5</attribut>
+    </instance>
+  </library>
   
   <!-- <library path="../PeripheralLibraries/IScanner">
     <instance>ScannerDevice</instance>

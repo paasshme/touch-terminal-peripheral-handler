@@ -55,12 +55,13 @@ namespace ProjetS3.PeripheralCreation
                         Console.WriteLine(s+"."+instanceName);
                         string[] str = s.Split("/");
                         string si = str[str.Length -1];
-
+                        
                         Console.WriteLine(si+"."+instanceName);
-                        var obj = assembly.CreateInstance(si + "." + instanceName) as IDevice;
+                        Object[] objectParameters = reader.GetParametersForOneInsance(s,instanceName);
+                        var obj = assembly.CreateInstance(si + "." + instanceName,false,BindingFlags.CreateInstance,null,objectParameters,null,null) as IDevice;
+                        System.Diagnostics.Debug.WriteLine("Object created");
                         var oo = obj.GetType();
                         System.Console.WriteLine(oo);
-
                         var or = obj.GetType().GetMethods();
 
                         foreach(var aa in or)
@@ -68,7 +69,6 @@ namespace ProjetS3.PeripheralCreation
                             System.Console.WriteLine(aa);
                         }
 
-                        
                         System.Diagnostics.Debug.WriteLine(peh);
                         Console.WriteLine("[DEBUUUUUUUUUUUUUUG]");
                         Console.WriteLine(peh);

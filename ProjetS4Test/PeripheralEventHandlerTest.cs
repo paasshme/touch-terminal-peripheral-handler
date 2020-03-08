@@ -13,7 +13,7 @@ namespace ProjetS4Test
     [Fact]
      public void PutEventInQueueTestAsync()
         {
-            PeripheralEventHandlerProxy pehp = new PeripheralEventHandlerProxy();
+            PeripheralEventHandlerProxy pehp = PeripheralEventHandlerProxy.GetInstance();
             pehp.putPeripheralEventInQueue("testObject", "testEvent", "testValue");
             Assert.Single(pehp.GetEventQueue());
         }
