@@ -1,37 +1,37 @@
+const port = 5001;
+console.log(document.getElementById('stop'))
+
 let socket = new WebSocket("wss://localhost:5001/ws");
 
-socket.onopen = function(e) {
+
+const parameters = {
+  method: 'GET',
+               headers: new Headers(),
+               mode: 'no-cors',
+               cache: 'default' };
+
+ async function process (port, object, method)  {
+  console.log("aaaaaa")
+  
+  let res = await fetch (`https://localhost:${port}/api/${object}/${method}`,parameters)
+  if (res === 200)
+    console.log("yay")
+
+}
+//document.getElementById('start').addEventListener('click', process(port, 'RandomDevice', 'Start'))
+document.getElementById('start').addEventListener('click', test(1))
+function test(a)
+{
+  console.log(a)
+}
+socket.onopen = (e) => {
   console.log("[open] Connection established");
 };
 
-socket.onmessage = function(event) {
+socket.onmessage = (event) => {
   console.log(`[message] Data received from server: ${event.data}`);
 };
 
-function start()
-{
-    let xhttp = new XMLHttpRequest();
-    xhttp.open("GET","https://localhost:5001/api/RandomDevice/Start",false)
-    xhttp.setRequestHeader("Access-Control-Allow-Origin", "*");
-    xhttp.send();
-    console.log("Start sent")
-}
-
-function stop()
-{
-    let xhttp = new XMLHttpRequest();
-    xhttp.open("GET","https://localhost:5001/api/RandomDevice/Stop",false)
-    xhttp.setRequestHeader("Access-Control-Allow-Origin", "*");
-    xhttp.send();
-    console.log("Stop sent")
-}
-function init()
-{
-  
-  console.log("clos");
-  socket.close();
-}
-
 socket.onclose = () => {
   console.log("CLOSED");
-}
+};

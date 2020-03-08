@@ -1,4 +1,5 @@
 using System;
+using Microsoft.OpenApi.Models;
 using System.Net.WebSockets;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -10,6 +11,7 @@ using ProjetS3.PeripheralCreation;
 using ProjetS3.PeripheralRequestHandler;
 using System.Threading.Tasks;
 
+using ProjetS3.SwaggerCustom;
 namespace ProjetS3
 {
     public class Startup
@@ -39,6 +41,11 @@ namespace ProjetS3
             services.AddSingleton<Receiver>();*/
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "My API", Version = "v1" });
+                c.DocumentFilter<CustomMethodIntrospection>();
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -117,6 +124,13 @@ namespace ProjetS3
                 }
             });
 
+            app.UseSwagger();
+
+
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "API Test projet IUT IPM France");
+            });
             PeripheralFactory.Init();
         }
         /*

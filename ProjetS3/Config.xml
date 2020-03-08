@@ -20,9 +20,9 @@
   <library path="../PeripheralLibraries/TestDevices">
     <instance>RandomDevice</instance>
     <instance>RandomScannerDevice</instance>
-    <instance>RandomCalculatorDevice</instance>
   </library>
   
+    <!--<instance>BarCode</instance>-->
   
   <!-- <library path="../PeripheralLibraries/IScanner">
     <instance>ScannerDevice</instance>
