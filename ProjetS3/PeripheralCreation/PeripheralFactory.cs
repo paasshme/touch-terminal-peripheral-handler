@@ -92,6 +92,11 @@ namespace ProjetS3.PeripheralCreation
                 System.Diagnostics.Debug.WriteLine("Devices are "+o);
             }*/
         }
+        public static IList<string> GetAllInstanceNames()
+        {
+            return new List<string>(devices.Keys);
+
+        }
         public static void SetHandler(PeripheralEventHandler _peh)
 
         {
