@@ -13,11 +13,12 @@ namespace ProjetS3.SwaggerCustom
 
             System.Console.WriteLine("AAAAAAAAAAAAAAAAAa");
             System.Console.WriteLine(swaggerDoc.Paths);
-            /*
-            foreach (var o in swaggerDoc.Path)
+            swaggerDoc.Paths.Add("test",null);
+
+            foreach (var o in swaggerDoc.Paths)
             {
                 System.Console.WriteLine(o);
-            }*/
+            }
             swaggerDoc.Tags = new List<OpenApiTag> {
                 new OpenApiTag {Name = "BrowserRequest", Description = "ALED2"}
             };
