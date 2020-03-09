@@ -50,31 +50,29 @@ namespace ProjetS3.PeripheralCreation
                 {
                     try
                     {
-                        System.Diagnostics.Debug.WriteLine(s + "." + instanceName);
-                        Console.WriteLine("[DEBUUUUUUUUUUUUUUG]");
-                        Console.WriteLine(s+"."+instanceName);
+                        //System.Diagnostics.Debug.WriteLine(s + "." + instanceName);
+                        //Console.WriteLine("[DEBUUUUUUUUUUUUUUG]");
+                        //Console.WriteLine(s+"."+instanceName);
                         string[] str = s.Split("/");
                         string si = str[str.Length -1];
                         
-                        Console.WriteLine(si+"."+instanceName);
+                        //Console.WriteLine(si+"."+instanceName);
                         Object[] objectParameters = reader.GetParametersForOneInsance(s,instanceName);
                         var obj = assembly.CreateInstance(si + "." + instanceName,false,BindingFlags.CreateInstance,null,objectParameters,null,null) as IDevice;
-                        System.Diagnostics.Debug.WriteLine("Object created");
+                        //System.Diagnostics.Debug.WriteLine("Object created");
                         var oo = obj.GetType();
-                        System.Console.WriteLine(oo);
+                        //System.Console.WriteLine(oo);
                         var or = obj.GetType().GetMethods();
-
-                        foreach(var aa in or)
+                        /*foreach(var aa in or)
                         {
                             System.Console.WriteLine(aa);
-                        }
-
-                        System.Diagnostics.Debug.WriteLine(peh);
-                        Console.WriteLine("[DEBUUUUUUUUUUUUUUG]");
-                        Console.WriteLine(peh);
+                        }*/
+                        //System.Diagnostics.Debug.WriteLine(peh);
+                       // Console.WriteLine("[DEBUUUUUUUUUUUUUUG]");
+                        //Console.WriteLine(peh);
                         obj.eventHandler = PeripheralEventHandlerProxy.GetInstance(); //Might crash TODO raise exception
-                        Console.WriteLine("[DEBUUUUUUUUUUUUUUG]");
-                        Console.WriteLine(peh);
+                        //Console.WriteLine("[DEBUUUUUUUUUUUUUUG]");
+                        //Console.WriteLine(peh);
                         devices.Add(instanceName, obj);
                     }
                     catch (Exception ex)
