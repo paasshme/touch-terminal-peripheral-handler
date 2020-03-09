@@ -9,7 +9,7 @@ namespace TestDevices
         void IDevice.Start()
         {
             System.Console.WriteLine("[Start] Event preparing");
-            this.eventHandler.putPeripheralEventInQueue("start", "start", "start");
+            this.eventHandler.putPeripheralEventInQueue("start", "startEvent", "100");
             System.Console.WriteLine("Event added!");
 
         }
@@ -17,7 +17,7 @@ namespace TestDevices
         void IDevice.Stop()
         {
             System.Console.WriteLine("[Stop] Event preparing...");
-            this.eventHandler.putPeripheralEventInQueue("stop", "stop", "stop");
+            this.eventHandler.putPeripheralEventInQueue("stop", "stopEvent", "101");
             System.Console.WriteLine("Event added!");
 
         }
@@ -25,14 +25,14 @@ namespace TestDevices
         void IScanner.Scan()
         {
             System.Console.WriteLine("[Scan] Event preparing");
-            this.eventHandler.putPeripheralEventInQueue("scan", "scan", "scan");
+            this.eventHandler.putPeripheralEventInQueue("scan", "scanEvent", "102");
             System.Console.WriteLine("[Scan] Event added to queue");
         }
 
         void IScanner.Foo()
         {
             System.Console.WriteLine("[Foo] Event preparing");
-            this.eventHandler.putPeripheralEventInQueue("Foo", "Foo", "Foo");
+            this.eventHandler.putPeripheralEventInQueue("Foo", "FooEvent", "103");
             System.Console.WriteLine("[Foo] Event added to queue");
         }
 

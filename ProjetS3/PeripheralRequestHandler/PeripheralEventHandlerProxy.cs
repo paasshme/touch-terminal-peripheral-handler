@@ -10,7 +10,8 @@ namespace ProjetS3.PeripheralRequestHandler
     public class PeripheralEventHandlerProxy : IPeripheralEventHandler
     {
 
-        private ConcurrentQueue<String[]> eventQueue;
+        //Todo: changer en queue d'event
+        private ConcurrentQueue<Event> eventQueue;
 
         private PeripheralEventHandler eventHandler;
 
@@ -18,7 +19,7 @@ namespace ProjetS3.PeripheralRequestHandler
 
         private PeripheralEventHandlerProxy()
         {
-            this.eventQueue = new ConcurrentQueue<string[]>();
+            this.eventQueue = new ConcurrentQueue<Event>();
             this.eventHandler = null;
         }
 
@@ -43,10 +44,12 @@ namespace ProjetS3.PeripheralRequestHandler
             //System.Console.WriteLine("HERE THE PROXY YAY");
             //System.Console.WriteLine(this.eventHandler);
 
+            Console.WriteLine("HEyyyyyyyyyyy proxyyyyyyyyyy " + objectName + "" + eventName +"" + value );
+
             if (this.eventHandler == null)
             {
                 System.Console.WriteLine("[PROXY] The event handler is placed in a waiting queue...");
-                this.eventQueue.Enqueue(new string[3] { objectName, eventName, value });
+                this.eventQueue.Enqueue(new Event(objectName, eventName, value ));
             }
             else
             {
@@ -77,13 +80,15 @@ namespace ProjetS3.PeripheralRequestHandler
             System.Console.WriteLine("[PROXY] Emptying the queue...");
             while(!this.eventQueue.IsEmpty)
             {
-                string[] outEvent;
+                Event outEvent;
                 this.eventQueue.TryDequeue(out outEvent);
-                this.eventHandler.putPeripheralEventInQueue(outEvent[0], outEvent[1], outEvent[2]);
+                this.eventHandler.putPeripheralEventInQueue(outEvent.ObjectName, outEvent.EventName, outEvent.Value);
+                
+
             }
         }
         // Test purpose only
-        public ConcurrentQueue<String[]> GetEventQueue()
+        public ConcurrentQueue<Event> GetEventQueue()
         {
             return this.eventQueue;
         }
