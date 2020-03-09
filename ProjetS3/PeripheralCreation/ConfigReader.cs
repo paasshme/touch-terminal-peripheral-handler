@@ -87,7 +87,7 @@ namespace ProjetS3.PeripheralCreation
                                     case "int":
                                         paramObjects[i] = int.Parse(paramValue);
                                         break;
-                                    case "boolean":
+                                    case "bool":
                                         if (paramValue == "True")
                                         {
                                             paramObjects[i] = true;

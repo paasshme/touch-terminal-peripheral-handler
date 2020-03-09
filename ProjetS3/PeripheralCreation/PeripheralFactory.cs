@@ -48,8 +48,7 @@ namespace ProjetS3.PeripheralCreation
 
                 foreach (string instanceName in instances)
                 {
-                    try
-                    {
+                    
                         //System.Diagnostics.Debug.WriteLine(s + "." + instanceName);
                         //Console.WriteLine("[DEBUUUUUUUUUUUUUUG]");
                         //Console.WriteLine(s+"."+instanceName);
@@ -58,37 +57,37 @@ namespace ProjetS3.PeripheralCreation
                         
                         //Console.WriteLine(si+"."+instanceName);
                         Object[] objectParameters = reader.GetParametersForOneInsance(s,instanceName);
-                        var obj = assembly.CreateInstance(si + "." + instanceName,false,BindingFlags.CreateInstance,null,objectParameters,null,null) as IDevice;
-                        //System.Diagnostics.Debug.WriteLine("Object created");
-                        var oo = obj.GetType();
-                        //System.Console.WriteLine(oo);
-                        var or = obj.GetType().GetMethods();
-                        /*foreach(var aa in or)
-                        {
-                            System.Console.WriteLine(aa);
-                        }*/
-                        //System.Diagnostics.Debug.WriteLine(peh);
-                       // Console.WriteLine("[DEBUUUUUUUUUUUUUUG]");
-                        //Console.WriteLine(peh);
-                        obj.eventHandler = PeripheralEventHandlerProxy.GetInstance(); //Might crash TODO raise exception
-                        //Console.WriteLine("[DEBUUUUUUUUUUUUUUG]");
-                        //Console.WriteLine(peh);
-                        devices.Add(instanceName, obj);
-                    }
-                    catch (Exception ex)
+                    
+                    try
                     {
-                        throw new Exception("Instance is not castable as IDevice", ex);
+                        Console.WriteLine("PARAMETERS : ");
+                        foreach(Object o in objectParameters)
+                        {
+                            Console.WriteLine(o + " : "+ o.GetType());
+                        }
+
+                      var obj = Activator.CreateInstance(assembly.GetType(si + "." + instanceName),objectParameters) as IDevice;
+                      // var obj = assembly.CreateInstance(si + "." + instanceName, false, BindingFlags.CreateInstance, null, objectParameters, null, null) as IDevice;
+                        Console.WriteLine("OBJ : " + obj);
+                        //var oo = obj.GetType();
+                        //var or = obj.GetType().GetMethods();
+                        
+                        obj.eventHandler = PeripheralEventHandlerProxy.GetInstance();
+                        devices.Add(instanceName, obj);
+
                     }
+                    catch(Exception ex)
+                    {
+                        Console.WriteLine("FACTORY EXCEPTION : "+ex);
+                        Console.WriteLine("INSTANCE : " + instanceName);
+                       // Console.WriteLine("TYPE : " + oo);
+                        //throw new Exception("Instance is not castable as IDevice", ex);
+                    }
+                    
+                     
                 }
             }
 
-/*
-            foreach (var o in devices.Values)
-            {
-                System.Console.WriteLine("Devices are"+o);
-                o.Start();
-                System.Diagnostics.Debug.WriteLine("Devices are "+o);
-            }*/
         }
         public static void SetHandler(PeripheralEventHandler _peh)
 

@@ -6,6 +6,7 @@ namespace TestDevices
     public class RandomDevice : IDevice
     {
         public IPeripheralEventHandler eventHandler {get; set;}
+
         void IDevice.Start()
         {
             System.Console.WriteLine("[Start] Event preparing");

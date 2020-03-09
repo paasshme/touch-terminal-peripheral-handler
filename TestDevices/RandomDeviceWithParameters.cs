@@ -9,7 +9,7 @@ namespace TestDevices
         private int intTest;
         private Boolean boolTest;
 
-        public RandomWithParametersDevice(String sT,int iT,Boolean bT)
+        public RandomWithParametersDevice(String sT,int iT,bool bT)
         {
             this.stringTest = sT;
             this.intTest = iT;
