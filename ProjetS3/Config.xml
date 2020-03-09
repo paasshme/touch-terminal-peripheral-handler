@@ -34,11 +34,14 @@
       <attribut type="int" name="intValue">7357</attribut>
       <attribut type="bool" name="boolValue">True</attribut>
     </instance>
-    <instance name="BarCodePOC">
-    </instance>
+
   </library>
   
-  <!-- <library path="../PeripheralLibraries/IScanner">
+  <!-- 
+  
+      <instance name="BarCodePOC">
+    </instance>
+  <library path="../PeripheralLibraries/IScanner">
     <instance>ScannerDevice</instance>
   </library>-->
 

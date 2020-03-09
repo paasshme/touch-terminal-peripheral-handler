@@ -5,9 +5,9 @@ namespace TestDevices
 {
     public class RandomDeviceWithParameters : IDevice
     {
-        private String stringTest;
-        private int intTest;
-        private Boolean boolTest;
+        private String stringTest = "";
+        private int intTest = 1;
+        private Boolean boolTest = false;
 
         public RandomDeviceWithParameters(String sT,int iT,bool bT)
         {
@@ -15,10 +15,11 @@ namespace TestDevices
             this.intTest = iT;
             this.boolTest = bT;
         }
-
+        
         public IPeripheralEventHandler eventHandler { get; set; }
         void IDevice.Start()
         {
+            Console.WriteLine(this.stringTest + this.intTest + this.boolTest);
             System.Console.WriteLine("[Start] Event preparing");
             this.eventHandler.putPeripheralEventInQueue("start", "start", "start");
             System.Console.WriteLine("Event added!");

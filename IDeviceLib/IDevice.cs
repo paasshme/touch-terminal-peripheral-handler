@@ -4,7 +4,7 @@ namespace IDeviceLib
 {
     public interface IDevice
     {
-        public IPeripheralEventHandler eventHandler {get; set;}
+         IPeripheralEventHandler eventHandler {get; set;}
          void Start();
 
          void Stop();
