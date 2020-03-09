@@ -5,7 +5,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\IDeviceLib\IDeviceLib.csproj" />
+    <!--<ProjectReference Include="..\IDeviceLib\IDeviceLib.csproj" />-->
+    <PackageReference Include="IDeviceLib" Version="1.0.1" />
   </ItemGroup>
 
   <PropertyGroup>

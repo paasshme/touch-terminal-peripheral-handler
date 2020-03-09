@@ -33,16 +33,28 @@ namespace ProjetS3.PeripheralCreation
             //Get every instances for every dll
             foreach (string s in tab)
             {
-                Assembly assembly;
+                Console.WriteLine(s);
+                Assembly assembly = null;
                 try
                 {
                     assembly = Assembly.LoadFrom(s + ".dll");
                 }
                 catch (Exception ex)
                 {
-                    throw new MissingDllException("Missing .dll file", ex);
+                    Console.WriteLine(ex.Message);
+                  //  throw new MissingDllException("Missing .dll file", ex);
                 }
 
+                foreach (AssemblyName name in assembly.GetReferencedAssemblies())
+                {
+                  //  Console.WriteLine(name);
+                    Assembly.Load(name);
+                }
+
+                foreach (var o in assembly.GetTypes())
+                {
+                    Console.WriteLine(o);
+                }
            
                 ArrayList instances = reader.GetAllInstancesFromOneDll(s);
 
@@ -66,6 +78,9 @@ namespace ProjetS3.PeripheralCreation
                             Console.WriteLine(o + " : "+ o.GetType());
                         }
 
+                        Console.WriteLine(si);
+                        Type t = assembly.GetType(si + "." + instanceName);
+                        Console.WriteLine("TYPE IS" + t);
                       var obj = Activator.CreateInstance(assembly.GetType(si + "." + instanceName),objectParameters) as IDevice;
                       // var obj = assembly.CreateInstance(si + "." + instanceName, false, BindingFlags.CreateInstance, null, objectParameters, null, null) as IDevice;
                         Console.WriteLine("OBJ : " + obj);

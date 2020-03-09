@@ -11,6 +11,6 @@ namespace IDeviceLib
     */
     public interface IPeripheralEventHandler
     {
-        public void putPeripheralEventInQueue(string objectName, string eventName, string value);
+        void putPeripheralEventInQueue(string objectName, string eventName, string value);
     }
 }
