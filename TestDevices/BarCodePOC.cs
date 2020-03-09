@@ -4,7 +4,7 @@ using System.IO.Ports;
 
 namespace TestDevices
 {
-    class BarCodePOC : IDevice
+    public class BarCodePOC : IDevice
     {
        
             public IPeripheralEventHandler eventHandler { get; set; }

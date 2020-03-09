@@ -36,14 +36,18 @@ namespace ProjetS3.PeripheralCreation
                 Assembly assembly;
                 try
                 {
+                    Console.WriteLine(s);
                     assembly = Assembly.LoadFrom(s + ".dll");
                 }
                 catch (Exception ex)
                 {
+                    Console.WriteLine(ex);
                     throw new MissingDllException("Missing .dll file", ex);
                 }
 
-           
+               
+                foreach(var o in assembly.GetTypes()) { Console.WriteLine(o); }
+                
                 ArrayList instances = reader.GetAllInstancesFromOneDll(s);
 
                 foreach (string instanceName in instances)

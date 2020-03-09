@@ -3,13 +3,13 @@ using IDeviceLib;
 
 namespace TestDevices
 {
-    public class RandomWithParametersDevice : IDevice
+    public class RandomDeviceWithParameters : IDevice
     {
         private String stringTest;
         private int intTest;
         private Boolean boolTest;
 
-        public RandomWithParametersDevice(String sT,int iT,bool bT)
+        public RandomDeviceWithParameters(String sT,int iT,bool bT)
         {
             this.stringTest = sT;
             this.intTest = iT;
