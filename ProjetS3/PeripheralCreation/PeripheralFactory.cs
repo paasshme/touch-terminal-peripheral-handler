@@ -3,6 +3,7 @@ using System.Reflection;
 using System.Collections;
 using System.Collections.Generic;
 using IDeviceLib;
+using System.IO.Ports;
 using ProjetS3.PeripheralRequestHandler;
 
 //Few line of comments
@@ -38,6 +39,10 @@ namespace ProjetS3.PeripheralCreation
                 try
                 {
                     assembly = Assembly.LoadFrom(s + ".dll");
+                    foreach(AssemblyName name in assembly.GetReferencedAssemblies())
+                    {
+                        Assembly.Load(name);
+                    }
                 }
                 catch (Exception ex)
                 {
@@ -45,11 +50,6 @@ namespace ProjetS3.PeripheralCreation
                   //  throw new MissingDllException("Missing .dll file", ex);
                 }
 
-                foreach (AssemblyName name in assembly.GetReferencedAssemblies())
-                {
-                  //  Console.WriteLine(name);
-                    Assembly.Load(name);
-                }
 
                 foreach (var o in assembly.GetTypes())
                 {
