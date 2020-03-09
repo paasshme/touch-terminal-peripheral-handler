@@ -33,7 +33,7 @@ namespace ProjetS3.PeripheralRequestHandler
                 if (this.PeripheralEventsQueue.Count != 0)
                 {
                     string FirstTreated= "";
-                    //Récupérer les données du premier       event (objectName, eventName, et value) et appeler send
+                    //Récupérer les données du premier event (objectName, eventName, et value) et appeler send
                     if (this.PeripheralEventsQueue.TryPeek(out FirstTreated))
                     {
                         this.send(FirstTreated, FirstTreated, FirstTreated); //TODO change that way of sending

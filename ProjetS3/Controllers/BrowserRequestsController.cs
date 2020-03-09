@@ -38,7 +38,7 @@ namespace ProjetS3.Controllers
         }
 
 
-        //Exception "wrong parameters" is commented because factory doesn't handle methods with parameters yet
+
         [HttpGet]
         [Route("api/{ObjectName}/{Method}")]
         public IActionResult CommunicateToPeripheral(string ObjectName, string Method)
@@ -58,12 +58,12 @@ namespace ProjetS3.Controllers
                 }
                 catch (InexistantObjectException e)
                 {
-                    return StatusCode(400);
+                    return StatusCode(400, "The object " + ObjectName + " doesn't exists");
                 }
                 catch (UncorrectMethodNameException e2)
                 {
-                    return StatusCode(400);
-                }            
+                    return StatusCode(400, "The object " + ObjectName + " doesn't implements the method " + Method);
+                }
             }
 
             
@@ -106,21 +106,21 @@ namespace ProjetS3.Controllers
                 }
                 catch (InexistantObjectException e)
                 {
-                    return StatusCode(400);
+                    return StatusCode(400,"The object " + ObjectName + " doesn't exists");
                 }
                 catch (UncorrectMethodNameException e2)
                 {
-                    return StatusCode(400);
+                    return StatusCode(400,"The object "+ObjectName+" doesn't implements the method " + Method);
                 }
                
                 catch (WrongParametersException e3)
                 {
-                    return StatusCode(400);
+                    return StatusCode(400,"The method " + Method + " is used with wrong parameters !");
                 }
                 
             }
             System.Console.WriteLine("Is called "+Method);
-            return StatusCode(200);
+            return StatusCode(200, "Calling the method " + Method + " on " + ObjectName);
 
         }
 
@@ -150,7 +150,6 @@ namespace ProjetS3.Controllers
 
             //handling wrong url
             if (correctOne is null) throw new UncorrectMethodNameException();
-
             try
             {
                 correctOne.Invoke(device, methodParams);
