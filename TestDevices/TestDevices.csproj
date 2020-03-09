@@ -2,11 +2,7 @@
 
   <ItemGroup>
     <PackageReference Include="System.IO.Ports" Version="4.7.0" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <!--<ProjectReference Include="..\IDeviceLib\IDeviceLib.csproj" />-->
-    <PackageReference Include="IDeviceLib" Version="1.0.1" />
+    <ProjectReference Include="..\IDeviceLib\IDeviceLib.csproj"/>
   </ItemGroup>
 
   <PropertyGroup>

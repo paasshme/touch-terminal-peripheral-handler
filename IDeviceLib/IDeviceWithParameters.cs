@@ -3,9 +3,9 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace TestDevices
+namespace IDeviceLib
 {
-    interface IDeviceWithParameters : IDevice
+   public  interface IDeviceWithParameters : IDevice
     {
         void MethodWithParameters(string aString);
     }

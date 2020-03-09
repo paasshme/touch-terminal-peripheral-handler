@@ -78,7 +78,7 @@ namespace ProjetS3.PeripheralCreation
                             Console.WriteLine(o + " : "+ o.GetType());
                         }
 
-                        Console.WriteLine(si);
+                        Console.WriteLine(si+"."+instanceName);
                         Type t = assembly.GetType(si + "." + instanceName);
                         Console.WriteLine("TYPE IS" + t);
                       var obj = Activator.CreateInstance(assembly.GetType(si + "." + instanceName),objectParameters) as IDevice;
@@ -86,7 +86,18 @@ namespace ProjetS3.PeripheralCreation
                         Console.WriteLine("OBJ : " + obj);
                         //var oo = obj.GetType();
                         //var or = obj.GetType().GetMethods();
-                        
+                        Type[] everyInterfaces = t.GetInterfaces();
+
+                        foreach (Type intf in everyInterfaces)
+                        {
+                            Console.WriteLine("interface : " + intf);
+                            MethodInfo[] methodes = intf.GetMethods(BindingFlags.Instance | BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
+                            foreach (MethodInfo m in methodes)
+                            {
+                                Console.WriteLine(m.Name);
+                            }
+                        }
+
                         obj.eventHandler = PeripheralEventHandlerProxy.GetInstance();
                         devices.Add(instanceName, obj);
 
