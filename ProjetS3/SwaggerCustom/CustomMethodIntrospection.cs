@@ -14,29 +14,25 @@ namespace ProjetS3.SwaggerCustom
 {
     class CustomMethodIntrospection : IDocumentFilter
     {
+        private const string UID = "aizjeiuazhneuiabzudbazlekzbzubnadkuz"; 
+        private const string API_START_PATH = "/api/";
+        private const string API_END_PATH= "/";
+
         void IDocumentFilter.Apply(OpenApiDocument swaggerDoc, DocumentFilterContext context)
         {
 
-
-            System.Console.WriteLine("AAAAAAAAAAAAAAAAAa");
-            System.Console.WriteLine(swaggerDoc.Paths);
-
-            swaggerDoc.Tags = new List<OpenApiTag> {
-                new OpenApiTag {Name = "BrowserRequest", Description = "ALED2"}
-            };
-
-                       List<string> allRoutes = generateAllRoutes();
-
+            List<string> allRoutes = generateAllRoutes();
+            int counter = 0;
             foreach(string route in allRoutes)
             {
-                swaggerDoc.Paths.Add(route, new OpenApiPathItem());
-            }
+                Dictionary<OperationType,OpenApiOperation> dic = new Dictionary<OperationType,OpenApiOperation>();
+                
+                OpenApiOperation ope = new OpenApiOperation {OperationId = UID+counter};
+                ++counter;
+                dic.Add(OperationType.Get, ope);
 
-            foreach (var o in swaggerDoc.Paths)
-            {
-                System.Console.WriteLine(o);
+                swaggerDoc.Paths.Add(route, new OpenApiPathItem{Operations = dic/*(OperationType.Get, new OpenApiOperation())*/});
             }
-
         }
 
                 //Goal : generates all paths possible since swwagger can't do it dynamically
@@ -56,7 +52,7 @@ namespace ProjetS3.SwaggerCustom
                 foreach(MethodInfo currentMethod in methodList)
                 {
                     if (currentMethod.Name.StartsWith("get_") || currentMethod.Name.StartsWith("set_")) continue;
-                    string current = "/api/" + peripheralName + "/";
+                    string current = API_START_PATH + peripheralName + API_END_PATH;
                     current += currentMethod.Name;
                     routesItemsList.Add(current);
                 }
