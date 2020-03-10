@@ -155,6 +155,7 @@ namespace ProjetS3.Controllers
             {
                 correctOne.Invoke(device, methodParams);
             }
+
             catch (Exception e)
             {
                 throw new WrongParametersException();

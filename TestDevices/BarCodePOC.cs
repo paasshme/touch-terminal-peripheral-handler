@@ -38,7 +38,7 @@ namespace TestDevices
                         sp.Open();
                         sp.Write("E");
                         System.Console.WriteLine("Written");
-                        sp.Close();
+                        //sp.Close();
                     }
 
                 }
@@ -52,11 +52,13 @@ namespace TestDevices
                         object sender,
                         SerialDataReceivedEventArgs e)
             {
-                SerialPort sp = (SerialPort)sender;
+            Console.WriteLine("Data Read:");
+
+            SerialPort sp = (SerialPort)sender;
                 string indata = sp.ReadExisting();
                 Console.WriteLine("Data Received:");
                 Console.WriteLine(indata);
-                eventHandler.putPeripheralEventInQueue("Barcode", "read data", indata);
+                eventHandler.putPeripheralEventInQueue(indata,"Barcode", "read data");
             }
 
             void IDevice.Stop()

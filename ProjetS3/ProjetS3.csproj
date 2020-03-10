@@ -9,13 +9,14 @@
     <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="3.1.0" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="5.0.0" />
+    <PackageReference Include="System.IO.Ports" Version="4.7.0" />
   </ItemGroup>
 
 <!--
   <ItemGroup>
     <Reference Include="IDeviceLib">
     Need to rework 
-
+gj
       <HintPath>IDeviceLib.dll</HintPath> 
     </Reference> 
   </ItemGroup>
