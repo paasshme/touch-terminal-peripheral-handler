@@ -36,6 +36,8 @@
     </instance>
     <instance name="BarCodePOC">
     </instance>
+    <instance name="DeviceWithMethodParameter">
+    </instance>
   </library>
   
   
