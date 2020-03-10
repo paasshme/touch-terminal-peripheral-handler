@@ -9,8 +9,9 @@ namespace TestDevices
 
         void IDevice.Start()
         {
+            System.Console.WriteLine("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAallez scooby doo");
             System.Console.WriteLine("[Start] Event preparing");
-            this.eventHandler.putPeripheralEventInQueue("start", "start", "start");
+            this.eventHandler.putPeripheralEventInQueue("start", "startEvent", "3");
             System.Console.WriteLine("Event added!");
 
         }
@@ -18,7 +19,7 @@ namespace TestDevices
         void IDevice.Stop()
         {
             System.Console.WriteLine("[Stop] Event preparing...");
-            this.eventHandler.putPeripheralEventInQueue("stop", "stop", "stop");
+            this.eventHandler.putPeripheralEventInQueue("stop", "stopEvent", "4");
             System.Console.WriteLine("Event added!");
         }
     }

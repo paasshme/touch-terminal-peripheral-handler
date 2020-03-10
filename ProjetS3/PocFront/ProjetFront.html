@@ -1,15 +1,19 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html>
   <head>
     <meta charset="utf-8">
     <title>Microservice Testing</title>
   </head>
   <body>
-    <h1>Test page</h1>
-    <input type="button" id="start" value="start"/>
-    <input type="button" id="stop" value="stop"/> 
-    <input type="button" id="scan" value="scan"/> 
+      <h1>Test page</h1>
+      <label for="ObjectName">Nom du périphérique : </label>
+      <input type="text" id="ObjectName" name="ObjectName" value="RandomDevice" />
+      <br />
+      <label for="MethodName">Nom de la méthode : </label>
+      <input type="text" id="MethodName" name="MethodName" value="Start" />
+      <br />
+      <input type="button" id="UseMethod" value="UseMethod" />
   </body>
   
 </html>
-<script src="supaScript.js"></script>
+<script src="ScriptPoc.js"></script>

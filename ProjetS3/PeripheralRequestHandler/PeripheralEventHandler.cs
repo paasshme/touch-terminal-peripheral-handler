@@ -9,7 +9,7 @@ namespace ProjetS3.PeripheralRequestHandler
 {
     public class PeripheralEventHandler : IPeripheralEventHandler
     {
-        private ConcurrentQueue<string> PeripheralEventsQueue;
+        private ConcurrentQueue<Event> PeripheralEventsQueue;
 
         public SocketHandler socketHandler {get; private set;}
 
@@ -18,7 +18,7 @@ namespace ProjetS3.PeripheralRequestHandler
             System.Diagnostics.Debug.WriteLine("Peh created");
             Console.WriteLine("Peh created");
 
-            this.PeripheralEventsQueue = new ConcurrentQueue<string>();
+            this.PeripheralEventsQueue = new ConcurrentQueue<Event>();
             this.socketHandler = socketHandler;
             new Thread(new ThreadStart(QueueListening)).Start();
         }
@@ -32,14 +32,14 @@ namespace ProjetS3.PeripheralRequestHandler
             {
                 if (this.PeripheralEventsQueue.Count != 0)
                 {
-                    string FirstTreated= "";
-                    //Récupérer les données du premier       event (objectName, eventName, et value) et appeler send
+                    Event FirstTreated;
+                    //Récupérer les données du premier event (objectName, eventName, et value) et appeler send
                     if (this.PeripheralEventsQueue.TryPeek(out FirstTreated))
                     {
-                        this.send(FirstTreated, FirstTreated, FirstTreated); //TODO change that way of sending
+                        this.send(FirstTreated.ObjectName, FirstTreated.EventName, FirstTreated.Value); 
                         System.Diagnostics.Debug.WriteLine("Remove the sent event from the queue");
                         System.Console.WriteLine("Remove the sent event from the queue");
-                        string dequeued = "";
+                        Event dequeued;
                         this.PeripheralEventsQueue.TryDequeue(out dequeued);
                     }
                 }
@@ -50,26 +50,17 @@ namespace ProjetS3.PeripheralRequestHandler
         {
             System.Diagnostics.Debug.WriteLine("Trying to send a message :" + objectName + " "  + eventName + " " + value);
             System.Console.WriteLine(objectName + eventName + value);
-            byte[] bytes = Encoding.ASCII.GetBytes(""+objectName+" "+eventName+" "+value); //TODO do it in a cleaner way
-            await this.socketHandler.Send(bytes);//Not working because of CORS ? 
+            byte[] bytes = Encoding.ASCII.GetBytes(""+objectName+" "+eventName+" "+value); //TODO do it in a cleaner way (maybe ?)
+            await this.socketHandler.Send(bytes);
         }
 
         //Called by any device
         public void putPeripheralEventInQueue(string objectName, string eventName, string value)
         {
             System.Diagnostics.Debug.WriteLine("An event has been add in the queue by a device !" + objectName + " " + eventName + " " + value);
-            this.PeripheralEventsQueue.Enqueue(objectName);
+            Event newEvent = new Event(objectName, eventName, value);
+            Console.WriteLine("True event : " + newEvent.ObjectName +  " " + newEvent.EventName + " " + newEvent.Value);
+            this.PeripheralEventsQueue.Enqueue(newEvent);
         }
-
-        /*
-        public void putPeripheralEventInQueue(IEvent peripheralEvent)
-        {
-            this.PeripheralEventsQueue.Enqueue(peripheralEvent);
-        }*/
-
-        /*
-         * Comment je connais le client (fichier de config ?) 
-         * Est ce que je peux avoir plusieurs clients ? ( A priori non )
-         */
     }
 }
