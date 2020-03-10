@@ -1,4 +1,6 @@
-let socket = new WebSocket("wss://localhost:5001/ws");
+
+const port = 5001;
+const socket = new WebSocket(`wss://localhost:${port}/ws`);
 
 const testButton = document.getElementById('UseMethod').addEventListener('click',process)
 
@@ -7,19 +9,15 @@ async function process()
     let object = document.getElementById('ObjectName').value
     let method = document.getElementById('MethodName').value
 
-    let res = await fetch (`https://localhost:${port}/api/${object}/${method}`,parameters)
-    if (res === 200)
-      console.log("yay")
+    await fetch (`https://localhost:${port}/api/${object}/${method}`,parameters)
 }
 
-const port = 5001;
 const parameters = {
     method: 'GET',
     headers: new Headers(),
     mode: 'no-cors',
     cache: 'default'
 };
-
 
 socket.onopen = (e) => {
   console.log("[open] Connection established");
@@ -30,5 +28,5 @@ socket.onmessage = (event) => {
 };
 
 socket.onclose = () => {
-  console.log("CLOSED");
+  console.log("[WebSocketClosed]");
 };
