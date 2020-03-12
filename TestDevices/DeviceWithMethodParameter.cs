@@ -16,6 +16,12 @@ namespace TestDevices
             Console.WriteLine("WE HAVE RECEIVED A PARAMETER " + aString);
         }
 
+        void IDeviceWithParameters.MethodWithTwoParameters(string aString,string bString)
+        {
+            Console.WriteLine("recieved parameters : \n 1) " + aString + "\n 2) " + bString);
+        }
+
+     
         void IDevice.Start()
         {
             Console.WriteLine("Device with method parameter started");
