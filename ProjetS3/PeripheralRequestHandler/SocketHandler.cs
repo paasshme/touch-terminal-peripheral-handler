@@ -34,7 +34,7 @@ namespace ProjetS3.PeripheralRequestHandler
 
         public bool GetWebsocketStatus()
         {
-            return this.websocket == null;
+            return this.websocket != null;
         }
     }
 }

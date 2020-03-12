@@ -35,7 +35,8 @@
       <attribut type="bool" name="boolValue">True</attribut>
     </instance>
     <instance name="BarCodePOC">
-    </instance>
+    </instance> 
+    
     <instance name="DeviceWithMethodParameter">
     </instance>
   </library>
