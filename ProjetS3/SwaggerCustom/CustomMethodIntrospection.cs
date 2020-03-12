@@ -15,7 +15,7 @@ namespace ProjetS3.SwaggerCustom
         private const string API_START_PATH = "/api/";
         private const string API_END_PATH= "/";
 
-        private const string API_TAG_NAME = "BrowserRequests";
+        private const string DEFAULT_API_TAG_NAME = "BrowserRequests";
         private const string SUCCESS_DESCRIPTION = "Success";
         private const string FAILURE_DESCRIPTION = "Failure";
 
@@ -25,12 +25,12 @@ namespace ProjetS3.SwaggerCustom
         void IDocumentFilter.Apply(OpenApiDocument swaggerDoc, DocumentFilterContext context)
         {
 
-            List<MethodData> allRoutes = generateAllRoutes();
+            List<MethodData> allMethodInfos = generateAllMethodInfos();
 
             int counter = 0;
 
             //Tag Handling
-            OpenApiTag tag = new OpenApiTag { Name = API_TAG_NAME};
+            OpenApiTag tag = new OpenApiTag { Name = DEFAULT_API_TAG_NAME};
             List<OpenApiTag> tagList = new List<OpenApiTag>();
             tagList.Add(tag);
 
@@ -46,40 +46,39 @@ namespace ProjetS3.SwaggerCustom
             allPossibleAnswers.Add(FAILURE_HTTP_CODE, negativeAnswer);
 
 
-            foreach (MethodData route in allRoutes)
+            foreach (MethodData methodInfo in allMethodInfos)
             {
                 Dictionary<OperationType,OpenApiOperation> operationDictionnary = new Dictionary<OperationType,OpenApiOperation>();
                 
-                OpenApiOperation ope = new OpenApiOperation {OperationId = UID+counter, Tags = tagList, Responses = allPossibleAnswers, Parameters=route.parameters};
+                OpenApiOperation currentOperation = new OpenApiOperation {OperationId = UID+counter, Tags = tagList, Responses = allPossibleAnswers, Parameters=methodInfo.parameters};
                 ++counter;
 
-                operationDictionnary.Add(OperationType.Get, ope);
-                swaggerDoc.Paths.Add(route.route, new OpenApiPathItem{Operations = operationDictionnary});
+                operationDictionnary.Add(OperationType.Get, currentOperation);
+                swaggerDoc.Paths.Add(methodInfo.route, new OpenApiPathItem{Operations = operationDictionnary});
             }
         }
 
         //Goal : generates all paths possible since swwagger can't do it dynamically
         //Getting all the instances of the peripherals -> then finding all the methods
-        List<MethodData> generateAllRoutes()
+        List<MethodData> generateAllMethodInfos()
         {
-            List<MethodData> routesItemsList = new List<MethodData>();
+            List<MethodData> methodInfosList = new List<MethodData>();
             IList<string> peripheralNames = PeripheralFactory.GetAllInstanceNames();
 
-            foreach(string peripheralName in peripheralNames)
+            foreach(string currentPeripheralInstanceName in peripheralNames)
             {
 
-                IDevice currentPeripheralInstance = PeripheralFactory.GetInstance(peripheralName);
+                IDevice currentPeripheralInstance = PeripheralFactory.GetInstance(currentPeripheralInstanceName);
 
                 List<MethodInfo> methodList = PeripheralFactory.FindMethods(currentPeripheralInstance.GetType());
 
                 foreach(MethodInfo currentMethod in methodList)
                 {
                     if (currentMethod.Name.StartsWith("get_") || currentMethod.Name.StartsWith("set_")) continue;
-                    string current = API_START_PATH + peripheralName + API_END_PATH;
-                    current += currentMethod.Name;
+                    string currentRoute = API_START_PATH + currentPeripheralInstanceName + API_END_PATH;
+                    currentRoute += currentMethod.Name;
                     
 
-                    //Testing purpose -> will work when facto fixed (maybe)
                     ParameterInfo[] currentMethodParameters = currentMethod.GetParameters();
                     List<OpenApiParameter> parametersList = new List<OpenApiParameter>();
                     foreach(ParameterInfo pi in currentMethodParameters)
@@ -88,12 +87,12 @@ namespace ProjetS3.SwaggerCustom
                         parametersList.Add(currentParameter);
                     }
 
-                    MethodData currentMethodData = new MethodData(current, parametersList);
-                    routesItemsList.Add(currentMethodData);
+                    MethodData currentMethodData = new MethodData(currentRoute, parametersList);
+                    methodInfosList.Add(currentMethodData);
                     
                 }
             }
-            return routesItemsList;
+            return methodInfosList;
         }
     }
 }

@@ -12,10 +12,10 @@ namespace ProjetS3.SwaggerCustom
 
         public List<OpenApiParameter> parameters { get; set; }
 
-        public MethodData(string route, List<OpenApiParameter> parameters)
+        public MethodData(string route, List<OpenApiParameter> parametersList)
         {
             this.route = route;
-            this.parameters = parameters;
+            this.parameters = parametersList;
         }
     }
 }
