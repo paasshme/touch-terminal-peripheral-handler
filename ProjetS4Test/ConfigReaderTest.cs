@@ -5,9 +5,13 @@ using System.Collections;
 
 namespace ProjetS4Test
 {
+
     public class ConfigReaderTest
     {
-        String configFilePath = "C:/Users/adres/source/repos/ProjetS4/ProjetS4Test/configFileTest.xml";
+        String PROJECT_ROOT_PATH = "C:/Users/adres/source/repos/ProjetS4/";
+        String DLL_FOLDER_PATH = "../PeripheralLibraries/";
+        String configFilePath = "../../../configFileTest.xml";
+
         [Fact]
         public void GetAllDllNameTest()
         {
@@ -16,7 +20,7 @@ namespace ProjetS4Test
             int numberOfDll = 1;
             Assert.Equal(numberOfDll, dl.Count);
 
-           string dllName = "C:/Users/adres/source/repos/ProjetS4/ProjetS4Test/bin/Debug/netcoreapp3.1/TestDevices";
+           string dllName = DLL_FOLDER_PATH + "TestDevices";
            Assert.True(dl.Contains(dllName));
         }
 
@@ -24,20 +28,23 @@ namespace ProjetS4Test
         public void GetAllInstanceFromOneDllTest()
         {
             ConfigReader reader = new ConfigReader(configFilePath);
-            ArrayList list = reader.GetAllInstancesFromOneDll("C:/Users/adres/source/repos/ProjetS4/ProjetS4Test/bin/Debug/netcoreapp3.1/TestDevices");
+            ArrayList list = reader.GetAllInstancesFromOneDll(DLL_FOLDER_PATH + "TestDevices");
             string res = "RandomDevice";
             string res2 = "RandomDeviceWithParameters";
+            string res3 = "DeviceWithMethodParameter";
+            int nbInstance = 3;
 
             Assert.True(list.Contains(res));
             Assert.True(list.Contains(res2));
+            Assert.True(list.Contains(res3));
 
-            Assert.Equal(2, list.Count);
+            Assert.Equal(nbInstance, list.Count);
         }
         [Fact]
         public void GetParametersForOneInstanceTest()
         {
             ConfigReader reader = new ConfigReader(configFilePath);
-            string dllName =("C:/Users/adres/source/repos/ProjetS4/ProjetS4Test/bin/Debug/netcoreapp3.1/TestDevices");
+            string dllName =(DLL_FOLDER_PATH + "TestDevices");
             string instanceName = "RandomDeviceWithParameters";
             Object[] resParams = reader.GetParametersForOneInsance(dllName, instanceName);
 
@@ -47,7 +54,7 @@ namespace ProjetS4Test
             int resInt = (int)resParams[1];
             bool resBool = (bool)resParams[2];
 
-            String expectedString = "StringTest";
+            String expectedString = "stringTest";
             int expectedInt = 7357;
             bool expectedBool = true;
 

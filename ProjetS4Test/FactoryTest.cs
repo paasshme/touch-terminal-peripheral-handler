@@ -15,8 +15,12 @@ namespace ProjetS4Test
         {
             PeripheralFactory.CONFIGURATION_FILE_PATH= "C:/Users/adres/source/repos/ProjetS4/ProjetS4Test/configFileTest.xml";
             PeripheralFactory.Init();
-
+            int expectedInstanceNumber = 3;
+            int nbInstance = PeripheralFactory.GetAllInstanceNames().Count;
             IDevice dev = PeripheralFactory.GetInstance("RandomDevice");
+
+            Assert.Equal(expectedInstanceNumber, nbInstance);
+
         }
 
         [Fact]

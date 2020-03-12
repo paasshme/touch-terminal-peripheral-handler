@@ -51,11 +51,11 @@ namespace ProjetS3.PeripheralCreation
                 }
 
 
-                foreach (var o in assembly.GetTypes())
+-+              foreach (Type o in assembly.GetTypes())
                 {
                     Console.WriteLine(o);
                 }
-           
+
                 ArrayList instances = reader.GetAllInstancesFromOneDll(s);
 
                 foreach (string instanceName in instances)
