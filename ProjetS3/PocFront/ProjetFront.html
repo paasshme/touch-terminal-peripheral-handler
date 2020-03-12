@@ -3,16 +3,29 @@
   <head>
     <meta charset="utf-8">
     <title>Microservice Testing</title>
+    <link rel="stylesheet" href="style.css">
   </head>
   <body>
       <h1>Test page</h1>
-      <label for="ObjectName">Nom du périphérique : </label>
-      <input type="text" id="ObjectName" name="ObjectName" value="RandomDevice" />
-      <br />
-      <label for="MethodName">Nom de la méthode : </label>
-      <input type="text" id="MethodName" name="MethodName" value="Start" />
-      <br />
+      <div class="form">
+          <div class="left">
+              <label for="ObjectName">Nom du périphérique : </label>
+              <br />
+              <label for="MethodName">Nom de la méthode : </label>
+          </div>
+          <div class="right">
+              <input type="text" id="ObjectName" name="ObjectName" value="RandomDevice" />
+              <br />
+              <input type="text" id="MethodName" name="MethodName" value="Start" />
+
+          </div>
+      </div>
+      
       <input type="button" id="UseMethod" value="UseMethod" />
+
+      <div id="displayZone">
+
+      </div>
   </body>
   
 </html>

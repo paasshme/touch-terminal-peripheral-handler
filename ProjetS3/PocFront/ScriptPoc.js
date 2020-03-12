@@ -2,7 +2,8 @@
 const port = 5001;
 const socket = new WebSocket(`wss://localhost:${port}/ws`);
 
-const testButton = document.getElementById('UseMethod').addEventListener('click',process)
+const testButton = document.getElementById('UseMethod').addEventListener('click', process)
+const displayZone = document.getElementById('displayZone');
 
 async function process()
 {
@@ -12,6 +13,11 @@ async function process()
     await fetch (`https://localhost:${port}/api/${object}/${method}`,parameters)
 }
 
+function consoleMessage(message) {
+    let msg = document.createElement("p");
+    msg.innerText = message;
+    displayZone.appendChild(msg);
+}
 const parameters = {
     method: 'GET',
     headers: new Headers(),
@@ -20,13 +26,13 @@ const parameters = {
 };
 
 socket.onopen = (e) => {
-  console.log("[open] Connection established");
+    consoleMessage("[open] Connection established");
 };
 
 socket.onmessage = (event) => {
-  console.log(`[message] Data received from server: ${event.data}`);
+  consoleMessage(`[message] Data received from server: ${event.data}`);
 };
 
 socket.onclose = () => {
-  console.log("[WebSocketClosed]");
+  consoleMessage("[WebSocketClosed]");
 };
