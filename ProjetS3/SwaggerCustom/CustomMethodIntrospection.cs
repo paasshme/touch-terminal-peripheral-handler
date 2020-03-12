@@ -25,7 +25,7 @@ namespace ProjetS3.SwaggerCustom
         void IDocumentFilter.Apply(OpenApiDocument swaggerDoc, DocumentFilterContext context)
         {
 
-            List<string> allRoutes = generateAllRoutes();
+            List<MethodData> allRoutes = generateAllRoutes();
 
             int counter = 0;
 
@@ -46,23 +46,23 @@ namespace ProjetS3.SwaggerCustom
             allPossibleAnswers.Add(FAILURE_HTTP_CODE, negativeAnswer);
 
 
-            foreach (string route in allRoutes)
+            foreach (MethodData route in allRoutes)
             {
                 Dictionary<OperationType,OpenApiOperation> operationDictionnary = new Dictionary<OperationType,OpenApiOperation>();
                 
-                OpenApiOperation ope = new OpenApiOperation {OperationId = UID+counter, Tags = tagList, Responses = allPossibleAnswers};
+                OpenApiOperation ope = new OpenApiOperation {OperationId = UID+counter, Tags = tagList, Responses = allPossibleAnswers, Parameters=route.parameters};
                 ++counter;
 
                 operationDictionnary.Add(OperationType.Get, ope);
-                swaggerDoc.Paths.Add(route, new OpenApiPathItem{Operations = operationDictionnary});
+                swaggerDoc.Paths.Add(route.route, new OpenApiPathItem{Operations = operationDictionnary});
             }
         }
 
         //Goal : generates all paths possible since swwagger can't do it dynamically
         //Getting all the instances of the peripherals -> then finding all the methods
-        List<string> generateAllRoutes()
+        List<MethodData> generateAllRoutes()
         {
-            List<string> routesItemsList = new List<string>();
+            List<MethodData> routesItemsList = new List<MethodData>();
             IList<string> peripheralNames = PeripheralFactory.GetAllInstanceNames();
 
             foreach(string peripheralName in peripheralNames)
@@ -77,14 +77,20 @@ namespace ProjetS3.SwaggerCustom
                     if (currentMethod.Name.StartsWith("get_") || currentMethod.Name.StartsWith("set_")) continue;
                     string current = API_START_PATH + peripheralName + API_END_PATH;
                     current += currentMethod.Name;
-                    routesItemsList.Add(current);
-                    /** Testing purpose -> will work when facto fixed (maybe)
+                    
+
+                    //Testing purpose -> will work when facto fixed (maybe)
                     ParameterInfo[] currentMethodParameters = currentMethod.GetParameters();
+                    List<OpenApiParameter> parametersList = new List<OpenApiParameter>();
                     foreach(ParameterInfo pi in currentMethodParameters)
                     {
-                        Console.WriteLine("" + currentMethod.Name + " Param : " + pi);
+                        OpenApiParameter currentParameter = new OpenApiParameter { Name = pi.Name, Description = ""+pi.ParameterType };
+                        parametersList.Add(currentParameter);
                     }
-                    */
+
+                    MethodData currentMethodData = new MethodData(current, parametersList);
+                    routesItemsList.Add(currentMethodData);
+                    
                 }
             }
             return routesItemsList;
