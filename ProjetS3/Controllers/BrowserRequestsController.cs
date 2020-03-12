@@ -24,20 +24,13 @@ namespace ProjetS3.Controllers
 {
     public class BrowserRequestsController : Controller
     {
+
+        private const int HTTP_CODE_SUCCESS = 200; 
+        private const int HTTP_CODE_FAILURE = 400; 
         public BrowserRequestsController()
         {
             PeripheralFactory.Init();
         }
-
-        [HttpGet]
-        [Route("api")]
-        public async Task<string> testMethodAsync(string param)
-        { 
-            // PeripheralEventHandler peh = new PeripheralEventHandler(HttpContext);
-            return "Test app work & facto init!";
-        }
-
-
 
         [HttpGet]
         [Route("api/{ObjectName}/{Method}")]
@@ -51,18 +44,16 @@ namespace ProjetS3.Controllers
             {
                 try
                 {
-                    System.Console.WriteLine("Going to use the " + Method + "on the " + ObjectName);
-
                     //Calling the method without any parameter 
                     UseMethod(ObjectName, Method, new object[0]);
                 }
                 catch (InexistantObjectException e)
                 {
-                    return StatusCode(400, "The object " + ObjectName + " doesn't exists");
+                    return StatusCode(HTTP_CODE_FAILURE, "The object " + ObjectName + " doesn't exists");
                 }
                 catch (UncorrectMethodNameException e2)
                 {
-                    return StatusCode(400, "The object " + ObjectName + " doesn't implements the method " + Method);
+                    return StatusCode(HTTP_CODE_FAILURE, "The object " + ObjectName + " doesn't implements the method " + Method);
                 }
             }
 
@@ -106,21 +97,21 @@ namespace ProjetS3.Controllers
                 }
                 catch (InexistantObjectException e)
                 {
-                    return StatusCode(400,"The object " + ObjectName + " doesn't exists");
+                    return StatusCode(HTTP_CODE_FAILURE, "The object " + ObjectName + " doesn't exists");
                 }
                 catch (UncorrectMethodNameException e2)
                 {
-                    return StatusCode(400,"The object "+ObjectName+" doesn't implements the method " + Method);
+                    return StatusCode(HTTP_CODE_FAILURE, "The object "+ObjectName+" doesn't implements the method " + Method);
                 }
                
                 catch (WrongParametersException e3)
                 {
-                    return StatusCode(400,"The method " + Method + " is used with wrong parameters !");
+                    return StatusCode(HTTP_CODE_FAILURE, "The method " + Method + " is used with wrong parameters !");
                 }
                 
             }
             System.Console.WriteLine("Is called "+Method);
-            return StatusCode(200, "Calling the method " + Method + " on " + ObjectName);
+            return StatusCode(HTTP_CODE_SUCCESS, "Calling the method " + Method + " on " + ObjectName);
 
         }
 
@@ -141,18 +132,24 @@ namespace ProjetS3.Controllers
             }
 
             List<MethodInfo> methodList = PeripheralFactory.FindMethods(device.GetType());
-            MethodInfo correctOne = null;
+            MethodInfo correctMethodName = null;
 
             //finding the good method
             foreach (MethodInfo method in methodList)
+            {
                 if (method.Name.Equals(methodName))
-                    correctOne = method;
+                {
+                    correctMethodName = method;
+
+                }
+            }
 
             //handling wrong url
-            if (correctOne is null) throw new UncorrectMethodNameException();
+            if (correctMethodName is null) throw new UncorrectMethodNameException();
+
             try
             {
-                correctOne.Invoke(device, methodParams);
+                correctMethodName.Invoke(device, methodParams);
             }
 
             catch (Exception e)

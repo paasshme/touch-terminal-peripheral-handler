@@ -15,7 +15,7 @@ namespace ProjetS3.PeripheralRequestHandler
 
         private PeripheralEventHandler eventHandler;
 
-        private static PeripheralEventHandlerProxy pehp = null;
+        private static PeripheralEventHandlerProxy peripheralEventHandlerProxy = new PeripheralEventHandlerProxy();
 
         private PeripheralEventHandlerProxy()
         {
@@ -28,11 +28,7 @@ namespace ProjetS3.PeripheralRequestHandler
         */
         public static PeripheralEventHandlerProxy GetInstance()
         {
-            if (pehp == null)
-            {
-                pehp = new PeripheralEventHandlerProxy();
-            }
-            return pehp;
+            return peripheralEventHandlerProxy;
         }
 
         /*
@@ -41,26 +37,20 @@ namespace ProjetS3.PeripheralRequestHandler
          */
         public void putPeripheralEventInQueue(string objectName, string eventName, string value)
         {
-            //System.Console.WriteLine("HERE THE PROXY YAY");
-            //System.Console.WriteLine(this.eventHandler);
-
-            Console.WriteLine("HEyyyyyyyyyyy proxyyyyyyyyyy " + objectName + "" + eventName +"" + value );
 
             if (this.eventHandler == null)
             {
-                System.Console.WriteLine("[PROXY] The event handler is placed in a waiting queue...");
-                this.eventQueue.Enqueue(new Event(objectName, eventName, value ));
+                this.eventQueue.Enqueue(new Event(objectName, eventName, value));
             }
             else
             {
-                //Hypothetic case
+                // In case of crash of the websocket
                 if (!this.eventHandler.socketHandler.GetWebsocketStatus())
                 {
-                    System.Console.WriteLine("[PROXY] The websocket crashed !");
                     this.eventHandler = null;
                 }
-                else {
-                    System.Console.WriteLine("[PROXY] Calling the event handler");
+                else
+                {
                     this.eventHandler.putPeripheralEventInQueue(objectName, eventName, value);
                 }
             }
@@ -77,20 +67,12 @@ namespace ProjetS3.PeripheralRequestHandler
          */
         private void CallEventInQueue()
         {
-            System.Console.WriteLine("[PROXY] Emptying the queue...");
-            while(!this.eventQueue.IsEmpty)
+            while (!this.eventQueue.IsEmpty)
             {
                 Event outEvent;
                 this.eventQueue.TryDequeue(out outEvent);
                 this.eventHandler.putPeripheralEventInQueue(outEvent.ObjectName, outEvent.EventName, outEvent.Value);
-                
-
             }
-        }
-        // Test purpose only
-        public ConcurrentQueue<Event> GetEventQueue()
-        {
-            return this.eventQueue;
         }
     }
 }
