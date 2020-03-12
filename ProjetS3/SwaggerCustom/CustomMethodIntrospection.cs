@@ -1,15 +1,11 @@
-using System.Collections.Generic;
-using Microsoft.AspNetCore.Mvc.ApiExplorer;
-using Microsoft.OpenApi.Models;
-using Swashbuckle.AspNetCore.SwaggerGen;
+using System;
 using System.Collections.Generic;
 using System.Reflection;
-using IDeviceLib;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.OpenApi.Models;
-using ProjetS3.PeripheralCreation;
 using Swashbuckle.AspNetCore.SwaggerGen;
-using System;
+using ProjetS3.PeripheralCreation;
+using IDeviceLib;
 
 namespace ProjetS3.SwaggerCustom
 {
@@ -19,6 +15,13 @@ namespace ProjetS3.SwaggerCustom
         private const string API_START_PATH = "/api/";
         private const string API_END_PATH= "/";
 
+        private const string API_TAG_NAME = "BrowserRequests";
+        private const string SUCCESS_DESCRIPTION = "Success";
+        private const string FAILURE_DESCRIPTION = "Failure";
+
+        private const string SUCCESS_HTTP_CODE = "200";
+        private const string FAILURE_HTTP_CODE = "400";
+
         void IDocumentFilter.Apply(OpenApiDocument swaggerDoc, DocumentFilterContext context)
         {
 
@@ -27,31 +30,31 @@ namespace ProjetS3.SwaggerCustom
             int counter = 0;
 
             //Tag Handling
-            OpenApiTag tag = new OpenApiTag { Name = "BrowserRequests"};
+            OpenApiTag tag = new OpenApiTag { Name = API_TAG_NAME};
             List<OpenApiTag> tagList = new List<OpenApiTag>();
             tagList.Add(tag);
 
             //Response handling
 
             //Creating the responses indidually
-            OpenApiResponse positiveAnswer = new OpenApiResponse { Description = "Succes"};
-            OpenApiResponse negativeAnswer = new OpenApiResponse { Description = "Failure" };
+            OpenApiResponse positiveAnswer = new OpenApiResponse { Description = SUCCESS_DESCRIPTION};
+            OpenApiResponse negativeAnswer = new OpenApiResponse { Description = FAILURE_DESCRIPTION};
 
             //Generating the list of answers
-            OpenApiResponses allAnswerPossibles = new OpenApiResponses();
-            allAnswerPossibles.Add("200",positiveAnswer);
-            allAnswerPossibles.Add("400", negativeAnswer);
+            OpenApiResponses allPossibleAnswers = new OpenApiResponses();
+            allPossibleAnswers.Add(SUCCESS_HTTP_CODE,positiveAnswer);
+            allPossibleAnswers.Add(FAILURE_HTTP_CODE, negativeAnswer);
 
 
             foreach (string route in allRoutes)
             {
-                Dictionary<OperationType,OpenApiOperation> dic = new Dictionary<OperationType,OpenApiOperation>();
+                Dictionary<OperationType,OpenApiOperation> operationDictionnary = new Dictionary<OperationType,OpenApiOperation>();
                 
-                OpenApiOperation ope = new OpenApiOperation {OperationId = UID+counter, Tags=tagList,Responses=allAnswerPossibles};
+                OpenApiOperation ope = new OpenApiOperation {OperationId = UID+counter, Tags = tagList, Responses = allPossibleAnswers};
                 ++counter;
-                dic.Add(OperationType.Get, ope);
 
-                swaggerDoc.Paths.Add(route, new OpenApiPathItem{Operations = dic});
+                operationDictionnary.Add(OperationType.Get, ope);
+                swaggerDoc.Paths.Add(route, new OpenApiPathItem{Operations = operationDictionnary});
             }
         }
 
@@ -75,17 +78,11 @@ namespace ProjetS3.SwaggerCustom
                     string current = API_START_PATH + peripheralName + API_END_PATH;
                     current += currentMethod.Name;
                     routesItemsList.Add(current);
-
-
-                    /** Tessting purpose -> will work when facto fixed (maybe)
+                    /** Testing purpose -> will work when facto fixed (maybe)
                     ParameterInfo[] currentMethodParameters = currentMethod.GetParameters();
-                    Console.WriteLine("Je passe ??????????????????????????????????????????????");
                     foreach(ParameterInfo pi in currentMethodParameters)
                     {
-                        Console.WriteLine("SWAAGGGGGGGGGGGGGER");
                         Console.WriteLine("" + currentMethod.Name + " Param : " + pi);
-                        Console.WriteLine("SWAGGGER MIEUX");
-
                     }
                     */
                 }

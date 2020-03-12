@@ -8,15 +8,7 @@ namespace ProjetS3
     {
         public static void Main(string[] args)
         {
-            //PeripheralEventHandler p = new PeripheralEventHandler();
-            //try {
-
-                CreateHostBuilder(args).Build().Run();
-            /*}
-            catch (Exception e)
-            {
-                System.Console.WriteLine("Stoping...");
-            }*/
+            CreateHostBuilder(args).Build().Run();
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>

@@ -13,35 +13,34 @@ namespace ProjetS3.PeripheralCreation
     public class PeripheralFactory
     {
         public static string CONFIGURATION_FILE_PATH = "Config.xml";
-        private static ConfigReader reader;
-        private static Dictionary<string, IDevice> devices;
-        private static PeripheralEventHandlerProxy peh = PeripheralEventHandlerProxy.GetInstance();
+
+        private const string DLL_EXTENSION = ".dll"; 
+
+        private static ConfigReader configReader;
+
+        private static Dictionary<string, IDevice> devicesDictionnary;
+
+        private static PeripheralEventHandlerProxy peripheralEventHandlerProxy = PeripheralEventHandlerProxy.GetInstance();
+
 
         public static void Init()
         {
-            /*if (reader is null || peh is null) // Init already call or WebSocket not connected => TODO change to singleton
-                return;*/
+            devicesDictionnary = new Dictionary<string, IDevice>();
+            configReader = new ConfigReader(CONFIGURATION_FILE_PATH);
 
-            System.Diagnostics.Debug.WriteLine("Init factory");
-            Console.WriteLine("Init factory");
-
-            devices = new Dictionary<string, IDevice>();
-            reader = new ConfigReader(CONFIGURATION_FILE_PATH);
-
-            ArrayList tab = reader.GetAllDllName();
+            ArrayList listOfEveryDllByName = configReader.GetAllDllName();
 
             //Create instances
             //Get every instances for every dll
-            foreach (string s in tab)
+            foreach (string aLibraryName in listOfEveryDllByName)
             {
-                Console.WriteLine(s);
                 Assembly assembly = null;
                 try
                 {
-                    assembly = Assembly.LoadFrom(s + ".dll");
-                    foreach(AssemblyName name in assembly.GetReferencedAssemblies())
+                    assembly = Assembly.LoadFrom(aLibraryName + DLL_EXTENSION);
+                    foreach(AssemblyName assemblyName in assembly.GetReferencedAssemblies())
                     {
-                        Assembly.Load(name);
+                        Assembly.Load(assemblyName);
                     }
                 }
                 catch (Exception ex)
@@ -49,93 +48,50 @@ namespace ProjetS3.PeripheralCreation
                     Console.WriteLine(ex.Message);
                   //  throw new MissingDllException("Missing .dll file", ex);
                 }
-
-
--+              foreach (Type o in assembly.GetTypes())
-                {
-                    Console.WriteLine(o);
-                }
-
-                ArrayList instances = reader.GetAllInstancesFromOneDll(s);
+           
+                ArrayList instances = configReader.GetAllInstancesFromOneDll(aLibraryName);
 
                 foreach (string instanceName in instances)
                 {
-                    
-                        //System.Diagnostics.Debug.WriteLine(s + "." + instanceName);
-                        //Console.WriteLine("[DEBUUUUUUUUUUUUUUG]");
-                        //Console.WriteLine(s+"."+instanceName);
-                        string[] str = s.Split("/");
-                        string si = str[str.Length -1];
-                        
-                        //Console.WriteLine(si+"."+instanceName);
-                        Object[] objectParameters = reader.GetParametersForOneInsance(s,instanceName);
+
+                    string[] parsedPath = aLibraryName.Split("/");
+                    string packageOfInstance = parsedPath[parsedPath.Length - 1];
+
+                    Object[] objectParameters = configReader.GetParametersForOneInsance(aLibraryName, instanceName);
                     
                     try
                     {
-                        Console.WriteLine("PARAMETERS : ");
-                        foreach(Object o in objectParameters)
-                        {
-                            Console.WriteLine(o + " : "+ o.GetType());
-                        }
+                        Type typeOfInstance = assembly.GetType(packageOfInstance + "." + instanceName);
+                        var instance = Activator.CreateInstance(typeOfInstance, objectParameters) as IDevice;
 
-                        Console.WriteLine(si+"."+instanceName);
-                        Type t = assembly.GetType(si + "." + instanceName);
-                        Console.WriteLine("TYPE IS" + t);
-                      var obj = Activator.CreateInstance(assembly.GetType(si + "." + instanceName),objectParameters) as IDevice;
-                      // var obj = assembly.CreateInstance(si + "." + instanceName, false, BindingFlags.CreateInstance, null, objectParameters, null, null) as IDevice;
-                        Console.WriteLine("OBJ : " + obj);
-                        //var oo = obj.GetType();
-                        //var or = obj.GetType().GetMethods();
-                        Type[] everyInterfaces = t.GetInterfaces();
-
-                        foreach (Type intf in everyInterfaces)
-                        {
-                            Console.WriteLine("interface : " + intf);
-                            MethodInfo[] methodes = intf.GetMethods(BindingFlags.Instance | BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
-                            foreach (MethodInfo m in methodes)
-                            {
-                                Console.WriteLine(m.Name);
-                            }
-                        }
-
-                        obj.eventHandler = PeripheralEventHandlerProxy.GetInstance();
-                        devices.Add(instanceName, obj);
+                        instance.eventHandler = PeripheralEventHandlerProxy.GetInstance();
+                        devicesDictionnary.Add(instanceName, instance);
 
                     }
                     catch(Exception ex)
                     {
                         Console.WriteLine("FACTORY EXCEPTION : "+ex);
                         Console.WriteLine("INSTANCE : " + instanceName);
-                       // Console.WriteLine("TYPE : " + oo);
                         //throw new Exception("Instance is not castable as IDevice", ex);
                     }
-                    
-                     
                 }
             }
-
         }
         public static IList<string> GetAllInstanceNames()
         {
-            return new List<string>(devices.Keys);
+            return new List<string>(devicesDictionnary.Keys);
 
         }
-        public static void SetHandler(PeripheralEventHandler _peh)
-
+        public static void SetHandler(PeripheralEventHandler peripheralEventHandler)
         {
-            peh.SetEventHandler(_peh);
+            peripheralEventHandlerProxy.SetEventHandler(peripheralEventHandler);
         }
 
         public static IDevice GetInstance(string instance)
         {
-            foreach (string s in devices.Keys)
-                System.Diagnostics.Debug.WriteLine("There is " + s);
-
-
             try
             {
-                System.Diagnostics.Debug.WriteLine("Ask instance is " + instance);
-                return devices[instance];
+                return devicesDictionnary[instance];
             }
             catch (Exception ex)
             {
@@ -145,20 +101,22 @@ namespace ProjetS3.PeripheralCreation
 
         public static List<MethodInfo> FindMethods(Type objectType)
         {
-            List<MethodInfo> result = new List<MethodInfo>();
+            List<MethodInfo> methodListResult = new List<MethodInfo>();
             Type[] everyInterfaces = objectType.GetInterfaces();
 
-            foreach (Type intf in everyInterfaces)
+            foreach (Type anInterface in everyInterfaces)
             {
-                MethodInfo[] methodes = intf.GetMethods(BindingFlags.Instance | BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
-                foreach (MethodInfo m in methodes)
+                MethodInfo[] methodsOfTheObject = anInterface.GetMethods(BindingFlags.Instance | BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
+
+                foreach (MethodInfo method in methodsOfTheObject)
                 {
-                    //Console.WriteLine(m.Name);
-                    if (!result.Contains(m))
-                        result.Add(m);
+                    if (!methodListResult.Contains(method))
+                    {
+                        methodListResult.Add(method);
+                    }
                 }
             }
-            return result;
+            return methodListResult;
         }
 
     }

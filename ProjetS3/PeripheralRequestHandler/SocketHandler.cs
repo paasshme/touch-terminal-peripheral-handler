@@ -10,30 +10,21 @@ namespace ProjetS3.PeripheralRequestHandler
     {
         private const int BufferSize = 4096;
 
-        private WebSocket ws;
+        private WebSocket websocket;
 
-        private TaskCompletionSource<object> tcs;
+        private TaskCompletionSource<object> taskCompletionSource;
 
-        public SocketHandler(WebSocket socket, TaskCompletionSource<object> tcs)
+        public SocketHandler(WebSocket socket, TaskCompletionSource<object> task)
         {
-            this.ws = socket;
-            this.tcs = tcs;
+            this.websocket = socket;
+            this.taskCompletionSource = task;
         }
 
-        public async Task Send(ArraySegment<byte> outg)
+        public async Task Send(ArraySegment<byte> toSendData)
         {
-            System.Console.WriteLine("[SOCKET STATUS]" + this.ws.State);
-            var buffer = new byte[BufferSize];
-            var seg = new ArraySegment<byte>(buffer);
-
-            // while (this.ws.State == WebSocketState.Open)
-            //{
-            var outgoing = new ArraySegment<byte>(buffer, 0, outg.Count);
-            System.Console.WriteLine("Sending the thing" + outg.ToString());
-
             try
             {
-                await this.ws.SendAsync(outg, WebSocketMessageType.Text, true, CancellationToken.None);
+                await this.websocket.SendAsync(toSendData, WebSocketMessageType.Text, true, CancellationToken.None);
             }
             catch (Exception e)
             {
@@ -43,9 +34,7 @@ namespace ProjetS3.PeripheralRequestHandler
 
         public bool GetWebsocketStatus()
         {
-            if (this.ws == null)
-                return false;
-            return true;
+            return this.websocket == null;
         }
     }
 }
