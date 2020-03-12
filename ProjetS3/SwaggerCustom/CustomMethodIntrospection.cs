@@ -84,7 +84,7 @@ namespace ProjetS3.SwaggerCustom
                     List<OpenApiParameter> parametersList = new List<OpenApiParameter>();
                     foreach(ParameterInfo pi in currentMethodParameters)
                     {
-                        OpenApiParameter currentParameter = new OpenApiParameter { Name = pi.Name, Description = ""+pi.ParameterType };
+                        OpenApiParameter currentParameter = new OpenApiParameter { Name = pi.Name, Description = ""+pi.ParameterType, In = ParameterLocation.Query };
                         parametersList.Add(currentParameter);
                     }
 
