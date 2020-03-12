@@ -23,7 +23,7 @@ namespace TestDevices
 
         void IDevice.Stop()
         {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
         }
     }
 }
