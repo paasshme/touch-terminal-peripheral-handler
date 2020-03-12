@@ -29,7 +29,7 @@ namespace ProjetS3.Controllers
         private const int HTTP_CODE_FAILURE = 400; 
         public BrowserRequestsController()
         {
-            PeripheralFactory.Init();
+           // PeripheralFactory.Init();
         }
 
         [HttpGet]

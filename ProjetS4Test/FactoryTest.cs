@@ -5,6 +5,8 @@ using System.Text;
 using Xunit;
 using IDeviceLib;
 using System.Reflection;
+using ProjetS3.PeripheralRequestHandler;
+using System.Threading;
 
 namespace ProjetS4Test
 {
@@ -17,7 +19,7 @@ namespace ProjetS4Test
             PeripheralFactory.Init();
             int expectedInstanceNumber = 3;
             int nbInstance = PeripheralFactory.GetAllInstanceNames().Count;
-            IDevice dev = PeripheralFactory.GetInstance("RandomDevice");
+            //IDevice dev = PeripheralFactory.GetInstance("RandomDevice");
 
             Assert.Equal(expectedInstanceNumber, nbInstance);
 

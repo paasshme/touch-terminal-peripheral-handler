@@ -109,6 +109,24 @@ namespace ProjetS3.PeripheralCreation
                                             parameters[parameterIndex] = false;
                                         }
                                         break;
+                                    case "float":
+                                        parameters[parameterIndex] = float.Parse(paramValue);
+                                        break;
+                                    case "double":
+                                        parameters[parameterIndex] = double.Parse(paramValue);
+                                        break;
+                                    case "short":
+                                        parameters[parameterIndex] = short.Parse(paramValue);
+                                        break;
+                                    case "long":
+                                        parameters[parameterIndex] = long.Parse(paramValue);
+                                        break;
+                                    case "char":
+                                        parameters[parameterIndex] = char.Parse(paramValue);
+                                        break;
+                                    default:
+                                        throw new TypeNotImplementedException(paramType);
+
                                 }
                             }
                             return parameters;

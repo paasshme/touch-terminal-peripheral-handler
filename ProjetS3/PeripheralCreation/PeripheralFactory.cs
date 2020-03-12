@@ -12,7 +12,7 @@ namespace ProjetS3.PeripheralCreation
 
     public class PeripheralFactory
     {
-        public static string CONFIGURATION_FILE_PATH = "Config.xml";
+         public static string CONFIGURATION_FILE_PATH = "Config.xml";
 
         private const string DLL_EXTENSION = ".dll"; 
 
@@ -53,7 +53,7 @@ namespace ProjetS3.PeripheralCreation
 
                 foreach (string instanceName in instances)
                 {
-
+                    Console.WriteLine("DEBUGVINCENT : " + instanceName);
                     string[] parsedPath = aLibraryName.Split("/");
                     string packageOfInstance = parsedPath[parsedPath.Length - 1];
 
@@ -66,6 +66,8 @@ namespace ProjetS3.PeripheralCreation
 
                         instance.eventHandler = PeripheralEventHandlerProxy.GetInstance();
                         devicesDictionnary.Add(instanceName, instance);
+
+                        Console.WriteLine("COUNT"+devicesDictionnary.Count);
 
                     }
                     catch(Exception ex)
