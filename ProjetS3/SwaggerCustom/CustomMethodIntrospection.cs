@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Reflection;
-using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using ProjetS3.PeripheralCreation;
@@ -19,7 +18,7 @@ namespace ProjetS3.SwaggerCustom
         private const string SUCCESS_DESCRIPTION = "Success";
         private const string FAILURE_DESCRIPTION = "Failure";
 
-        private const string SUCCESS_HTTP_CODE = "200";
+        private const string SUCCESS_HTTP_CODE = "204";
         private const string FAILURE_HTTP_CODE = "400";
 
         void IDocumentFilter.Apply(OpenApiDocument swaggerDoc, DocumentFilterContext context)

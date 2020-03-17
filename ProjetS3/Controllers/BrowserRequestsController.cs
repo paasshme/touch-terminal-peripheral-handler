@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using IDeviceLib;
 using System.Reflection;
@@ -13,8 +12,8 @@ namespace ProjetS3.Controllers
     public class BrowserRequestsController : Controller
     {
 
-        private const int HTTP_CODE_SUCCESS = 200; 
-        private const int HTTP_CODE_FAILURE = 400; 
+        public const int HTTP_CODE_SUCCESS = 204; 
+        public const int HTTP_CODE_FAILURE = 400; 
 
         [HttpGet]
         [Route("api/{ObjectName}/{Method}")]
