@@ -12,7 +12,7 @@ namespace ProjetS3.Controllers
     public class BrowserRequestsController : Controller
     {
 
-        public const int HTTP_CODE_SUCCESS = 204; 
+        public const int HTTP_CODE_SUCCESS = 200; 
         public const int HTTP_CODE_FAILURE = 400; 
 
         [HttpGet]

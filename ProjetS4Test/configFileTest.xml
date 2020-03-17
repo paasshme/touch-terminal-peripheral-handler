@@ -9,7 +9,7 @@
     <instance name="RandomDeviceWithParameters">
       <attribut type="string" name="stringValue">stringTest</attribut>
       <attribut type="int" name="intValue">7357</attribut>
-      <attribut type="bool" name="boolValue">True</attribut>
+      <attribut type="bool" name="boolValue">true</attribut>
     </instance>
     
     <instance name="DeviceWithMethodParameter">

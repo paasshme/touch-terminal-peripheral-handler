@@ -1,10 +1,11 @@
 ﻿using IDeviceLib;
 using System;
+using System.IO;
 using System.IO.Ports;
 
 namespace TestDevices
 {
-    public class BarCodePOC : IDevice
+    public class BarCodePOC : IDevice, IDisposable
     {
        
             public IPeripheralEventHandler eventHandler { get; set; }
@@ -13,32 +14,36 @@ namespace TestDevices
         private SerialPort sp;
 
 
-            public BarCodePOC()
+            public BarCodePOC(string port)
             {
                 string[] ports = SerialPort.GetPortNames();
                 Console.WriteLine("The following serial ports were found:");
 
-                foreach (string port in ports)
+                foreach (string foundPort in ports)
                 {
-                    Console.WriteLine(port);
+                    Console.WriteLine(foundPort);
+                }
                 try
                 {
                     sp = new SerialPort(port, 9600, 0, 8, StopBits.One);
-                }catch(Exception e) { };
                 }
+                catch (IOException)
+                {
+                    Console.Error.WriteLine("Port " + port + "couldn't be opened");
+                }
+                
+                sp.Open();      
             }
 
             void IDevice.Start()
             {
                 try
                 {
-                    if (!sp.IsOpen)
+                    if (sp.IsOpen)
                     {
                         sp.DataReceived += new SerialDataReceivedEventHandler(DataReceivedHandler);
-                        sp.Open();
                         sp.Write("E");
                         System.Console.WriteLine("Written");
-                        //sp.Close();
                     }
 
                 }
@@ -52,9 +57,8 @@ namespace TestDevices
                         object sender,
                         SerialDataReceivedEventArgs e)
             {
-            Console.WriteLine("Data Read:");
 
-            SerialPort sp = (SerialPort)sender;
+                SerialPort sp = (SerialPort)sender;
                 string indata = sp.ReadExisting();
                 Console.WriteLine("Data Received:");
                 Console.WriteLine(indata);
@@ -65,12 +69,14 @@ namespace TestDevices
             {
                 try
                 {
-                    if (!sp.IsOpen)
+                    if (sp.IsOpen)
                     {
-                        sp.Open();
-                        sp.Write("D");
+                    // sp.Open();
+                    sp.ReadExisting();
+
+                    sp.Write("D");
+
                         System.Console.WriteLine("closed");
-                        sp.Close();
                     }
 
                 }
@@ -80,6 +86,11 @@ namespace TestDevices
                 }
 
             }
+
+        public void Dispose()
+        {
+            sp.Close();
         }
     }
+}
 

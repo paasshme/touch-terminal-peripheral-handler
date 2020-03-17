@@ -6,7 +6,7 @@ namespace TestDevices
     //Test purpose only
     class Program
     {
-        public static void Main()
+/*        public static void Main()
         {
             IDevice i = new RandomDevice();
             i.Start();
@@ -14,9 +14,9 @@ namespace TestDevices
             IScanner i2 = new RandomScannerDevice();
             i2.Foo();
 
-            IDevice barCode = new BarCodePOC();
+            IDevice barCode = new BarCodePOC("COM5");
             barCode.Start();
             barCode.Stop();
-        }
+        }*/
     }
 }

@@ -18,7 +18,7 @@ namespace ProjetS3.SwaggerCustom
         private const string SUCCESS_DESCRIPTION = "Success";
         private const string FAILURE_DESCRIPTION = "Failure";
 
-        private const string SUCCESS_HTTP_CODE = "204";
+        private const string SUCCESS_HTTP_CODE = "200";
         private const string FAILURE_HTTP_CODE = "400";
 
         void IDocumentFilter.Apply(OpenApiDocument swaggerDoc, DocumentFilterContext context)

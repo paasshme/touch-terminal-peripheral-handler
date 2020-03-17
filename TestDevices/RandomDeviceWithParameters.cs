@@ -5,9 +5,9 @@ namespace TestDevices
 {
     public class RandomDeviceWithParameters : IDevice
     {
-        private String stringTest = "";
-        private int intTest = 1;
-        private Boolean boolTest = false;
+        public String stringTest = "";
+        public int intTest = 1;
+        public Boolean boolTest = false;
 
         public RandomDeviceWithParameters(String sT,int iT,bool bT)
         {

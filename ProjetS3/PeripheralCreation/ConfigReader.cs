@@ -102,7 +102,7 @@ namespace ProjetS3.PeripheralCreation
                                         break;
 
                                     case "bool":
-                                        if (paramValue == "True")
+                                        if (paramValue == "true")
                                         {
                                             parameters[parameterIndex] = true;
                                         }
