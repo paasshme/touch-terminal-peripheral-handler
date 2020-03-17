@@ -25,7 +25,10 @@
   </library>
   -->
   <!-- Path edit for test purpose only -->
-  <library path="../TestDevices/bin/Debug/netcoreapp3.1/TestDevices">
+  
+  <!-- C:/Users/Jacques/source/repos/PashmiDev/ProjetS4/TestDevices/bin/Debug/netcoreapp3.1/TestDevices
+  ../TestDevices/bin/Debug/netcoreapp3.1/TestDevices-->
+  <library path="PeripheralLibraries/TestDevices">
     <instance name="RandomDevice">
     </instance>
     <instance name="RandomScannerDevice">
