@@ -7,18 +7,6 @@ using System.Reflection;
 using ProjetS3.PeripheralCreation;
 
 
-/*
- * Pour tester le controlleur :
- * envoyer des requêtes à localhost:5001/browserRequests/objet/method[?parameters]
- */
-
-/*
- * plusieurs & à la suite sans =
- * plusieurs = à la suite sans &
- * le mec met des ?,&,= dans le nom de l'objet
- * le mec met pas de méthode -> appeler to String ?
- * 
- */
 
 namespace ProjetS3.Controllers
 {
@@ -27,10 +15,6 @@ namespace ProjetS3.Controllers
 
         private const int HTTP_CODE_SUCCESS = 200; 
         private const int HTTP_CODE_FAILURE = 400; 
-        public BrowserRequestsController()
-        {
-           // PeripheralFactory.Init();
-        }
 
         [HttpGet]
         [Route("api/{ObjectName}/{Method}")]
@@ -47,11 +31,11 @@ namespace ProjetS3.Controllers
                     //Calling the method without any parameter 
                     UseMethod(ObjectName, Method, new object[0]);
                 }
-                catch (InexistantObjectException e)
+                catch (InexistantObjectException)
                 {
                     return StatusCode(HTTP_CODE_FAILURE, "The object " + ObjectName + " doesn't exists");
                 }
-                catch (UncorrectMethodNameException e2)
+                catch (UncorrectMethodNameException)
                 {
                     return StatusCode(HTTP_CODE_FAILURE, "The object " + ObjectName + " doesn't implements the method " + Method);
                 }
@@ -95,18 +79,22 @@ namespace ProjetS3.Controllers
                     System.Console.WriteLine("Gonna call the "+Method + "on " + ObjectName);
                     UseMethod(ObjectName, Method, parametersArray);
                 }
-                catch (InexistantObjectException e)
+                catch (InexistantObjectException)
                 {
                     return StatusCode(HTTP_CODE_FAILURE, "The object " + ObjectName + " doesn't exists");
                 }
-                catch (UncorrectMethodNameException e2)
+                catch (UncorrectMethodNameException)
                 {
                     return StatusCode(HTTP_CODE_FAILURE, "The object "+ObjectName+" doesn't implements the method " + Method);
                 }
                
-                catch (WrongParametersException e3)
+                catch (ArgumentException)
                 {
-                    return StatusCode(HTTP_CODE_FAILURE, "The method " + Method + " is used with wrong parameters !");
+                    return StatusCode(HTTP_CODE_FAILURE, "The method " + Method + " is used with wrong parameters types!");
+                }
+                catch(TargetParameterCountException)
+                {
+                    return StatusCode(HTTP_CODE_FAILURE, "The method " + Method + " isn't used with the good number of parameters!");
                 }
                 
             }
@@ -116,20 +104,8 @@ namespace ProjetS3.Controllers
         }
 
         private void UseMethod(string objectName, string methodName, object[] methodParams) 
-        {
-            /*       string methodNameGotFromAPICall = "Scan"; //For instance
-                   string objectNameGotFromAPICall = "BarCode"; //For instance*/
-
-            IDevice device;
-
-            try
-            {
-                device = PeripheralFactory.GetInstance(objectName);
-            }
-            catch (InexistantObjectException e)
-            {
-                throw new InexistantObjectException();
-            }
+        {           
+            IDevice device = PeripheralFactory.GetInstance(objectName);
 
             List<MethodInfo> methodList = PeripheralFactory.FindMethods(device.GetType());
             MethodInfo correctMethodName = null;
@@ -140,22 +116,16 @@ namespace ProjetS3.Controllers
                 if (method.Name.Equals(methodName))
                 {
                     correctMethodName = method;
-
                 }
             }
 
             //handling wrong url
-            if (correctMethodName is null) throw new UncorrectMethodNameException();
-
-            try
+            if (correctMethodName is null)
             {
-                correctMethodName.Invoke(device, methodParams);
+                throw new UncorrectMethodNameException();
             }
 
-            catch (Exception e)
-            {
-                throw new WrongParametersException();
-            }
+            correctMethodName.Invoke(device, methodParams);
         }
 
     }

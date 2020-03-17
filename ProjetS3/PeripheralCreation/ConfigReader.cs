@@ -25,11 +25,13 @@ namespace ProjetS3.PeripheralCreation
                 this.xmldoc = new XmlDocument();
                 this.xmldoc.LoadXml(xmlFile);
             }
+            //Catching Exception since there are a lot of nes to catch and handling doesn't change regardless of the type of the exception
             catch (Exception e)
             {
                 throw new ConfigurationFileReadException("Can't read configuration file", e);
 
             }
+            
         }
 
         //dll name: example (without the .dll) but with the path
