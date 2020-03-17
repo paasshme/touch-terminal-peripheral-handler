@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace TestDevices
+namespace TestDevice.Interfaces
 {
     interface IScannerWithParameter : IScanner
     {

@@ -1,6 +1,7 @@
+using IDeviceLib;
 using System;
 
-namespace IDeviceLib
+namespace TestDevice.Interfaces
 {
     public interface IScanner : IDevice
     {

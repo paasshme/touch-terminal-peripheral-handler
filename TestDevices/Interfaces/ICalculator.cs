@@ -1,8 +1,9 @@
-﻿using System;
+﻿using IDeviceLib;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace IDeviceLib
+namespace TestDevice.Interfaces
 {
     public interface ICalculator : IDevice
     {

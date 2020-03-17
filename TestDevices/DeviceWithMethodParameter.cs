@@ -1,35 +1,34 @@
 ﻿using IDeviceLib;
 using System;
-using System.Collections.Generic;
-using System.Text;
-
+using TestDevice.Interfaces;
 
 namespace TestDevices
 {
-    public class DeviceWithMethodParameter : IDeviceWithParameters
+    class DeviceWithMethodParameter : IDeviceWithParameters
     {
         public IPeripheralEventHandler eventHandler { get; set;}
 
        
-        void IDeviceWithParameters.MethodWithParameters(string aString)
+        public void MethodWithParameters(string aString)
         {
             Console.WriteLine("WE HAVE RECEIVED A PARAMETER " + aString);
         }
 
-        void IDeviceWithParameters.MethodWithTwoParameters(string aString,string bString)
+        public void MethodWithTwoParameters(string aString,string bString)
         {
             Console.WriteLine("recieved parameters : \n 1) " + aString + "\n 2) " + bString);
         }
 
-     
-        void IDevice.Start()
+
+        public void Start()
         {
             Console.WriteLine("Device with method parameter started");
         }
 
-        void IDevice.Stop()
+        public void Stop()
         {
-            //throw new NotImplementedException();
+            Console.WriteLine("Device with method parameter stoped");
+
         }
     }
 }

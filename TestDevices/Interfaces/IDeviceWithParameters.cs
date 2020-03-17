@@ -1,11 +1,8 @@
 ﻿using IDeviceLib;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
-namespace IDeviceLib
+namespace TestDevice.Interfaces
 {
-   public  interface IDeviceWithParameters : IDevice
+   public interface IDeviceWithParameters : IDevice
     {
         void MethodWithParameters(string aString);
         void MethodWithTwoParameters(string aString, string bString);

@@ -1,5 +1,6 @@
 using System;
 using IDeviceLib;
+using TestDevice.Interfaces;
 
 namespace TestDevices
 {

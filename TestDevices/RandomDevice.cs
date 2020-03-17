@@ -9,11 +9,9 @@ namespace TestDevices
 
         void IDevice.Start()
         {
-            System.Console.WriteLine("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAallez scooby doo");
             System.Console.WriteLine("[Start] Event preparing");
             this.eventHandler.putPeripheralEventInQueue("start", "startEvent", "3");
             System.Console.WriteLine("Event added!");
-
         }
 
         void IDevice.Stop()

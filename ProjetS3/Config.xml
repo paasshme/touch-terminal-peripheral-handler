@@ -24,7 +24,8 @@
     <instance>RandomCalculatorDevice</instance>
   </library>
   -->
-  <library path="../PeripheralLibraries/TestDevices">
+  <!-- Path edit for test purpose only -->
+  <library path="../TestDevices/bin/Debug/netcoreapp3.1/TestDevices">
     <instance name="RandomDevice">
     </instance>
     <instance name="RandomScannerDevice">
@@ -39,6 +40,8 @@
     
     <instance name="DeviceWithMethodParameter">
     </instance>
+
+    <instance name="AwesomeObject"></instance>
   </library>
   
   

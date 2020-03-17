@@ -1,8 +1,10 @@
 using System;
 using IDeviceLib;
+using TestDevice.Interfaces;
 
 namespace TestDevices
 {
+    //Test purpose only
     class Program
     {
         public static void Main()
