@@ -3,10 +3,8 @@ using System.Reflection;
 using System.Collections;
 using System.Collections.Generic;
 using IDeviceLib;
-using System.IO.Ports;
 using ProjetS3.PeripheralRequestHandler;
 using System.IO;
-using System.Runtime.InteropServices;
 
 //Few line of comments
 namespace ProjetS3.PeripheralCreation
