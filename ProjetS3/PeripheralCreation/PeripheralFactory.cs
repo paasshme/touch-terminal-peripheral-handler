@@ -30,8 +30,6 @@ namespace ProjetS3.PeripheralCreation
             devicesDictionnary = new Dictionary<string, IDevice>();
             configReader = new ConfigReader(CONFIGURATION_FILE_PATH);
 
-            //Exception debug purpose
-            TextWriter exceptionWriter = Console.Error;
 
             ArrayList listOfEveryDllByName = configReader.GetAllDllName();
 
@@ -52,17 +50,18 @@ namespace ProjetS3.PeripheralCreation
                     {
                         if(ex is FileNotFoundException || ex is ArgumentNullException)
                         {
-                            exceptionWriter.WriteLine("Missing .dll file : " + assemblyName);
+                            Console.Error.WriteLine("Missing .dll file : " + assemblyName);
                         }
                         if(ex is FileLoadException)
                         {
-                            exceptionWriter.WriteLine("Couldn't load the .dll file : " + assemblyName);
+                            Console.Error.WriteLine("Couldn't load the .dll file : " + assemblyName);
                         }
                         if(ex is BadImageFormatException)
                         {
-                            exceptionWriter.WriteLine("invalid .dll file : " + assemblyName);
+                            Console.Error.WriteLine("invalid .dll file : " + assemblyName);
                         }
-                        Console.WriteLine(ex.Message);
+                        Console.Error.WriteLine(ex.Message);
+
                     }
                 }
 
@@ -89,44 +88,45 @@ namespace ProjetS3.PeripheralCreation
                         switch (ex.GetType().ToString())
                         {
                             case "System.ArgumentException":
-                                exceptionWriter.WriteLine("Incorrect argument : " + packageOfInstance + "." + instanceName);
+                                Console.Error.WriteLine("Incorrect argument : " + packageOfInstance + "." + instanceName);
                                 break;
                             case "Sytem.ArgumentNullException":
-                                exceptionWriter.WriteLine("Null argument in " + instanceName + " handling : or " + packageOfInstance + " handling");
+                                Console.Error.WriteLine("Null argument in " + instanceName + " handling : or " + packageOfInstance + " handling");
                                 break;
                             case "System.IO.FileNotFoundException":
-                                exceptionWriter.WriteLine("Couldn't find .dll file : " + assembly);
+                                Console.Error.WriteLine("Couldn't find .dll file : " + assembly);
                                 break;
                             case "System.IO.FileLoadException":
-                                exceptionWriter.WriteLine("Couldn't load .dll file : " + assembly);
+                                Console.Error.WriteLine("Couldn't load .dll file : " + assembly);
                                 break;
                             case "System.BadImageFormatException":
-                                exceptionWriter.WriteLine("invalid .dll file : " + assembly);
+                                Console.Error.WriteLine("invalid .dll file : " + assembly);
                                 break;
                             case "System.NotSupportedException":
-                                exceptionWriter.WriteLine("Type " + typeOfInstance + " isn't handled correctly");
+                                Console.Error.WriteLine("Type " + typeOfInstance + " isn't handled correctly");
                                 break;
                             case "System.Reflection.TargetException":
-                                exceptionWriter.WriteLine("Invalid target on instance creation : " + typeOfInstance);
+                                Console.Error.WriteLine("Invalid target on instance creation : " + typeOfInstance);
                                 break;
                             case "System.MethodAccesException":
-                                exceptionWriter.WriteLine("Constructor of +" + typeOfInstance + " is private");
+                                Console.Error.WriteLine("Constructor of +" + typeOfInstance + " is private");
                                 break;
                             case "System.MemberAccesException":
-                                exceptionWriter.WriteLine("Couldn't access to member of class : " + typeOfInstance);
+                                Console.Error.WriteLine("Couldn't access to member of class : " + typeOfInstance);
                                 break;
                             case "System.Runtime.InteropServices.InvalidComObjectException":
-                                exceptionWriter.WriteLine("Object " + typeOfInstance + " isn't used properly");
+                                Console.Error.WriteLine("Object " + typeOfInstance + " isn't used properly");
                                 break;
                             case "System.Runtime.InteropServices.COMExpcetion":
-                                exceptionWriter.WriteLine("Object " + typeOfInstance + " isn't used properly");
+                                Console.Error.WriteLine("Object " + typeOfInstance + " isn't used properly");
                                 break;
                             case "System.MissingMethodException":
-                                exceptionWriter.WriteLine("Constructor of : " + typeOfInstance + " isn't defined with those parameters");
+                                Console.Error.WriteLine("Constructor of : " + typeOfInstance + " isn't defined with those parameters");
                                 break;
                             case "System.TypeLoadException":
-                                exceptionWriter.WriteLine("couldn't load type : " + typeOfInstance);
+                                Console.Error.WriteLine("couldn't load type : " + typeOfInstance);
                                 break;
+
 
                         }
                     }

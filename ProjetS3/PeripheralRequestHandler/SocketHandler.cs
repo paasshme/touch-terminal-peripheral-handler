@@ -26,10 +26,19 @@ namespace ProjetS3.PeripheralRequestHandler
             {
                 await this.websocket.SendAsync(toSendData, WebSocketMessageType.Text, true, CancellationToken.None);
             }
-            catch (Exception e)
+            
+            catch (Exception ex)
             {
-                System.Console.WriteLine("Websocket doesn't exist anymore");
+                if(ex is InvalidOperationException)
+                {
+                    Console.Error.WriteLine("Webscoket isn't connected yet");
+                }
+                if(ex is ObjectDisposedException)
+                { 
+                    Console.Error.WriteLine("Websocket doesn't exist anymore");
+                }
             }
+            
         }
 
         public bool GetWebsocketStatus()
