@@ -6,41 +6,51 @@ using IDeviceLib;
 using ProjetS3.PeripheralRequestHandler;
 using System.IO;
 
-//Few line of comments
 namespace ProjetS3.PeripheralCreation
 {
-
+    /*
+     * Object that creates instances of the different peripherals
+     */
     public class PeripheralFactory
     {
         public static string CONFIGURATION_FILE_PATH = "Config.xml";
 
         private const string DLL_EXTENSION = ".dll"; 
 
-        private static ConfigReader configReader;
+        private static XMLConfigReader configReader;
 
+        //Dictionnarry that match the type string (e.g. "RandomDevice") with the instance of this type
         private static Dictionary<string, IDevice> devicesDictionnary;
 
+        //A peripheral event handler lookalike, this object will be given to every peripheral instance so that they can communicate
         private static PeripheralEventHandlerProxy peripheralEventHandlerProxy = PeripheralEventHandlerProxy.GetInstance();
 
-
+        /*
+         * Method that creates an instance for every node instance in the configuration file.
+         * When executed, it fills the devicesDictionnary with an instance of each type.
+         */
         public static void Init()
         {
             devicesDictionnary = new Dictionary<string, IDevice>();
-            configReader = new ConfigReader(CONFIGURATION_FILE_PATH);
+            
+            configReader = new XMLConfigReader(CONFIGURATION_FILE_PATH);
 
 
             ArrayList listOfEveryDllByName = configReader.GetAllDllName();
 
-            //Create instances
-            //Get every instances for every dll
+            //Browsing through each library in configuration file
             foreach (string aLibraryName in listOfEveryDllByName)
             {
                 Assembly assembly = null;
+                //Loading the current .dll
                 assembly = Assembly.LoadFrom(aLibraryName + DLL_EXTENSION);
+
+                //Browing all the assemblyNames of the current assembly
                 foreach (AssemblyName assemblyName in assembly.GetReferencedAssemblies())
                 {
                     try
                     {
+                        //effictive loading
                         Assembly.Load(assemblyName);
                     }
 
@@ -63,26 +73,35 @@ namespace ProjetS3.PeripheralCreation
                     }
                 }
 
+                //Getting all the peripheral types from the curretn assembly
                 ArrayList instances = configReader.GetAllInstancesFromOneDll(aLibraryName);
 
+                //Browsing through each instance node
                 foreach (string instanceName in instances)
                 {
                     string[] parsedPath = aLibraryName.Split("/");
                     string packageOfInstance = parsedPath[parsedPath.Length - 1];
 
+                    //Getting the constructor parameters
                     Object[] objectParameters = configReader.GetParametersForOneInsance(aLibraryName, instanceName);
                     Type typeOfInstance = null;
                     try
                     {
+                        //Getting the type of the peripheral to create
                         typeOfInstance = assembly.GetType(packageOfInstance + "." + instanceName);
+                        //Creating the peripheral with right constructor parameters
+                        //Build so as to the instance is an IDevice
                         var instance = Activator.CreateInstance(typeOfInstance, objectParameters) as IDevice;
 
+                        //adding the event handler to the new instance
                         instance.eventHandler = PeripheralEventHandlerProxy.GetInstance();
+                        //Adding the instance to the dictionnary
                         devicesDictionnary.Add(instanceName, instance);
 
                     }
                     catch(Exception ex)
                     {
+                        //Accurate exception management
                         switch (ex.GetType().ToString())
                         {
                             case "System.ArgumentException":
@@ -134,6 +153,10 @@ namespace ProjetS3.PeripheralCreation
                 }
             }
         }
+        /*
+         * Method that gets the name of the type of every peripheral instance created 
+         * @return a list of string that contains all the types
+         */
         public static IList<string> GetAllInstanceNames()
         {
             return new List<string>(devicesDictionnary.Keys);
@@ -144,25 +167,42 @@ namespace ProjetS3.PeripheralCreation
             peripheralEventHandlerProxy.SetEventHandler(peripheralEventHandler);
         }
 
+        /*
+         * Method that returns the instance of the peripheral whose name is in parameter
+         * @param Name of the type of the peripheral instance (e.g. RandomDevice)
+         * @return the instance of the good peripheral, which is an IDevice
+         */
         public static IDevice GetInstance(string instance)
         {
             IDevice device;
+            //Checks if the string in parameters is in the dictionnray keys
             if(devicesDictionnary.TryGetValue(instance, out device))
             {
                 return device;
             }
+            //Exception is thrown if object doesn't exists
             throw new InexistantObjectException("Object Not found : " + instance);
         }
 
+        /*
+         * Method that returns all the effective method of a peripheral type
+         * Efective methods = method implemetned from object are removed
+         * @param the peripheral type
+         * @return a list containing every method (object method info)
+         */
         public static List<MethodInfo> FindMethods(Type objectType)
         {
             List<MethodInfo> methodListResult = new List<MethodInfo>();
+            //Get every interfaces implemented by this type
             Type[] everyInterfaces = objectType.GetInterfaces();
 
+            //Browsing through each interface implemented
             foreach (Type anInterface in everyInterfaces)
             {
+                //getting the method of the effective method of the interface
                 MethodInfo[] methodsOfTheObject = anInterface.GetMethods(BindingFlags.Instance | BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
 
+                //Before adding each method , check if it already in the returned list
                 foreach (MethodInfo method in methodsOfTheObject)
                 {
                     if (!methodListResult.Contains(method))

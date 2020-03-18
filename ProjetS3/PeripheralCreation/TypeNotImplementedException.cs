@@ -3,6 +3,11 @@ using System.Runtime.Serialization;
 
 namespace ProjetS3.PeripheralCreation
 {
+    /*
+     * Exception thrown when the XML configuration file 
+     * includes a device with parameters (constructor parameters)
+     * and one of the parameter isn't primitive (int,float,double,short,long,string,char,bool)
+     */
     public class TypeNotImplementedException : Exception
     {
 

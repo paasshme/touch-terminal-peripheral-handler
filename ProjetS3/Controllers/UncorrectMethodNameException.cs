@@ -5,6 +5,9 @@ using System.Threading.Tasks;
 
 namespace ProjetS3
 {
+    /*
+     * Exception thrown when the controller tries to use a unimplemented method on a peripheral
+     */
     public class UncorrectMethodNameException : Exception
     {
         public UncorrectMethodNameException()

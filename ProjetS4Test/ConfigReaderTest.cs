@@ -15,7 +15,7 @@ namespace ProjetS4Test
         [Fact]
         public void GetAllDllNameTest()
         {
-            ConfigReader reader = new ConfigReader(configFilePath);
+            XMLConfigReader reader = new XMLConfigReader(configFilePath);
             ArrayList dl = reader.GetAllDllName();
             int numberOfDll = 1;
             Assert.Equal(numberOfDll, dl.Count);
@@ -27,7 +27,7 @@ namespace ProjetS4Test
         [Fact]
         public void GetAllInstanceFromOneDllTest()
         {
-            ConfigReader reader = new ConfigReader(configFilePath);
+            XMLConfigReader reader = new XMLConfigReader(configFilePath);
             ArrayList list = reader.GetAllInstancesFromOneDll(DLL_FOLDER_PATH + "TestDevices");
             string res = "RandomDevice";
             string res2 = "RandomDeviceWithParameters";
@@ -43,7 +43,7 @@ namespace ProjetS4Test
         [Fact]
         public void GetParametersForOneInstanceTest()
         {
-            ConfigReader reader = new ConfigReader(configFilePath);
+            XMLConfigReader reader = new XMLConfigReader(configFilePath);
             string dllName =(DLL_FOLDER_PATH + "TestDevices");
             string instanceName = "RandomDeviceWithParameters";
             Object[] resParams = reader.GetParametersForOneInsance(dllName, instanceName);

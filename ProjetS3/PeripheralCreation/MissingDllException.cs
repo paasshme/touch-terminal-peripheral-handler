@@ -1,5 +1,8 @@
 namespace ProjetS3
 {
+    /*
+     * Exception thrown when the facotry tries to load a .dll file but it isn't at the good place
+     */
     public class MissingDllException : System.Exception
     {
         public MissingDllException() { }
