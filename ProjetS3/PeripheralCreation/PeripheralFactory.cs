@@ -48,17 +48,17 @@ namespace ProjetS3.PeripheralCreation
                     {
                         if(ex is FileNotFoundException || ex is ArgumentNullException)
                         {
-                            Console.Error.WriteLine("Missing .dll file : " + assemblyName);
+                            Console.WriteLine("Missing .dll file : " + assemblyName);
                         }
                         if(ex is FileLoadException)
                         {
-                            Console.Error.WriteLine("Couldn't load the .dll file : " + assemblyName);
+                            Console.WriteLine("Couldn't load the .dll file : " + assemblyName);
                         }
                         if(ex is BadImageFormatException)
                         {
-                            Console.Error.WriteLine("invalid .dll file : " + assemblyName);
+                            Console.WriteLine("invalid .dll file : " + assemblyName);
                         }
-                        Console.Error.WriteLine(ex.Message);
+                        Console.WriteLine(ex.Message);
 
                     }
                 }
@@ -86,43 +86,46 @@ namespace ProjetS3.PeripheralCreation
                         switch (ex.GetType().ToString())
                         {
                             case "System.ArgumentException":
-                                Console.Error.WriteLine("Incorrect argument : " + packageOfInstance + "." + instanceName);
+                                Console.WriteLine("Incorrect argument : " + packageOfInstance + "." + instanceName);
                                 break;
                             case "Sytem.ArgumentNullException":
-                                Console.Error.WriteLine("Null argument in " + instanceName + " handling : or " + packageOfInstance + " handling");
+                                Console.WriteLine("Null argument in " + instanceName + " handling : or " + packageOfInstance + " handling");
                                 break;
                             case "System.IO.FileNotFoundException":
-                                Console.Error.WriteLine("Couldn't find .dll file : " + assembly);
+                                Console.WriteLine("Couldn't find .dll file : " + assembly);
                                 break;
                             case "System.IO.FileLoadException":
-                                Console.Error.WriteLine("Couldn't load .dll file : " + assembly);
+                                Console.WriteLine("Couldn't load .dll file : " + assembly);
                                 break;
                             case "System.BadImageFormatException":
-                                Console.Error.WriteLine("invalid .dll file : " + assembly);
+                                Console.WriteLine("invalid .dll file : " + assembly);
                                 break;
                             case "System.NotSupportedException":
-                                Console.Error.WriteLine("Type " + typeOfInstance + " isn't handled correctly");
+                                Console.WriteLine("Type " + typeOfInstance + " isn't handled correctly");
                                 break;
-                            case "System.Reflection.TargetException":
-                                Console.Error.WriteLine("Invalid target on instance creation : " + typeOfInstance);
+                            case "System.Reflection.TargetInvocationException":
+                                Console.WriteLine("Invalid target on instance creation : " + typeOfInstance + ": the invoked constructor threw an exception.");
                                 break;
                             case "System.MethodAccesException":
-                                Console.Error.WriteLine("Constructor of +" + typeOfInstance + " is private");
+                                Console.WriteLine("Constructor of +" + typeOfInstance + " is private");
                                 break;
                             case "System.MemberAccesException":
-                                Console.Error.WriteLine("Couldn't access to member of class : " + typeOfInstance);
+                                Console.WriteLine("Couldn't access to member of class : " + typeOfInstance);
                                 break;
                             case "System.Runtime.InteropServices.InvalidComObjectException":
-                                Console.Error.WriteLine("Object " + typeOfInstance + " isn't used properly");
+                                Console.WriteLine("Object " + typeOfInstance + " isn't used properly");
                                 break;
                             case "System.Runtime.InteropServices.COMExpcetion":
-                                Console.Error.WriteLine("Object " + typeOfInstance + " isn't used properly");
+                                Console.WriteLine("Object " + typeOfInstance + " isn't used properly");
                                 break;
                             case "System.MissingMethodException":
-                                Console.Error.WriteLine("Constructor of : " + typeOfInstance + " isn't defined with those parameters");
+                                Console.WriteLine("Constructor of : " + typeOfInstance + " isn't defined with those parameters");
                                 break;
                             case "System.TypeLoadException":
-                                Console.Error.WriteLine("couldn't load type : " + typeOfInstance);
+                                Console.WriteLine("couldn't load type : " + typeOfInstance);
+                                break;
+                            default:
+                                System.Console.WriteLine("Unhandled exception type"+ex.GetType());
                                 break;
 
 

@@ -24,7 +24,10 @@
     <instance>RandomCalculatorDevice</instance>
   </library>
   -->
-  <!-- Path edit for test purpose only -->
+  <!-- 
+      <attribut type="string" name="port">COM5</attribut>
+    Path edit for test purpose only -->
+
   
   <!-- C:/Users/Jacques/source/repos/PashmiDev/ProjetS4/TestDevices/bin/Debug/netcoreapp3.1/TestDevices
   ../TestDevices/bin/Debug/netcoreapp3.1/TestDevices-->
@@ -39,7 +42,7 @@
       <attribut type="bool" name="boolValue">True</attribut>
     </instance>
     <instance name="BarCodePOC">
-      <attribut type="string" name="port">COM5</attribut>
+      <attribut type="string" name="port">/dev/ttyACM1</attribut>
     </instance> 
     
     <instance name="DeviceWithMethodParameter">

@@ -6,17 +6,15 @@ namespace TestDevices
     //Test purpose only
     class Program
     {
-/*        public static void Main()
+        public static void Main()
         {
-            IDevice i = new RandomDevice();
-            i.Start();
-            i.Stop();
-            IScanner i2 = new RandomScannerDevice();
-            i2.Foo();
 
-            IDevice barCode = new BarCodePOC("COM5");
+            IDevice barCode = new BarCodePOC("/dev/ttyACM1");
+            barCode.eventHandler = new FakeEventHandler();
+
             barCode.Start();
-            barCode.Stop();
-        }*/
+            while (true);
+        }
+        
     }
 }
