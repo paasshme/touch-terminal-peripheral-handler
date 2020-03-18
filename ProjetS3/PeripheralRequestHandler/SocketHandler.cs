@@ -2,11 +2,11 @@ using System.Net.WebSockets;
 using System.Threading;
 using System.Threading.Tasks;
 using System;
-
+using IDeviceLib;
 
 namespace ProjetS3.PeripheralRequestHandler
 {
-    public class SocketHandler
+    public class SocketHandler 
     {
         private const int BufferSize = 4096;
 

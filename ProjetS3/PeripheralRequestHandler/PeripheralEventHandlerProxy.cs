@@ -7,7 +7,7 @@ using IDeviceLib;
 
 namespace ProjetS3.PeripheralRequestHandler
 {
-    public class PeripheralEventHandlerProxy : IPeripheralEventHandler
+    public class PeripheralEventHandlerProxy : IPeripheralAdvancedEventHandler
     {
 
         //Todo: changer en queue d'event
@@ -17,7 +17,6 @@ namespace ProjetS3.PeripheralRequestHandler
 
         private static PeripheralEventHandlerProxy peripheralEventHandlerProxy = new PeripheralEventHandlerProxy();
 
-        public object socketHandler => throw new NotImplementedException();
 
         private PeripheralEventHandlerProxy()
         {
