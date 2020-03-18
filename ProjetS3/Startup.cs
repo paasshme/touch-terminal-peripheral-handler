@@ -16,6 +16,8 @@ namespace ProjetS3
 {
     public class Startup
     {
+        public static TaskCompletionSource<object> tcs;
+        public static WebSocket ws;
         private const string WEBSOCKET_URL = "/ws";
         public IConfiguration Configuration { get; }
 
@@ -88,7 +90,9 @@ namespace ProjetS3
                     {
 
                         WebSocket webSocket = await context.WebSockets.AcceptWebSocketAsync();
+                        ws = webSocket;
                         TaskCompletionSource<object> socketFinishedTcs = new TaskCompletionSource<object>();
+                        tcs = socketFinishedTcs;
                         SocketHandler socketHandler = new SocketHandler(webSocket, socketFinishedTcs);
                         PeripheralEventHandler peripheralEventHandler = new PeripheralEventHandler(socketHandler);
                         PeripheralFactory.SetHandler(peripheralEventHandler);

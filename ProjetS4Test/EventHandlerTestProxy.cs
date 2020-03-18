@@ -1,36 +1,33 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using IDeviceLib;
+using ProjetS3;
+using ProjetS3.PeripheralRequestHandler;
 using System.Collections.Concurrent;
-using System.Linq;
-using System.Threading.Tasks;
-using IDeviceLib;
 
-namespace ProjetS3.PeripheralRequestHandler
+namespace ProjetS4Test
 {
-    public class PeripheralEventHandlerProxy : IPeripheralEventHandler
+    //Proxy used for test only in communicationTest class
+    class EventHandlerTestProxy : PeripheralEventHandler
     {
-
-        //Todo: changer en queue d'event
+        
+        
         private ConcurrentQueue<Event> eventQueue;
 
         private PeripheralEventHandler eventHandler;
 
-        private static PeripheralEventHandlerProxy peripheralEventHandlerProxy = new PeripheralEventHandlerProxy();
+        private static EventHandlerTestProxy eventHandlerTestProxy = new EventHandlerTestProxy(new SocketTestHandler(Startup.ws, Startup.tcs));
 
-        public object socketHandler => throw new NotImplementedException();
-
-        private PeripheralEventHandlerProxy()
+        public EventHandlerTestProxy(SocketHandler socketHandler) : base(socketHandler)
         {
-            this.eventQueue = new ConcurrentQueue<Event>();
-            this.eventHandler = null;
         }
+
+
 
         /**
         *   Singleton for the peripheral event handler proxy
         */
-        public static PeripheralEventHandlerProxy GetInstance()
+        public static EventHandlerTestProxy GetInstance()
         {
-            return peripheralEventHandlerProxy;
+            return eventHandlerTestProxy;
         }
 
         /*
@@ -55,6 +52,7 @@ namespace ProjetS3.PeripheralRequestHandler
                 else
                 {
                     this.eventHandler.putPeripheralEventInQueue(objectName, eventName, value);
+                    CommunicationTest.status.setProxyStatus(true);
                 }
             }
         }
@@ -77,6 +75,6 @@ namespace ProjetS3.PeripheralRequestHandler
                 this.eventHandler.putPeripheralEventInQueue(outEvent.ObjectName, outEvent.EventName, outEvent.Value);
             }
         }
-
     }
 }
+

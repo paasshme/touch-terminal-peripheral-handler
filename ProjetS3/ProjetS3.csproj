@@ -4,6 +4,7 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <UserSecretsId>434ce13a-d3d9-4989-8a9e-55f24456345b</UserSecretsId>
     <DockerDefaultTargetOS>Windows</DockerDefaultTargetOS>
+    <StartupObject>ProjetS3.Program</StartupObject>
   </PropertyGroup>
 
   <ItemGroup>
