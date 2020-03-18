@@ -1,5 +1,25 @@
 ﻿body {
+    background-color: #D3F4FF;
 }
-.form{
-    display : flex;  
+
+.borne {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 524px;
+    height: 700px;
+}
+
+.form {
+    display: block;
+}
+
+#displayZone {
+    background-color: #FFFFFF;
+    height: 78px;
+    min-height: 78px;
+    max-height: 78px;
+    overflow: auto;
+    width: 280px;
+    font-size: 11px;
 }
