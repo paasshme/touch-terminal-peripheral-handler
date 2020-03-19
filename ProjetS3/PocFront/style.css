@@ -3,15 +3,9 @@
 }
 
 .borne {
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
+    margin-left: 32.5%;
     width: 524px;
     height: 700px;
-}
-
-.form {
-    display: block;
 }
 
 #displayZone {
