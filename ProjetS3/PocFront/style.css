@@ -3,9 +3,17 @@
 }
 
 .borne {
-    margin-left: 32.5%;
+    display: block;
+    margin: auto;
     width: 524px;
     height: 700px;
+}
+
+.interieurBorne {
+    position: absolute;
+    text-align: center;
+    z-index: 1;
+    top: 1%;
 }
 
 #displayZone {
@@ -16,4 +24,22 @@
     overflow: auto;
     width: 280px;
     font-size: 11px;
+}
+
+@media (min-width:961px) { /* tablet, landscape iPad, lo-res laptops ands desktops */
+    .interieurBorne{
+        left: 35.5%;
+    }
+}
+
+@media (min-width:1025px) { /* big landscape tablets, laptops, and desktops */
+    .interieurBorne {
+        left: 37.5%;
+    }
+}
+
+@media (min-width:1281px) { /* hi-res laptops and desktops */
+    .interieurBorne {
+        left: 40.5%;
+    }
 }
