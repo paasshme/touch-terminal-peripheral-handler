@@ -1,4 +1,4 @@
-#!/bin/zsh
+#!/bin/bash
 
 #Todo: test if docker is installed
 

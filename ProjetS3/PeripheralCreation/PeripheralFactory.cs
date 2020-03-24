@@ -13,7 +13,7 @@ namespace ProjetS3.PeripheralCreation
      */
     public class PeripheralFactory
     {
-        public static string CONFIGURATION_FILE_PATH = "Config.xml";
+        public static string CONFIGURATION_FILE_PATH = Environment.CurrentDirectory+"/Config.xml";
 
         private const string DLL_EXTENSION = ".dll"; 
 
@@ -31,6 +31,7 @@ namespace ProjetS3.PeripheralCreation
          */
         public static void Init()
         {
+            Console.WriteLine("PATH IS " + Environment.CurrentDirectory);
             devicesDictionnary = new Dictionary<string, IDevice>();
             
             configReader = new XMLConfigReader(CONFIGURATION_FILE_PATH);
