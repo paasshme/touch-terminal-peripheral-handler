@@ -1,4 +1,3 @@
-using System;
 using IDeviceLib;
 
 namespace TestDevices
@@ -7,18 +6,16 @@ namespace TestDevices
     {
         public IPeripheralEventHandler eventHandler {get; set;}
 
-        void IDevice.Start()
+        public void Start()
         {
-            System.Console.WriteLine("[Start] Event preparing");
             this.eventHandler.putPeripheralEventInQueue("start", "startEvent", "3");
-            System.Console.WriteLine("Event added!");
         }
 
-        void IDevice.Stop()
+        public void Stop()
         {
-            System.Console.WriteLine("[Stop] Event preparing...");
             this.eventHandler.putPeripheralEventInQueue("stop", "stopEvent", "4");
-            System.Console.WriteLine("Event added!");
         }
     }
 }
+
+
