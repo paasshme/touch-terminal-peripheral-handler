@@ -42,7 +42,7 @@
       <attribut type="bool" name="boolValue">True</attribut>
     </instance>
     <instance name="BarCodePOC">
-      <attribut type="string" name="port">/dev/ttyACM1</attribut>
+      <attribut type="string" name="port">COM5</attribut>
     </instance> 
     
     <instance name="DeviceWithMethodParameter">
