@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using IDeviceLib;
 using ProjetS3.PeripheralRequestHandler;
 using System.IO;
+using System.Text.RegularExpressions;
 
 namespace ProjetS3.PeripheralCreation
 {
@@ -13,7 +14,9 @@ namespace ProjetS3.PeripheralCreation
      */
     public class PeripheralFactory
     {
-        public static string CONFIGURATION_FILE_PATH = Environment.CurrentDirectory+"/Config.xml";
+
+        private static string PROJECT_PATH = Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, "..\\..\\..\\"));
+        public static string CONFIGURATION_FILE_PATH = PROJECT_PATH + "/Config.xml";
 
         private const string DLL_EXTENSION = ".dll"; 
 
@@ -31,7 +34,6 @@ namespace ProjetS3.PeripheralCreation
          */
         public static void Init()
         {
-            Console.WriteLine("PATH IS " + Environment.CurrentDirectory);
             devicesDictionnary = new Dictionary<string, IDevice>();
             
             configReader = new XMLConfigReader(CONFIGURATION_FILE_PATH);
@@ -43,12 +45,16 @@ namespace ProjetS3.PeripheralCreation
             foreach (string aLibraryName in listOfEveryDllByName)
             {
                 Assembly assembly = null;
-                //Loading the current .dll
-                assembly = Assembly.LoadFrom(aLibraryName + DLL_EXTENSION);
 
-                //Browing all the assemblyNames of the current assembly
+                string absolutePath = Regex.Replace(PROJECT_PATH, "\\\\", "/");
+
+                //Loading the current .dll
+                assembly = Assembly.LoadFrom(absolutePath + aLibraryName + DLL_EXTENSION);
+
+                //Load all the dependencies of the current assembly
                 foreach (AssemblyName assemblyName in assembly.GetReferencedAssemblies())
                 {
+
                     try
                     {
                         //effictive loading
