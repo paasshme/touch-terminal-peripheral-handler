@@ -24,22 +24,26 @@ if [ $# -eq 1 ]; then
     fi
 fi
 
-dotnet build .
+
 dotnet restore .
+dotnet build .
+cp TestDevices/bin/Debug/netcoreapp3.1/TestDevices.dll ProjetS3/PeripheralLibraries
 
 if [ -n "$a" ]; then
     echo "[STATUS] The project is already running"
-    sudo docker stop $(sudo docker ps | grep ProjetS3.dll | cut -d ' ' -f 1) 
+    docker stop $(docker ps | grep ProjetS3.dll | cut -d ' ' -f 1) 
     echo "[STATUS] Old project stopped !"
 fi
 
 echo "Building docker image..."
-sudo docker build -q -t test:projets3 .
+docker build -t test:projets3 .
 
 
 echo "[STATUS] Docker image ready"
 echo "[STATUS] Launching project..."
-sudo docker run -it --privileged -device=/dev/ttyACM1 -p $port:80 test:projets3
+docker run -it --privileged -device=/dev/ttyACM1 -p $port:80 test:projets3
 
 echo "[STATUS] Project successfully launch"
 echo "[STATUS] http://localhost:$port/swagger/index.html"
+
+chromium --kiosk http://localhost:$port/swagger/index.html 
