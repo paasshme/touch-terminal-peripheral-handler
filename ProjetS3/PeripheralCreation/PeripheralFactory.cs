@@ -6,6 +6,7 @@ using IDeviceLib;
 using ProjetS3.PeripheralRequestHandler;
 using System.IO;
 using System.Text.RegularExpressions;
+using System.Runtime.InteropServices;
 
 namespace ProjetS3.PeripheralCreation
 {
@@ -15,7 +16,10 @@ namespace ProjetS3.PeripheralCreation
     public class PeripheralFactory
     {
 
+
         private static string PROJECT_PATH = Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, "..\\..\\..\\"));
+
+        //Default windows path
         public static string CONFIGURATION_FILE_PATH = PROJECT_PATH + "/Config.xml";
 
         private const string DLL_EXTENSION = ".dll"; 
@@ -32,6 +36,15 @@ namespace ProjetS3.PeripheralCreation
          * Method that creates an instance for every node instance in the configuration file.
          * When executed, it fills the devicesDictionnary with an instance of each type.
          */
+
+        //Handle linux path correctly
+        static PeripheralFactory()
+        {
+            if (System.Runtime.InteropServices.RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
+            {
+                CONFIGURATION_FILE_PATH = "Config.xml";
+            }
+        }
         public static void Init()
         {
             devicesDictionnary = new Dictionary<string, IDevice>();
