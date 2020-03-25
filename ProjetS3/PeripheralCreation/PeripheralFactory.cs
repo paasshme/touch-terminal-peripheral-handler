@@ -227,7 +227,11 @@ namespace ProjetS3.PeripheralCreation
                 {
                     if (!methodListResult.Contains(method))
                     {
-                        methodListResult.Add(method);
+                        //Prevent user from calling dipsose since it needs to be called only by the system.
+                        if(!method.Name.Equals("Dispose"))
+                        {
+                            methodListResult.Add(method);
+                        }
                     }
                 }
             }
