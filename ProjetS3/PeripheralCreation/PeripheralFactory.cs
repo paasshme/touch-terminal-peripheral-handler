@@ -40,7 +40,7 @@ namespace ProjetS3.PeripheralCreation
         //Handle linux path correctly
         static PeripheralFactory()
         {
-            if (System.Runtime.InteropServices.RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
             {
                 CONFIGURATION_FILE_PATH = "Config.xml";
             }
