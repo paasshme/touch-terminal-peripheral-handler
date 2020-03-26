@@ -1,4 +1,4 @@
-$path = '..\..'
+$path = '..\..\..'
 dotnet restore $path\ProjetS3.sln
 dotnet build $path\ProjetS3.sln
 Copy-Item -Path $path\TestDevices\bin\Debug\netcoreapp3.1\TestDevices.dll -Destination $path\ProjetS3\PeripheralLibraries -Force

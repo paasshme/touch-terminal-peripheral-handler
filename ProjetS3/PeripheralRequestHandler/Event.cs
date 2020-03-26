@@ -5,6 +5,10 @@ using System.Threading.Tasks;
 
 namespace ProjetS3.PeripheralRequestHandler
 {
+    /**
+     * An Event is the representation of a message in the application
+     * It contains the object (peripheral) concerned, an event (method) and a value (parameter).
+     */
     public class Event
     {
         public string ObjectName { get; private set; }
