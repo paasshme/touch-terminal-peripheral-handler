@@ -1,7 +1,7 @@
 FROM mcr.microsoft.com/dotnet/core/aspnet:3.1-buster-slim AS base
 WORKDIR /app
 COPY ["ProjetS3/Config.xml","/app"]
-COPY ["ProjetS3/PeripheralLibraries/TestDevices.dll","/app/PeripheralLibraries/"]
+COPY ["ProjetS3/PeripheralLibraries/TestDevices.dll","/PeripheralLibraries/"]
 EXPOSE 80
 
 FROM mcr.microsoft.com/dotnet/core/sdk:3.1-buster AS build
