@@ -1,9 +1,9 @@
 using System;
 using Xunit;
-using ProjetS3.PeripheralCreation;
+using InteractiveTerminalCrossPlatformMicroservice.PeripheralCreation;
 using System.Collections;
 
-namespace ProjetS4Test
+namespace TestInteractiveTerminalCrossPlatformMicroservice
 {
 
     public class ConfigReaderTest

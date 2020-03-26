@@ -3,7 +3,7 @@ using System.Collections;
 using System.IO;
 using System.Xml;
 
-namespace ProjetS3.PeripheralCreation
+namespace InteractiveTerminalCrossPlatformMicroservice.PeripheralCreation
 {
     /*
      * An object that can read an XML configuration files (see convention in documentation)

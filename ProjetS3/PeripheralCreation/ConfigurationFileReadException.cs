@@ -1,5 +1,5 @@
 using System;
-namespace ProjetS3
+namespace InteractiveTerminalCrossPlatformMicroservice
 {
     /*
      * Exception thrown when the configuration file can't be read (IO problems, incorrect path, ...)

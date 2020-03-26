@@ -1,14 +1,14 @@
-﻿using ProjetS3.PeripheralCreation;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using Xunit;
 using IDeviceLib;
 using System.Reflection;
-using ProjetS3;
 using System.Linq;
 using TestDevices;
+using InteractiveTerminalCrossPlatformMicroservice.PeripheralCreation;
+using InteractiveTerminalCrossPlatformMicroservice;
 
-namespace ProjetS4Test
+namespace TestInteractiveTerminalCrossPlatformMicroservice
 {
     public class FactoryTest
     {

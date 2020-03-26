@@ -1,6 +1,6 @@
 ﻿using System.Collections;
 
-namespace ProjetS3.PeripheralCreation
+namespace InteractiveTerminalCrossPlatformMicroservice.PeripheralCreation
 {
     /*
      *  Represents an object that can read a configuration file. It can :

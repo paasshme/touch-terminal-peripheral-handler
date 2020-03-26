@@ -7,12 +7,12 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
-using ProjetS3.PeripheralCreation;
-using ProjetS3.PeripheralRequestHandler;
+using InteractiveTerminalCrossPlatformMicroservice.PeripheralCreation;
+using InteractiveTerminalCrossPlatformMicroservice.PeripheralRequestHandler;
 using System.Threading.Tasks;
 
-using ProjetS3.SwaggerCustom;
-namespace ProjetS3
+using InteractiveTerminalCrossPlatformMicroservice.SwaggerCustom;
+namespace InteractiveTerminalCrossPlatformMicroservice
 {
     public class Startup
     {

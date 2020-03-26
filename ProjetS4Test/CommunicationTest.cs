@@ -1,15 +1,8 @@
 ﻿
 using System;
 using Xunit;
-using ProjetS3;
-using ProjetS3.PeripheralCreation;
-using IDeviceLib;
-using System.Reflection;
-using System.Collections.Generic;
-using ProjetS3.PeripheralRequestHandler;
-using System.Threading;
 
-namespace ProjetS4Test
+namespace TestInteractiveTerminalCrossPlatformMicroservice
 {
     public class CommunicationTest
     {

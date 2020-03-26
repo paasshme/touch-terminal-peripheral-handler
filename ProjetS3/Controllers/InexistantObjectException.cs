@@ -1,5 +1,5 @@
 using System;
-namespace ProjetS3
+namespace InteractiveTerminalCrossPlatformMicroservice
 {
     /*
      * Exception thrown when the controller tries to use a peripheral that doesn't exists (not in the config file)

@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Reflection;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
-using ProjetS3.PeripheralCreation;
+using InteractiveTerminalCrossPlatformMicroservice.PeripheralCreation;
 using IDeviceLib;
 
-namespace ProjetS3.SwaggerCustom
+namespace InteractiveTerminalCrossPlatformMicroservice.SwaggerCustom
 {
     class CustomMethodIntrospection : IDocumentFilter
     {

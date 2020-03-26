@@ -3,12 +3,12 @@ using System.Reflection;
 using System.Collections;
 using System.Collections.Generic;
 using IDeviceLib;
-using ProjetS3.PeripheralRequestHandler;
+using InteractiveTerminalCrossPlatformMicroservice.PeripheralRequestHandler;
 using System.IO;
 using System.Text.RegularExpressions;
 using System.Runtime.InteropServices;
 
-namespace ProjetS3.PeripheralCreation
+namespace InteractiveTerminalCrossPlatformMicroservice.PeripheralCreation
 {
     /*
      * Object that creates instances of the different peripherals

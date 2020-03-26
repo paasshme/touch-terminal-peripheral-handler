@@ -5,7 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using IDeviceLib;
 
-namespace ProjetS3.PeripheralRequestHandler
+namespace InteractiveTerminalCrossPlatformMicroservice.PeripheralRequestHandler
 {
     /**
      * Implementation of a PeripheralEventHanlder

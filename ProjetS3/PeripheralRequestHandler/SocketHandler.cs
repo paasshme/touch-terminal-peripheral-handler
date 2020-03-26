@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using System;
 using IDeviceLib;
 
-namespace ProjetS3.PeripheralRequestHandler
+namespace InteractiveTerminalCrossPlatformMicroservice.PeripheralRequestHandler
 {
     public class SocketHandler 
     {

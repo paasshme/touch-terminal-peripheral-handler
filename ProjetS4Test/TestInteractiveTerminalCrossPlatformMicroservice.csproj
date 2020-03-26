@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
@@ -14,7 +14,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\IDeviceLib\IDeviceLib.csproj" />
-    <ProjectReference Include="..\ProjetS3\ProjetS3.csproj" />
+    <ProjectReference Include="..\ProjetS3\InteractiveTerminalCrossPlatformMicroservice.csproj" />
     <ProjectReference Include="..\TestDevices\TestDevices.csproj" />
   </ItemGroup>
 

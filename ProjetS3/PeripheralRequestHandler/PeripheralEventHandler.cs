@@ -5,7 +5,7 @@ using System.Threading;
 using IDeviceLib;
 using System.Collections.Concurrent;
 
-namespace ProjetS3.PeripheralRequestHandler
+namespace InteractiveTerminalCrossPlatformMicroservice.PeripheralRequestHandler
 {
     /**
      * A PeripheralEventHandler is used by peripheral to interract with the application

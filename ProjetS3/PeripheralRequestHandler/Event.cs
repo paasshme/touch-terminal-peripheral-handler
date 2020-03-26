@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace ProjetS3.PeripheralRequestHandler
+namespace InteractiveTerminalCrossPlatformMicroservice.PeripheralRequestHandler
 {
     /**
      * An Event is the representation of a message in the application

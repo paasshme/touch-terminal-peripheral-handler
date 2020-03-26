@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 using IDeviceLib;
 using System.Reflection;
-using ProjetS3.PeripheralCreation;
+using InteractiveTerminalCrossPlatformMicroservice.PeripheralCreation;
 
 
 
-namespace ProjetS3.Controllers
+namespace InteractiveTerminalCrossPlatformMicroservice.Controllers
 {
     /*
      * Object which takes over the reception of the brower requests

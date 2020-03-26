@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Runtime.Serialization;
 
-namespace ProjetS3.PeripheralCreation
+namespace InteractiveTerminalCrossPlatformMicroservice.PeripheralCreation
 {
     /*
      * Exception thrown when the XML configuration file 
