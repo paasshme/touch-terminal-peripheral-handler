@@ -27,7 +27,7 @@ fi
 
 dotnet restore .
 dotnet build .
-cp TestDevices/bin/Debug/netcoreapp3.1/TestDevices.dll ProjetS3/PeripheralLibraries
+cp -f TestDevices/bin/Debug/netcoreapp3.1/TestDevices.dll ProjetS3/PeripheralLibraries
 
 if [ -n "$a" ]; then
     echo "[STATUS] The project is already running"
@@ -46,4 +46,4 @@ docker run -it --privileged -device=/dev/ttyACM1 -p $port:80 test:projets3
 echo "[STATUS] Project successfully launch"
 echo "[STATUS] http://localhost:$port/swagger/index.html"
 
-chromium --kiosk http://localhost:$port/swagger/index.html 
+chromium --kiosk http://localhost:$port/swagger/index.html --sandbox
