@@ -1,11 +1,12 @@
-#!/bin/bash
+#!/bin/sh
 
-#Todo: test if docker is installed
-
-
+#This script get every dependencies, build and run the docker image for linux
+#And then launch chromium
+#Warning: the browser starts a few second before the project is totallly launched
 re='^[0-9]+$'
 a=$(sudo docker ps | grep ProjetS3.dll)
 port=5001
+path='../..'
 
 if [ $# -gt 1 ]; then
     echo "[ERROR] Too much argument supplied:"
@@ -25,9 +26,9 @@ if [ $# -eq 1 ]; then
 fi
 
 
-dotnet restore .
-dotnet build .
-cp -f TestDevices/bin/Debug/netcoreapp3.1/TestDevices.dll ProjetS3/PeripheralLibraries
+dotnet restore $path 
+dotnet build $path 
+cp -f "$path/TestDevices/bin/Debug/netcoreapp3.1/TestDevices.dll" "$path/ProjetS3/PeripheralLibraries"
 
 if [ -n "$a" ]; then
     echo "[STATUS] The project is already running"
@@ -36,7 +37,7 @@ if [ -n "$a" ]; then
 fi
 
 echo "Building docker image..."
-docker build -t test:projets3 .
+docker build -t test:projets3 $path
 
 
 echo "[STATUS] Docker image ready"
@@ -46,4 +47,4 @@ docker run -it --privileged -device=/dev/ttyACM1 -p $port:80 test:projets3
 echo "[STATUS] Project successfully launch"
 echo "[STATUS] http://localhost:$port/swagger/index.html"
 
-chromium --kiosk http://localhost:$port/swagger/index.html --sandbox
+chromium --kiosk http://localhost:$port/swagger/index.html --no-sandbox --noerrdialogs --disable-infobars --no-default-browser-check --no-experiments --no-pings --silent-debugger-extension-api
