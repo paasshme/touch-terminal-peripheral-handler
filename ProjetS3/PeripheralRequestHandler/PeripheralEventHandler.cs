@@ -7,6 +7,9 @@ using System.Collections.Concurrent;
 
 namespace ProjetS3.PeripheralRequestHandler
 {
+    /**
+     * A PeripheralEventHandler is used by peripheral to interract with the application
+     */
     public class PeripheralEventHandler : IPeripheralEventHandler
     {
         private const string SEPARATOR = " ";
@@ -22,10 +25,12 @@ namespace ProjetS3.PeripheralRequestHandler
             new Thread(new ThreadStart(QueueListening)).Start();
         }
 
+        //Watch the event queue and handle events ins queue
         public void QueueListening()
         {
             while (true)
             {
+                //If there is an event in the queue
                 if (this.PeripheralEventsQueue.Count != 0)
                 {
                     Event FirstTreated;
@@ -40,13 +45,14 @@ namespace ProjetS3.PeripheralRequestHandler
             }
         }
 
+        //Send event information to the socketHandler
         public async void send(string objectName, string eventName, string value)
         {
             byte[] bytes = Encoding.ASCII.GetBytes(objectName + SEPARATOR + eventName + SEPARATOR + value); 
             await this.socketHandler.Send(bytes);
         }
 
-        //Called by any device
+        //Enqueu an event. Called by any devices
         public void putPeripheralEventInQueue(string objectName, string eventName, string value)
         {
             Event newEvent = new Event(objectName, eventName, value);

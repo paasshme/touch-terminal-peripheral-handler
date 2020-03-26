@@ -17,7 +17,7 @@ namespace ProjetS4Test
         [Fact]
         public void TestWebsocket()
         {
-           
+            throw new NotImplementedException();
            
         }
     }
