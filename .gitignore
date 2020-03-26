@@ -343,3 +343,6 @@ healthchecksdb
 /docker-compose.override.yml
 /docker-compose.yml
 /ProjetS3/Dockerfile
+bin/
+obj/
+*.dll
