@@ -7,10 +7,13 @@ using IDeviceLib;
 
 namespace ProjetS3.PeripheralRequestHandler
 {
+    /**
+     * Implementation of a PeripheralEventHanlder
+     * Add control before enqueueing events
+     */
     public class PeripheralEventHandlerProxy : IPeripheralAdvancedEventHandler
     {
 
-        //Todo: changer en queue d'event
         private ConcurrentQueue<Event> eventQueue;
 
         private PeripheralEventHandler eventHandler;

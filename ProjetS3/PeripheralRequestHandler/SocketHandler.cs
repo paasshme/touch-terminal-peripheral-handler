@@ -20,6 +20,9 @@ namespace ProjetS3.PeripheralRequestHandler
             this.taskCompletionSource = task;
         }
 
+        /**
+         * Send into the websocket
+         */
         public async Task Send(ArraySegment<byte> toSendData)
         {
             try
