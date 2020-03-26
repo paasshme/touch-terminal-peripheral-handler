@@ -11,7 +11,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestDevices", "TestDevices\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProjetS4Test", "ProjetS4Test\ProjetS4Test.csproj", "{D5106C29-928F-4A20-8EF8-62F37F88621F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BarCode", "BarCode\BarCode.csproj", "{E7B12E17-9D62-4B0F-BF56-BD17B03711CD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BarCode", "BarCode\BarCode.csproj", "{E7B12E17-9D62-4B0F-BF56-BD17B03711CD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -1,6 +1,6 @@
 
 const port = 5001;
-const socket = new WebSocket(`wss://localhost:${port}/ws`);
+const socket = new WebSocket(`ws://localhost:${port}/ws`);
 
 const testButton = document.getElementById('UseMethod').addEventListener('click', process)
 const displayZone = document.getElementById('displayZone');

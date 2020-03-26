@@ -23,6 +23,9 @@ namespace ProjetS3.SwaggerCustom
 
         void IDocumentFilter.Apply(OpenApiDocument swaggerDoc, DocumentFilterContext context)
         {
+            //Removing path that are generated automatically since it's irrelevant
+            swaggerDoc.Paths.Clear();
+
 
             List<MethodData> allMethodInfos = generateAllMethodInfos();
 
@@ -32,6 +35,7 @@ namespace ProjetS3.SwaggerCustom
             OpenApiTag tag = new OpenApiTag { Name = DEFAULT_API_TAG_NAME};
             List<OpenApiTag> tagList = new List<OpenApiTag>();
             tagList.Add(tag);
+            
 
             //Response handling
 
