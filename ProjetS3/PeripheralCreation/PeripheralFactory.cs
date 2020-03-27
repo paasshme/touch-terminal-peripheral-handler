@@ -219,10 +219,10 @@ namespace InteractiveTerminalCrossPlatformMicroservice.PeripheralCreation
             //Browsing through each interface implemented
             foreach (Type anInterface in everyInterfaces)
             {
-                //getting the method of the effective method of the interface
+                //getting the method of the current interface
                 MethodInfo[] methodsOfTheObject = anInterface.GetMethods(BindingFlags.Instance | BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
 
-                //Before adding each method , check if it already in the returned list
+                //Before adding each method , check if it is already in the returned list
                 foreach (MethodInfo method in methodsOfTheObject)
                 {
                     if (!methodListResult.Contains(method))
