@@ -222,7 +222,7 @@ namespace InteractiveTerminalCrossPlatformMicroservice.PeripheralCreation
             foreach (Type anInterface in everyInterfaces)
             {
                 //Prevent user from calling Idipsose methods since it needs to be called only by the system.
-                if(anInterface.Name.Equals("IDispose"))
+                if(anInterface.Name.Equals("IDisposable"))
                 {
                     continue;
                 }
