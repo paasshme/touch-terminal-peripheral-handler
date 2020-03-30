@@ -2,7 +2,7 @@ using System;
 namespace InteractiveTerminalCrossPlatformMicroservice.PeripheralCreation.ConfigReader
 {
     /*
-     * Exception thrown when the configuration file can't be read (IO problems, incorrect path, ...)
+     * Exception thrown when the configuration file can't be read (IO issues, incorrect path, ...)
      */
     public class ConfigurationFileReadException : System.Exception
     {

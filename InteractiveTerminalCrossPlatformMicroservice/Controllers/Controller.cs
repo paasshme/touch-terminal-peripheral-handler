@@ -113,19 +113,19 @@ namespace InteractiveTerminalCrossPlatformMicroservice.Controllers
          * Method that calls the method on the right peripheral instance
          * @param objectName Type of the peripheral
          * @param methodName Name of the method to call on the peripheral
-         * @param Array that contains all the parameters value (can be null)
+         * @param Array that contains all the parameters value (can be empty)
          */
         private void UseMethod(string objectName, string methodName, object[] methodParams) 
         {           
-            //Getting the peripheral instance based on the name 
+            // Getting the peripheral instance based on its name 
             IDevice device = PeripheralFactory.GetInstance(objectName);
             
-            //Getting all the methods of the device
+            // Getting all the methods of the device
             List<MethodInfo> methodList = PeripheralFactory.FindMethods(device.GetType());
 
             MethodInfo correctMethodName = null;
 
-            //finding the good method
+            // Retreiving the methodInfo which correspond to the "methodName" parameter
             foreach (MethodInfo method in methodList)
             {
                 if (method.Name.Equals(methodName))
@@ -134,13 +134,13 @@ namespace InteractiveTerminalCrossPlatformMicroservice.Controllers
                 }
             }
 
-            //handling wrong url
+            // Handling a non existing methodName
             if (correctMethodName is null)
             {
                 throw new UncorrectMethodNameException();
             }
 
-            //Calling the method with the parameters
+            // Calling the method with the parameters
             correctMethodName.Invoke(device, methodParams);
         }
 
