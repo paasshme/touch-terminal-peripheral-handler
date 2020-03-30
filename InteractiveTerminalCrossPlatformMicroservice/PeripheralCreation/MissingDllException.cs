@@ -1,7 +1,7 @@
 namespace InteractiveTerminalCrossPlatformMicroservice.PeripheralCreation
 {
     /*
-     * Exception thrown when the facotry tries to load a .dll file but it isn't at the good place
+     * Exception thrown when the facotry tries to load a .dll file but it is not present in the folder
      */
     public class MissingDllException : System.Exception
     {

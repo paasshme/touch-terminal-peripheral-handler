@@ -8,9 +8,13 @@ using PeripheralTools;
 
 namespace InteractiveTerminalCrossPlatformMicroservice.SwaggerCustom
 {
-    class CustomMethodIntrospection : IDocumentFilter
+    class CustomInstrospectionFilter : IDocumentFilter
     {
-        private const string UID = "aizjeiuazhneuiabzudbazlekzbzubnadkuz"; 
+        // Unique ID used to distinguish Swagger Operations
+
+        private const string UID = "19fa61d75522a4669b44e39c1d2e1726c530232130d407"; 
+
+        // Path used in the API
         private const string API_START_PATH = "/api/";
         private const string API_END_PATH= "/";
 
@@ -18,6 +22,7 @@ namespace InteractiveTerminalCrossPlatformMicroservice.SwaggerCustom
         private const string SUCCESS_DESCRIPTION = "Success";
         private const string FAILURE_DESCRIPTION = "Failure";
 
+        // Possible HTTP codes
         private const string SUCCESS_HTTP_CODE = "200";
         private const string FAILURE_HTTP_CODE = "400";
 
@@ -61,9 +66,9 @@ namespace InteractiveTerminalCrossPlatformMicroservice.SwaggerCustom
             }
         }
 
-        //Goal : generates all paths possible since swwagger can't do it dynamically
-        //Getting all the instances of the peripherals -> then finding all the methods
-        List<MethodData> generateAllMethodInfos()
+        // Generate every possible path since swagger can't do it dynamically
+        //Getting every instances of the peripherals -> then finding every methods
+        private List<MethodData> generateAllMethodInfos()
         {
             List<MethodData> methodInfosList = new List<MethodData>();
             IList<string> peripheralNames = PeripheralFactory.GetAllInstanceNames();
@@ -77,16 +82,19 @@ namespace InteractiveTerminalCrossPlatformMicroservice.SwaggerCustom
 
                 foreach(MethodInfo currentMethod in methodList)
                 {
-                    if (currentMethod.Name.StartsWith("get_") || currentMethod.Name.StartsWith("set_")) continue;
+                    if (currentMethod.Name.StartsWith("get_") || currentMethod.Name.StartsWith("set_"))
+                    {
+                        continue;
+                    }
                     string currentRoute = API_START_PATH + currentPeripheralInstanceName + API_END_PATH;
                     currentRoute += currentMethod.Name;
                     
 
                     ParameterInfo[] currentMethodParameters = currentMethod.GetParameters();
                     List<OpenApiParameter> parametersList = new List<OpenApiParameter>();
-                    foreach(ParameterInfo pi in currentMethodParameters)
+                    foreach(ParameterInfo currentParameterInfo in currentMethodParameters)
                     {
-                        OpenApiParameter currentParameter = new OpenApiParameter { Name = pi.Name, Description = ""+pi.ParameterType, In = ParameterLocation.Query };
+                        OpenApiParameter currentParameter = new OpenApiParameter { Name = currentParameterInfo.Name, Description = ""+currentParameterInfo.ParameterType, In = ParameterLocation.Query };
                         parametersList.Add(currentParameter);
                     }
 

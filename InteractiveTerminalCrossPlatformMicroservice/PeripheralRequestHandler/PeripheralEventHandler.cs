@@ -6,12 +6,14 @@ using PeripheralTools;
 namespace InteractiveTerminalCrossPlatformMicroservice.PeripheralRequestHandler
 {
     /**
-     * A PeripheralEventHandler is used by peripheral to interract with the application
+     * A PeripheralEventHandler is used by peripheral to interact with the application
      */
     public class PeripheralEventHandler : IPeripheralEventHandler
     {
+        //Separator used in the websocket in order to separate each element (objectName, eventName, info)
         private const string SEPARATOR = " ";
        
+        // Events thread safe queue
         private ConcurrentQueue<Event> PeripheralEventsQueue;
 
         public SocketHandler socketHandler {get; private set;}
@@ -50,7 +52,7 @@ namespace InteractiveTerminalCrossPlatformMicroservice.PeripheralRequestHandler
             await this.socketHandler.Send(bytes);
         }
 
-        //Enqueu an event. Called by any devices
+        //Enqueue an event. Called by any devices
         public void putPeripheralEventInQueue(string objectName, string eventName, string value)
         {
             Event newEvent = new Event(objectName, eventName, value);

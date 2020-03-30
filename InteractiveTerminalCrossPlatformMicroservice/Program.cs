@@ -3,6 +3,8 @@ using Microsoft.Extensions.Hosting;
 
 namespace InteractiveTerminalCrossPlatformMicroservice
 {
+    //Entrypoint of ASP.CORE application
+
     public class Program
     {
         public static void Main(string[] args)
@@ -10,6 +12,7 @@ namespace InteractiveTerminalCrossPlatformMicroservice
             CreateHostBuilder(args).Build().Run();
         }
 
+        // Create the host and use the current Startup
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
                 .ConfigureWebHostDefaults(webBuilder =>

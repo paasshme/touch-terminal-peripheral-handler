@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Runtime.Serialization;
 
-namespace InteractiveTerminalCrossPlatformMicroservice.PeripheralCreation
+namespace InteractiveTerminalCrossPlatformMicroservice.PeripheralCreation.ConfigReader
 {
     /*
      * Exception thrown when the XML configuration file 

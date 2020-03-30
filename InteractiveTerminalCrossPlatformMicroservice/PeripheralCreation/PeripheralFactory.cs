@@ -1,8 +1,8 @@
 ﻿using System;
+using System.IO;
 using System.Reflection;
 using System.Collections;
 using System.Collections.Generic;
-using System.IO;
 using System.Text.RegularExpressions;
 using System.Runtime.InteropServices;
 
@@ -17,21 +17,19 @@ namespace InteractiveTerminalCrossPlatformMicroservice.PeripheralCreation
      */
     public class PeripheralFactory
     {
-
-
         private static string PROJECT_PATH = Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, "..\\..\\..\\"));
 
-        //Default windows path
+        // Default Windows path
         public static string CONFIGURATION_FILE_PATH = PROJECT_PATH + "/Config.xml";
 
         private const string DLL_EXTENSION = ".dll"; 
 
-        private static XMLConfigReader configReader;
+        private static IConfigReader configReader;
 
-        //Dictionnarry that match the type string (e.g. "RandomDevice") with the instance of this type
+        // Dictionnarry that match the type string (e.g. "RandomDevice") with the instance of this type
         private static Dictionary<string, IDevice> devicesDictionnary;
 
-        //A peripheral event handler lookalike, this object will be given to every peripheral instance so that they can communicate
+        // A peripheral event handler lookalike, this object will be given to every peripheral instance so that they can communicate
         private static PeripheralEventHandlerProxy peripheralEventHandlerProxy = PeripheralEventHandlerProxy.GetInstance();
 
         /*
@@ -47,6 +45,11 @@ namespace InteractiveTerminalCrossPlatformMicroservice.PeripheralCreation
                 CONFIGURATION_FILE_PATH = "Config.xml";
             }
         }
+
+        /*
+         * Init the factory by loading every dll and every instances found in the config file
+         * Must be called once at the start of the application
+         */
         public static void Init()
         {
             devicesDictionnary = new Dictionary<string, IDevice>();
@@ -105,7 +108,7 @@ namespace InteractiveTerminalCrossPlatformMicroservice.PeripheralCreation
                     string packageOfInstance = parsedPath[parsedPath.Length - 1];
 
                     //Getting the constructor parameters
-                    Object[] objectParameters = configReader.GetParametersForOneInsance(aLibraryName, instanceName);
+                    Object[] objectParameters = configReader.GetParametersForOneInstance(aLibraryName, instanceName);
                     Type typeOfInstance = null;
                     try
                     {
@@ -175,6 +178,7 @@ namespace InteractiveTerminalCrossPlatformMicroservice.PeripheralCreation
                 }
             }
         }
+
         /*
          * Method that gets the name of the type of every peripheral instance created 
          * @return a list of string that contains all the types
@@ -184,6 +188,10 @@ namespace InteractiveTerminalCrossPlatformMicroservice.PeripheralCreation
             return new List<string>(devicesDictionnary.Keys);
 
         }
+
+        /*
+         * Static setter to give the eventHandler when it will be ready to peripheral
+         */
         public static void SetHandler(PeripheralEventHandler peripheralEventHandler)
         {
             peripheralEventHandlerProxy.SetEventHandler(peripheralEventHandler);

@@ -21,5 +21,13 @@ namespace InteractiveTerminalCrossPlatformMicroservice.PeripheralCreation.Config
          * @return  An array list that contains the name of every peripheral in this library 
          */
         ArrayList GetAllInstancesFromOneDll(string libName);
+
+        /**
+         * Get all the parameter (as an object array) of an object in its library
+         * @param libName Name of the library that will be searched -> must be in the config file
+         * @param instanceName Name of the instance that will be searched -> must be in the config file
+         * @return  An array list that contains the name of every peripheral in this library 
+         */
+        object[] GetParametersForOneInstance(string libName, string instanceName);
     }
 }

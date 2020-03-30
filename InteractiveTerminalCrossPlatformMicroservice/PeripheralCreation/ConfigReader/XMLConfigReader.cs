@@ -10,6 +10,8 @@ namespace InteractiveTerminalCrossPlatformMicroservice.PeripheralCreation.Config
      */
     public class XMLConfigReader : IConfigReader
     {
+        // Conventions used in the Config.xml file 
+
         private const string LIBRARY_NODE = "library";
 
         private const string PATH_TO_LIBRARY = "path";
@@ -17,6 +19,8 @@ namespace InteractiveTerminalCrossPlatformMicroservice.PeripheralCreation.Config
         private const string INSTANCE_NAME = "name";
 
         private const string INSTANCE_ATTRIBUTE_TYPE = "type";
+
+        // The actual config.xml file
 
         private XmlDocument xmldoc;
 
@@ -33,11 +37,10 @@ namespace InteractiveTerminalCrossPlatformMicroservice.PeripheralCreation.Config
                 //Loading the content in a variable so as to have less IO connections that are very time-expensive
                 this.xmldoc.LoadXml(xmlFile);
             }
-            //Catching Exception since there are a lot of ones to catch and handling doesn't change regardless of the type of the exception
+            // Catching Exception since their handling doesn't change regardless of the type of the exception
             catch (Exception e)
             {
                 throw new ConfigurationFileReadException("Can't read configuration file", e);
-
             }
             
         }
@@ -62,7 +65,7 @@ namespace InteractiveTerminalCrossPlatformMicroservice.PeripheralCreation.Config
 
         /*
          * Get all the peripheral types from a library in the XML config file
-         * @param libName Name of the library that will be searched in the config file (without the .dll)
+         * @param libName Name of the library that will be searched in the config file (without the '.dll')
          * @return  An array list that contains the name of every peripheral in this library 
          */
         public ArrayList GetAllInstancesFromOneDll(string libName)
@@ -96,37 +99,37 @@ namespace InteractiveTerminalCrossPlatformMicroservice.PeripheralCreation.Config
          * @param instanceName name of the pperipheral instance (node instance, attribute name in the XML)
          * @return An object array that contains the values of each constructor parameter
          * */
-        public Object[] GetParametersForOneInsance(String libName, String instanceName)
+        public object[] GetParametersForOneInstance(string libName, string instanceName)
         {
             //Geting all the library paths
             XmlNodeList dllNodes = xmldoc.GetElementsByTagName(LIBRARY_NODE);
             ArrayList instances = new ArrayList();
+
             foreach (XmlNode library in dllNodes)
             {
-
-                //Find the good library in all libraries
+                //Find the good library in every libraries
                 if (library.Attributes[PATH_TO_LIBRARY].Value == libName)
                 {
                     foreach (XmlNode instance in library)
                     {
-                        //Find the good instance in all instance
+                        //Find the good instance in every instance
                         if (instance.Attributes[INSTANCE_NAME].Value == instanceName)
                         {
                             //Getting all the parameters
                             XmlNodeList parametersNodeList = instance.ChildNodes;
                             //Getting the number of parameters
                             int nbParams = parametersNodeList.Count;
-                            Object[] parameters= new object[nbParams];
+                            object[] parameters= new object[nbParams];
 
                             
                             for (int parameterIndex = 0; parameterIndex < nbParams; ++parameterIndex)
                             {
                                 //Getyting the type of the curretn parameter
-                                String paramType = parametersNodeList.Item(parameterIndex).Attributes[INSTANCE_ATTRIBUTE_TYPE].Value;
+                                string paramType = parametersNodeList.Item(parameterIndex).Attributes[INSTANCE_ATTRIBUTE_TYPE].Value;
                                 //Getting the value of the current parameter
-                                String paramValue = parametersNodeList.Item(parameterIndex).InnerText;
+                                string paramValue = parametersNodeList.Item(parameterIndex).InnerText;
 
-                                //Applying a diffrenet treatement according to the type of the current parameter
+                                //Applying a different treatement according to the type of the current parameter
                                 switch (paramType)
                                 {
                                     case "string":
@@ -172,7 +175,6 @@ namespace InteractiveTerminalCrossPlatformMicroservice.PeripheralCreation.Config
                                     default:
                                         //If the type isn't primitive, throw an exception
                                         throw new TypeNotImplementedException(paramType);
-
                                 }
                             }
                             return parameters;
@@ -180,7 +182,6 @@ namespace InteractiveTerminalCrossPlatformMicroservice.PeripheralCreation.Config
                     }
                 }
             }
-
             //If the library or the peripheral instance wasn't found, return null
             return null;
         }

@@ -14,11 +14,17 @@ using InteractiveTerminalCrossPlatformMicroservice.SwaggerCustom;
 
 namespace InteractiveTerminalCrossPlatformMicroservice
 {
+    /**
+     *  ASP.CORE Startup object, handle the initialisation and set up of the application
+     */
+
     public class Startup
     {
-        public static TaskCompletionSource<object> tcs;
-        public static WebSocket ws;
+
+        // Url chosen for the websocket request entrypoint
+
         private const string WEBSOCKET_URL = "/ws";
+
         public IConfiguration Configuration { get; }
 
         private IServiceCollection myservices;
@@ -31,6 +37,8 @@ namespace InteractiveTerminalCrossPlatformMicroservice
         public void ConfigureServices(IServiceCollection services)
         {
             this.myservices = services;
+
+            // Handle every origin for the Cors Policy
             services.AddCors(options => options.AddPolicy("APolicy?", builder =>
             {
                 builder.AllowAnyOrigin()
@@ -40,10 +48,12 @@ namespace InteractiveTerminalCrossPlatformMicroservice
             services.AddControllers();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
+
+            // Allow Swagger usage
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "My API", Version = "v1" });
-                c.DocumentFilter<CustomMethodIntrospection>();
+                c.DocumentFilter<CustomInstrospectionFilter>();
             });
         }
 
@@ -59,6 +69,7 @@ namespace InteractiveTerminalCrossPlatformMicroservice
 
             app.UseRouting();
 
+            // Websocket initialisation and handling
             var webSocketOptions = new WebSocketOptions()
             {
                 KeepAliveInterval = TimeSpan.FromSeconds(10),
@@ -84,18 +95,18 @@ namespace InteractiveTerminalCrossPlatformMicroservice
 
             app.Use(async (context, next) =>
             {
+                // Wait for request on the Specified WS url
                 if (context.Request.Path == WEBSOCKET_URL)
                 {
+                    // Check if the request is a websocket one (and not HTTP for instance)
                     if (context.WebSockets.IsWebSocketRequest)
                     {
 
                         WebSocket webSocket = await context.WebSockets.AcceptWebSocketAsync();
-                        ws = webSocket;
                         TaskCompletionSource<object> socketFinishedTcs = new TaskCompletionSource<object>();
-                        tcs = socketFinishedTcs;
+
                         SocketHandler socketHandler = new SocketHandler(webSocket, socketFinishedTcs);
-                        PeripheralEventHandler peripheralEventHandler = new PeripheralEventHandler(socketHandler);
-                        PeripheralFactory.SetHandler(peripheralEventHandler);
+                        PeripheralFactory.SetHandler(new PeripheralEventHandler(socketHandler));
 
                         await socketFinishedTcs.Task;
                     }
@@ -115,7 +126,7 @@ namespace InteractiveTerminalCrossPlatformMicroservice
 
             app.UseSwaggerUI(c =>
             {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "API Test projet IUT IPM France");
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "API Test Microservice IPM France");
             });
             PeripheralFactory.Init();
         }

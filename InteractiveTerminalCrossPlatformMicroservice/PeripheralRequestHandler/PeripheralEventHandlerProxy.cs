@@ -6,13 +6,17 @@ namespace InteractiveTerminalCrossPlatformMicroservice.PeripheralRequestHandler
     /**
      * Implementation of a PeripheralEventHanlder
      * Add control before enqueueing events
+     * Allow the user to use method before and during the WebSocket initialisation (without loosing those events by storing them)
      */
     public class PeripheralEventHandlerProxy : IPeripheralEventHandler
     {
 
+        // Store the non yet treated event (because of the lack of WebSocket)
         private ConcurrentQueue<Event> eventQueue;
 
         private PeripheralEventHandler eventHandler;
+
+        // Singleton in order to have only one proxy for the whole Application
 
         private static PeripheralEventHandlerProxy peripheralEventHandlerProxy = new PeripheralEventHandlerProxy();
 
@@ -24,7 +28,7 @@ namespace InteractiveTerminalCrossPlatformMicroservice.PeripheralRequestHandler
         }
 
         /**
-        *   Singleton for the peripheral event handler proxy
+        *   Get an instance of the peripheral event handler proxy
         */
         public static PeripheralEventHandlerProxy GetInstance()
         {
@@ -46,6 +50,7 @@ namespace InteractiveTerminalCrossPlatformMicroservice.PeripheralRequestHandler
             else
             {
                 // In case of crash of the websocket
+                // This will relaunch the waiting and storing queue
                 if (!this.eventHandler.socketHandler.GetWebsocketStatus())
                 {
                     this.eventHandler = null;
@@ -57,6 +62,8 @@ namespace InteractiveTerminalCrossPlatformMicroservice.PeripheralRequestHandler
             }
         }
 
+        // Set an eventHandler to the proxy
+        // It will empty the queue of events in order to treat them in the given PeripheralEventHandler
         public void SetEventHandler(PeripheralEventHandler eventHandler)
         {
             this.eventHandler = eventHandler;

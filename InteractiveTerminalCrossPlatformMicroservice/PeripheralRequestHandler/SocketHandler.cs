@@ -5,12 +5,15 @@ using System;
 
 namespace InteractiveTerminalCrossPlatformMicroservice.PeripheralRequestHandler
 {
+    /**
+     * An encapsulation for a WebSocket simplifying the use and management of this socket
+     */
+
     public class SocketHandler 
     {
-        private const int BufferSize = 4096;
-
         private WebSocket websocket;
 
+        // A task used to keep alive the websocket after the end of the pipeline
         private TaskCompletionSource<object> taskCompletionSource;
 
         public SocketHandler(WebSocket socket, TaskCompletionSource<object> task)
@@ -43,6 +46,7 @@ namespace InteractiveTerminalCrossPlatformMicroservice.PeripheralRequestHandler
             
         }
 
+        // Used by the proxy to check the state of the websocket before sending
         public bool GetWebsocketStatus()
         {
             return this.websocket != null;

@@ -26,10 +26,6 @@
     <ProjectReference Include="..\PeripheralTools\PeripheralTools.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="PeripheralLibraries\" />
-  </ItemGroup>
-
 <!--
   <ItemGroup>
     <Reference Include="IDeviceLib">
