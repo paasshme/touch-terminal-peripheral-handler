@@ -221,6 +221,12 @@ namespace InteractiveTerminalCrossPlatformMicroservice.PeripheralCreation
             //Browsing through each interface implemented
             foreach (Type anInterface in everyInterfaces)
             {
+                //Prevent user from calling Idipsose methods since it needs to be called only by the system.
+                if(anInterface.Name.Equals("IDispose"))
+                {
+                    continue;
+                }
+
                 //getting the method of the current interface
                 MethodInfo[] methodsOfTheObject = anInterface.GetMethods(BindingFlags.Instance | BindingFlags.Public | BindingFlags.Static | BindingFlags.FlattenHierarchy);
 
@@ -229,11 +235,7 @@ namespace InteractiveTerminalCrossPlatformMicroservice.PeripheralCreation
                 {
                     if (!methodListResult.Contains(method))
                     {
-                        //Prevent user from calling dipsose since it needs to be called only by the system.
-                        if(!method.Name.Equals("Dispose"))
-                        {
                             methodListResult.Add(method);
-                        }
                     }
                 }
             }
