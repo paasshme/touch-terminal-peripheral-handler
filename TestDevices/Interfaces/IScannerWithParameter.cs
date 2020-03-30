@@ -1,9 +1,4 @@
-﻿using IDeviceLib;
-using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace TestDevice.Interfaces
+﻿namespace TestDevice.Interfaces
 {
     interface IScannerWithParameter : IScanner
     {

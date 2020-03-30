@@ -1,5 +1,5 @@
-﻿using System;
-using IDeviceLib;
+﻿using PeripheralTools;
+using System;
 using TestDevice.Interfaces;
 
 namespace TestDevices

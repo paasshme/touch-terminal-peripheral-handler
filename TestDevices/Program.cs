@@ -1,4 +1,4 @@
-using IDeviceLib;
+using PeripheralTools;
 using TestDevice.Interfaces;
 
 namespace TestDevices

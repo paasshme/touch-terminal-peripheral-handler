@@ -1,5 +1,4 @@
-using System;
-using IDeviceLib;
+using PeripheralTools;
 using TestDevice.Interfaces;
 
 namespace TestDevices
@@ -7,7 +6,7 @@ namespace TestDevices
     public class RandomScannerDevice : IScannerWithParameter
     {
         public IPeripheralEventHandler eventHandler {get; set;}
-        void IDevice.Start()
+        public void Start()
         {
             System.Console.WriteLine("[Start] Event preparing");
             this.eventHandler.putPeripheralEventInQueue("start", "startEvent", "100");
@@ -15,7 +14,7 @@ namespace TestDevices
 
         }
 
-        void IDevice.Stop()
+        public void Stop()
         {
             System.Console.WriteLine("[Stop] Event preparing...");
             this.eventHandler.putPeripheralEventInQueue("stop", "stopEvent", "101");
@@ -23,14 +22,14 @@ namespace TestDevices
 
         }
 
-        void IScanner.Scan()
+        public void Scan()
         {
             System.Console.WriteLine("[Scan] Event preparing");
             this.eventHandler.putPeripheralEventInQueue("scan", "scanEvent", "102");
             System.Console.WriteLine("[Scan] Event added to queue");
         }
 
-        void IScanner.Foo()
+        public void Foo()
         {
             System.Console.WriteLine("[Foo] Event preparing");
             this.eventHandler.putPeripheralEventInQueue("Foo", "FooEvent", "103");

@@ -1,7 +1,5 @@
-﻿using IDeviceLib;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using PeripheralTools;
+
 
 namespace TestDevice.Interfaces
 {

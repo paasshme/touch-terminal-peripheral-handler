@@ -9,4 +9,4 @@ start chrome --kiosk https://localhost:5001/swagger --noerrdialogs --disable-inf
 ::"%~dp0%projectPath:"=%\ProjetS3\bin\Debug\netcoreapp3.1\ProjetS3.exe"
 
 :: Minimize the terminal (Deployment purpose)
-/min "%~dp0=%projectPath%\ProjetS3\bin\Debug\netcoreapp3.1\ProjetS3.exe"
+"%~dp0%projectPath:"=%\ProjetS3\bin\Debug\netcoreapp3.1\ProjetS3.exe"

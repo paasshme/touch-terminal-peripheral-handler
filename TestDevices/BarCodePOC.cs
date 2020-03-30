@@ -1,4 +1,4 @@
-﻿using IDeviceLib;
+﻿using PeripheralTools;
 using System;
 using System.IO;
 using System.IO.Ports;
