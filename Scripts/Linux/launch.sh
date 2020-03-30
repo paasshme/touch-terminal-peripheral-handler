@@ -9,7 +9,7 @@ rm -f /tmp/NuGetScratch/lock/*
 path='./../..'
 dotnet restore $path 
 dotnet build $path 
-cp -f "$path/TestDevices/bin/Debug/netcoreapp3.1/TestDevices.dll" "$path/ProjetS3/PeripheralLibraries"
+cp -f "$path/TestDevices/bin/Debug/netcoreapp3.1/TestDevices.dll" "$path/InteractiveTerminalCrossPlatformMicroservice/PeripheralLibraries"
 
 #Chromium require the "--no-sandbox" option if the script is launched as superuser
 if [[ $EUID > 0 ]]; then    
@@ -17,4 +17,4 @@ if [[ $EUID > 0 ]]; then
 else
     chromium --kiosk https://localhost:5001/swagger/index.html --no-sandbox --noerrdialogs --disable-infobars --no-default-browser-check --no-experiments --no-pings --silent-debugger-extension-api &
 fi
-dotnet run --project "$path/ProjetS3"
+dotnet run --project "$path/InteractiveTerminalCrossPlatformMicroservice"

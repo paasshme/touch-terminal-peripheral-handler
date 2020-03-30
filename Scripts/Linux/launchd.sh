@@ -4,7 +4,7 @@
 #And then launch chromium
 #Warning: the browser starts a few second before the project is totallly launched
 re='^[0-9]+$'
-a=$(sudo docker ps | grep ProjetS3.dll)
+a=$(sudo docker ps | grep InteractiveTerminalCrossPlatformMicroservice.dll)
 port=5001
 path='../..'
 
@@ -28,11 +28,11 @@ fi
 
 dotnet restore $path 
 dotnet build $path 
-cp -f "$path/TestDevices/bin/Debug/netcoreapp3.1/TestDevices.dll" "$path/ProjetS3/PeripheralLibraries"
+cp -f "$path/TestDevices/bin/Debug/netcoreapp3.1/TestDevices.dll" "$path/InteractiveTerminalCrossPlatformMicroservice/PeripheralLibraries"
 
 if [ -n "$a" ]; then
     echo "[STATUS] The project is already running"
-    docker stop $(docker ps | grep ProjetS3.dll | cut -d ' ' -f 1) 
+    docker stop $(docker ps | grep InteractiveTerminalCrossPlatformMicroservice.dll | cut -d ' ' -f 1) 
     echo "[STATUS] Old project stopped !"
 fi
 
