@@ -5,10 +5,10 @@ using System;
 
 namespace InteractiveTerminalCrossPlatformMicroservice.PeripheralRequestHandler
 {
-    /**
-     * An encapsulation for a WebSocket simplifying the use and management of this socket
-     */
 
+    /// <summary>
+    /// An encapsulation for a WebSocket simplifying the use and management of this socket
+    /// </summary>
     public class SocketHandler 
     {
         private WebSocket websocket;
@@ -22,9 +22,11 @@ namespace InteractiveTerminalCrossPlatformMicroservice.PeripheralRequestHandler
             this.taskCompletionSource = task;
         }
 
-        /**
-         * Send into the websocket
-         */
+        /// <summary>
+        ///Send into the websocket 
+        /// </summary>
+        /// <param name="toSendData">An ArraySegment of byte representing the data through the websocket</param>
+        /// <returns>A Task representing the state of the job</returns>
         public async Task Send(ArraySegment<byte> toSendData)
         {
             try
@@ -46,7 +48,10 @@ namespace InteractiveTerminalCrossPlatformMicroservice.PeripheralRequestHandler
             
         }
 
-        // Used by the proxy to check the state of the websocket before sending
+        /// <summary>
+        /// Used by the proxy to check the state of the websocket before sending 
+        /// </summary>
+        /// <returns> If the websocket is ready or not </returns>
         public bool GetWebsocketStatus()
         {
             return this.websocket != null;

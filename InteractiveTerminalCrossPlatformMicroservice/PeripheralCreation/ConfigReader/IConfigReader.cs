@@ -2,32 +2,35 @@
 
 namespace InteractiveTerminalCrossPlatformMicroservice.PeripheralCreation.ConfigReader
 {
-    /*
-     *  Represents an object that can read a configuration file. It can :
-     *      - Get all the libraries(.dll) in the config file 
-     *      - Get all the peripheral types from a library in the config file
-     */
+    /// <summary>
+    /// Represents an object that can read a configuration file. It can :
+    ///  - Get all the libraries(.dll) in the config file
+    ///  - Get all the peripheral types from a library in the config file
+    /// </summary>
     interface IConfigReader
     {
-        /*
-         * Reads the config file and get all the libraries in the file
-         * @return An array list that contains the path of every .dll file in the configuration file (without the .dll)
-         */
+
+        /// <summary>
+        /// Reads the config file and get all the libraries in the XML file 
+        /// </summary>
+        /// <returns>An array list that contains the path of every .dll file in the configuration file (without the .dll)</returns>
         ArrayList GetAllDllName();
 
-        /*
-         * Get all the peripheral types from a library in the config file
-         * @param libName Name of the library that will be searched -> must be in the config file
-         * @return  An array list that contains the name of every peripheral in this library 
-         */
+        /// <summary>
+        ///Get all the peripheral types from a library in the XML config file 
+        /// </summary>
+        /// <param name="libName">libName Name of the library that will be searched in the config file (without the '.dll')</param>
+        /// <returns>An a
+
         ArrayList GetAllInstancesFromOneDll(string libName);
 
-        /**
-         * Get all the parameter (as an object array) of an object in its library
-         * @param libName Name of the library that will be searched -> must be in the config file
-         * @param instanceName Name of the instance that will be searched -> must be in the config file
-         * @return  An array list that contains the name of every peripheral in this library 
-         */
+
+        /// <summary>
+        ///Getting all the constructor parameters values from a peripheral instance 
+        /// </summary>
+        /// <param name="libName"> Name of the library that will be searched in the config file (without the .dll) </param>
+        /// <param name="instanceName"> name of the peripheral instance (node instance, attribute name in the XML) </param>
+        /// <returns> An object array that contains the values of each constructor parameter </returns>
         object[] GetParametersForOneInstance(string libName, string instanceName);
     }
 }

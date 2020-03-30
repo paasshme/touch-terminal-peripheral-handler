@@ -8,12 +8,12 @@ namespace TestDevices
 
         public void Start()
         {
-            this.eventHandler.putPeripheralEventInQueue("start", "startEvent", "3");
+            this.eventHandler.PutPeripheralEventInQueue("start", "startEvent", "3");
         }
 
         public void Stop()
         {
-            this.eventHandler.putPeripheralEventInQueue("stop", "stopEvent", "4");
+            this.eventHandler.PutPeripheralEventInQueue("stop", "stopEvent", "4");
         }
     }
 }

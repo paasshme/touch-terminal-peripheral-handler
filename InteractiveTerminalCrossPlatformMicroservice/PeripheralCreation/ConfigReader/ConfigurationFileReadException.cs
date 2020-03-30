@@ -1,10 +1,10 @@
 using System;
 namespace InteractiveTerminalCrossPlatformMicroservice.PeripheralCreation.ConfigReader
 {
-    /*
-     * Exception thrown when the configuration file can't be read (IO issues, incorrect path, ...)
-     */
-    public class ConfigurationFileReadException : System.Exception
+    /// <summary>
+    /// Exception thrown when the configuration file can't be read (IO issues, incorrect path, ...)
+    /// </summary>
+    public class ConfigurationFileReadException : Exception
     {
         public ConfigurationFileReadException() { }
         public ConfigurationFileReadException(string message)

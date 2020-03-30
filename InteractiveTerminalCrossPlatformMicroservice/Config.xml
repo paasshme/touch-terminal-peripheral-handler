@@ -2,7 +2,11 @@
 
 <libraries>
   <library path="PeripheralLibraries/TestDevices">
-    
+
+    <instance name="BarCodePOC">
+      <attribut type="string" name="port">COM5</attribut>
+    </instance>
+
     <instance name="RandomDevice"></instance>
     
     <instance name="RandomScannerDevice"></instance>
@@ -15,11 +19,8 @@
     
     <instance name="DeviceWithMethodParameter"></instance>
 
-    <instance name="AwesomeObject"></instance>
 
-    <instance name="BarCodePOC">
-	<attribut type="string" name="port">COM5</attribut>
-    </instance>
+
     
   </library>
 </libraries>

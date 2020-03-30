@@ -3,11 +3,9 @@ using System.Runtime.Serialization;
 
 namespace InteractiveTerminalCrossPlatformMicroservice.PeripheralCreation.ConfigReader
 {
-    /*
-     * Exception thrown when the XML configuration file 
-     * includes a device with parameters (constructor parameters)
-     * and one of the parameter isn't primitive (int,float,double,short,long,string,char,bool)
-     */
+    /// <summary>
+    ///  Exception thrown when a device used parameters in its constructor that isn't recognized as a primitive type
+    /// </summary>
     public class TypeNotImplementedException : Exception
     {
 

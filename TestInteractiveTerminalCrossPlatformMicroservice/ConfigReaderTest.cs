@@ -5,17 +5,26 @@ using InteractiveTerminalCrossPlatformMicroservice.PeripheralCreation.ConfigRead
 
 namespace TestInteractiveTerminalCrossPlatformMicroservice
 {
+    /**
+     * 
+     *  Test for the XML reader:
+     *  it uses the configFileTest.xml
+     */
 
     public class ConfigReaderTest
     {
-        String PROJECT_ROOT_PATH = "C:/Users/adres/source/repos/ProjetS4/";
-        String DLL_FOLDER_PATH = "../PeripheralLibraries/";
-        String configFilePath = "../../../configFileTest.xml";
+        private string DLL_FOLDER_PATH = "../InteractiveTerminalCrossPlatformMicroservice/PeripheralLibraries/";
+        public static string configFilePath = "../../../configFileTest.xml";
+        private XMLConfigReader reader;
+
+        public ConfigReaderTest()
+        {
+            this.reader = new XMLConfigReader(configFilePath);
+        }
 
         [Fact]
         public void GetAllDllNameTest()
         {
-            XMLConfigReader reader = new XMLConfigReader(configFilePath);
             ArrayList dl = reader.GetAllDllName();
             int numberOfDll = 1;
             Assert.Equal(numberOfDll, dl.Count);
@@ -27,7 +36,6 @@ namespace TestInteractiveTerminalCrossPlatformMicroservice
         [Fact]
         public void GetAllInstanceFromOneDllTest()
         {
-            XMLConfigReader reader = new XMLConfigReader(configFilePath);
             ArrayList list = reader.GetAllInstancesFromOneDll(DLL_FOLDER_PATH + "TestDevices");
             string res = "RandomDevice";
             string res2 = "RandomDeviceWithParameters";
@@ -43,18 +51,17 @@ namespace TestInteractiveTerminalCrossPlatformMicroservice
         [Fact]
         public void GetParametersForOneInstanceTest()
         {
-            XMLConfigReader reader = new XMLConfigReader(configFilePath);
             string dllName =(DLL_FOLDER_PATH + "TestDevices");
             string instanceName = "RandomDeviceWithParameters";
             Object[] resParams = reader.GetParametersForOneInstance(dllName, instanceName);
 
             Assert.NotNull(resParams);
 
-            String resString = (String) resParams[0];
+            string resString = (string) resParams[0];
             int resInt = (int)resParams[1];
             bool resBool = (bool)resParams[2];
 
-            String expectedString = "stringTest";
+            string expectedString = "stringTest";
             int expectedInt = 7357;
             bool expectedBool = true;
 

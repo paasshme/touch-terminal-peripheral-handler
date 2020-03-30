@@ -5,17 +5,25 @@ using PeripheralTools;
 
 namespace InteractiveTerminalCrossPlatformMicroservice.PeripheralRequestHandler
 {
-    /**
-     * A PeripheralEventHandler is used by peripheral to interact with the application
-     */
+    /// <summary>
+    /// A PeripheralEventHandler is used by peripheral to interact with the application
+    /// </summary>
+
     public class PeripheralEventHandler : IPeripheralEventHandler
     {
-        //Separator used in the websocket in order to separate each element (objectName, eventName, info)
+        /// <summary>
+        /// Separator used in the websocket in order to separate each element (objectName, eventName, info) 
+        /// </summary>
         private const string SEPARATOR = " ";
-       
-        // Events thread safe queue
+
+        /// <summary>
+        ///  Events thread safe queue 
+        /// </summary>
         private ConcurrentQueue<Event> PeripheralEventsQueue;
 
+        /// <summary>
+        /// Encapsulation of a socket
+        /// </summary>
         public SocketHandler socketHandler {get; private set;}
 
         public PeripheralEventHandler(SocketHandler socketHandler)
@@ -25,7 +33,9 @@ namespace InteractiveTerminalCrossPlatformMicroservice.PeripheralRequestHandler
             new Thread(new ThreadStart(QueueListening)).Start();
         }
 
-        //Watch the event queue and handle events ins queue
+        /// <summary>
+        /// Watch the event queue and handle events in queue
+        /// </summary>
         public void QueueListening()
         {
             while (true)
@@ -37,7 +47,7 @@ namespace InteractiveTerminalCrossPlatformMicroservice.PeripheralRequestHandler
                     //Récupérer les données du premier event (objectName, eventName, et value) et appeler send
                     if (this.PeripheralEventsQueue.TryPeek(out FirstTreated))
                     {
-                        this.send(FirstTreated.ObjectName, FirstTreated.EventName, FirstTreated.Value); 
+                        this.Send(FirstTreated.ObjectName, FirstTreated.EventName, FirstTreated.Value); 
                         Event dequeued;
                         this.PeripheralEventsQueue.TryDequeue(out dequeued);
                     }
@@ -45,15 +55,25 @@ namespace InteractiveTerminalCrossPlatformMicroservice.PeripheralRequestHandler
             }
         }
 
-        //Send event information to the socketHandler
-        public async void send(string objectName, string eventName, string value)
+        /// <summary>
+        /// Send event information to the socketHandler
+        /// </summary>
+        /// <param name="objectName"> The name of the object that sent this event</param>
+        /// <param name="eventName">The name of the event sent by the object</param>
+        /// <param name="value"> Value of the event sent by the object </param>
+        public async void Send(string objectName, string eventName, string value)
         {
             byte[] bytes = Encoding.ASCII.GetBytes(objectName + SEPARATOR + eventName + SEPARATOR + value); 
             await this.socketHandler.Send(bytes);
         }
 
-        //Enqueue an event. Called by any devices
-        public void putPeripheralEventInQueue(string objectName, string eventName, string value)
+        /// <summary>
+        /// Enqueue an event. Called by any devices
+        /// </summary>
+        /// <param name="objectName"> The name of the object that sent this event</param>
+        /// <param name="eventName">The name of the event sent by the object</param>
+        /// <param name="value"> Value of the event sent by the object </param>
+        public void PutPeripheralEventInQueue(string objectName, string eventName, string value)
         {
             Event newEvent = new Event(objectName, eventName, value);
             this.PeripheralEventsQueue.Enqueue(newEvent);

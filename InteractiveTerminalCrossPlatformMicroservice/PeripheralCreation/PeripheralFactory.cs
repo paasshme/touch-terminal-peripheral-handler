@@ -12,9 +12,10 @@ using InteractiveTerminalCrossPlatformMicroservice.PeripheralCreation.ConfigRead
 
 namespace InteractiveTerminalCrossPlatformMicroservice.PeripheralCreation
 {
-    /*
-     * Object that creates instances of the different peripherals
-     */
+        
+    /// <summary>
+    /// Static Factory pattern that is used to create instances of the differents peripheral using System.Reflection
+    /// </summary>
     public class PeripheralFactory
     {
         private static string PROJECT_PATH = Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, "..\\..\\..\\"));
@@ -32,12 +33,11 @@ namespace InteractiveTerminalCrossPlatformMicroservice.PeripheralCreation
         // A peripheral event handler lookalike, this object will be given to every peripheral instance so that they can communicate
         private static PeripheralEventHandlerProxy peripheralEventHandlerProxy = PeripheralEventHandlerProxy.GetInstance();
 
-        /*
-         * Method that creates an instance for every node instance in the configuration file.
-         * When executed, it fills the devicesDictionnary with an instance of each type.
-         */
+ 
 
-        //Handle linux path correctly
+        /// <summary>
+        /// Static block that handle Linux path correctly 
+        /// </summary>
         static PeripheralFactory()
         {
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
@@ -46,10 +46,25 @@ namespace InteractiveTerminalCrossPlatformMicroservice.PeripheralCreation
             }
         }
 
-        /*
-         * Init the factory by loading every dll and every instances found in the config file
-         * Must be called once at the start of the application
-         */
+        /// <summary>
+        /// Init the factory by loading every dll and every instances found in the config file 
+        /// It fills the devicesDictionnary with an instance of each type.
+        /// Must be called once at the start of the application
+        /// </summary>
+        /// <exception cref="System.ArgumentException">  Thrown when the package of instance is incorrect </exception>
+        /// <exception cref="System.ArgumentNullException"> Thrown when the instance name or the package is null  </exception>
+        /// <exception cref="System.IO.FileNotFoundException"> Thrown when  the library is not found </exception>
+        /// <exception cref="System.IO.FileLoadException"> Thrown when the System.Reflection don't manage to load correctly the library </exception>
+        /// <exception cref="System.BadImageFormatException"> Thrown when library doesn't match a understandable format </exception>
+        /// <exception cref="System.NotSupportedException"> Thrown when the type of the creatd instance is not supported</exception>
+        /// <exception cref="System.Reflection.TargetInvocationException"> Thrown when the constructor of the instance threw an exception </exception>
+        /// <exception cref="System.MethodAccessException"> Thrown when  the contructor of the instance is private </exception>
+        /// <exception cref="System.MemberAccessException"> Thrown when  a member of the instance is not accessible </exception>
+        /// <exception cref="System.Runtime.InteropServices.InvalidComObjectException"> Thrown when an invalid COM object is used</exception>
+        /// <exception cref="System.Runtime.InteropServices.COMException"> Thrown when an HRESULT is returned from a COM Method call </exception>
+        /// <exception cref="System.MissingMethodException"> Thrown when a method is missing in the instance class </exception>
+        /// <exception cref="System.TypeLoadException">  Thrown when the type cannot be load</exception>
+
         public static void Init()
         {
             devicesDictionnary = new Dictionary<string, IDevice>();
@@ -75,7 +90,7 @@ namespace InteractiveTerminalCrossPlatformMicroservice.PeripheralCreation
 
                     try
                     {
-                        //effictive loading
+                        //effective loading
                         Assembly.Load(assemblyName);
                     }
 
@@ -94,7 +109,6 @@ namespace InteractiveTerminalCrossPlatformMicroservice.PeripheralCreation
                             Console.WriteLine("invalid .dll file : " + assemblyName);
                         }
                         Console.WriteLine(ex.Message);
-
                     }
                 }
 
@@ -108,7 +122,7 @@ namespace InteractiveTerminalCrossPlatformMicroservice.PeripheralCreation
                     string packageOfInstance = parsedPath[parsedPath.Length - 1];
 
                     //Getting the constructor parameters
-                    Object[] objectParameters = configReader.GetParametersForOneInstance(aLibraryName, instanceName);
+                    object[] objectParameters = configReader.GetParametersForOneInstance(aLibraryName, instanceName);
                     Type typeOfInstance = null;
                     try
                     {
@@ -124,84 +138,106 @@ namespace InteractiveTerminalCrossPlatformMicroservice.PeripheralCreation
                         devicesDictionnary.Add(instanceName, instance);
 
                     }
-                    catch(Exception ex)
+                    catch (ArgumentNullException e)
                     {
-                        //Accurate exception management
-                        switch (ex.GetType().ToString())
-                        {
-                            case "System.ArgumentException":
-                                Console.WriteLine("Incorrect argument : " + packageOfInstance + "." + instanceName);
-                                break;
-                            case "Sytem.ArgumentNullException":
-                                Console.WriteLine("Null argument in " + instanceName + " handling : or " + packageOfInstance + " handling");
-                                break;
-                            case "System.IO.FileNotFoundException":
-                                Console.WriteLine("Couldn't find .dll file : " + assembly);
-                                break;
-                            case "System.IO.FileLoadException":
-                                Console.WriteLine("Couldn't load .dll file : " + assembly);
-                                break;
-                            case "System.BadImageFormatException":
-                                Console.WriteLine("invalid .dll file : " + assembly);
-                                break;
-                            case "System.NotSupportedException":
-                                Console.WriteLine("Type " + typeOfInstance + " isn't handled correctly");
-                                break;
-                            case "System.Reflection.TargetInvocationException":
-                                Console.WriteLine("Invalid target on instance creation : " + typeOfInstance + ": the invoked constructor threw an exception.");
-                                break;
-                            case "System.MethodAccesException":
-                                Console.WriteLine("Constructor of +" + typeOfInstance + " is private");
-                                break;
-                            case "System.MemberAccesException":
-                                Console.WriteLine("Couldn't access to member of class : " + typeOfInstance);
-                                break;
-                            case "System.Runtime.InteropServices.InvalidComObjectException":
-                                Console.WriteLine("Object " + typeOfInstance + " isn't used properly");
-                                break;
-                            case "System.Runtime.InteropServices.COMExpcetion":
-                                Console.WriteLine("Object " + typeOfInstance + " isn't used properly");
-                                break;
-                            case "System.MissingMethodException":
-                                Console.WriteLine("Constructor of : " + typeOfInstance + " isn't defined with those parameters");
-                                break;
-                            case "System.TypeLoadException":
-                                Console.WriteLine("couldn't load type : " + typeOfInstance);
-                                break;
-                            default:
-                                System.Console.WriteLine("Unhandled exception type"+ex.GetType());
-                                break;
+                        Console.WriteLine("Null argument in " + instanceName + " handling : or " + packageOfInstance + " handling");
+                        Console.WriteLine(e.Message);
+                    }
+                    catch (ArgumentException e)
+                    {
+                        Console.WriteLine("Incorrect argument : " + packageOfInstance + "." + instanceName);
+                        Console.WriteLine(e.Message);
+                    }
+                    catch (FileNotFoundException e)
+                    {
+                        Console.WriteLine("Couldn't find .dll file : " + assembly);
+                        Console.WriteLine(e.Message);
+                    }
+                    catch (FileLoadException e)
+                    {
+                        Console.WriteLine("Couldn't load .dll file : " + assembly);
+                        Console.WriteLine(e.Message);
+                    }
+                    catch (BadImageFormatException e)
+                    {
+                        Console.WriteLine("invalid .dll file : " + assembly);
+                        Console.WriteLine(e.Message);
+                    }
+                    catch (NotSupportedException e)
+                    {
+                        Console.WriteLine("Type " + typeOfInstance + " isn't handled correctly");
+                        Console.WriteLine(e.Message);
+                    }
+                    catch (TargetInvocationException e)
+                    {
+                        Console.WriteLine("Invalid target on instance creation : " + typeOfInstance + ": the invoked constructor threw an exception.");
+                        Console.WriteLine(e.Message);
+                    }
+                    catch (MissingMethodException e)
+                    {
+                        Console.WriteLine("Constructor of : " + typeOfInstance + " isn't defined with those parameters");
+                        Console.WriteLine(e.Message);
+                    }
+                    catch (MethodAccessException e)
+                    {
+                        Console.WriteLine("Constructor of +" + typeOfInstance + " is private");
+                        Console.WriteLine(e.Message);
+                    }
+                    catch (MemberAccessException e)
+                    {
+                        Console.WriteLine("Couldn't access to member of class : " + typeOfInstance);
+                        Console.WriteLine(e.Message);
+                    }
+                    catch (InvalidComObjectException e)
+                    {
+                        Console.WriteLine("Object " + typeOfInstance + " isn't used properly");
+                        Console.WriteLine(e.Message);
+                    }
+                    catch (COMException e)
+                    {
+                        Console.WriteLine("Object " + typeOfInstance + " isn't used properly");
+                        Console.WriteLine(e.Message);
+                    }
+                    catch (TypeLoadException e)
+                    {
+                        Console.WriteLine("couldn't load type : " + typeOfInstance);
+                        Console.WriteLine(e.Message);
+                    }
 
-
-                        }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine("Unhandled exception type" + ex.GetType());
+                        Console.WriteLine(ex.Message);
                     }
                 }
             }
         }
 
-        /*
-         * Method that gets the name of the type of every peripheral instance created 
-         * @return a list of string that contains all the types
-         */
+        /// <summary>
+        /// Method that gets the name of the type of every peripheral instance created 
+        /// </summary>
+        /// <returns>A string list that contains all the types/instance names </returns>
         public static IList<string> GetAllInstanceNames()
         {
             return new List<string>(devicesDictionnary.Keys);
 
         }
 
-        /*
-         * Static setter to give the eventHandler when it will be ready to peripheral
-         */
+        /// <summary>
+        /// Static setter to give the eventHandler when it will be ready to peripheral 
+        /// </summary>
+        /// <param name="peripheralEventHandler"></param>
         public static void SetHandler(PeripheralEventHandler peripheralEventHandler)
         {
             peripheralEventHandlerProxy.SetEventHandler(peripheralEventHandler);
         }
 
-        /*
-         * Method that returns the instance of the peripheral whose name is in parameter
-         * @param Name of the type of the peripheral instance (e.g. RandomDevice)
-         * @return the instance of the good peripheral, which is an IDevice
-         */
+        /// <summary>
+        /// return the instance of the peripheral whose name is in parameter
+        /// </summary>
+        /// <param name="instance"> Name of the type of the peripheral instance (e.g. RandomDevice) </param>
+        /// <returns> The instance matching the name, as an IDevice </returns>
+        /// <exception cref="InexistantObjectException">Thrown when the object is not found in the dictionnary </exception>
         public static IDevice GetInstance(string instance)
         {
             IDevice device;
@@ -214,12 +250,12 @@ namespace InteractiveTerminalCrossPlatformMicroservice.PeripheralCreation
             throw new InexistantObjectException("Object Not found : " + instance);
         }
 
-        /*
-         * Method that returns all the effective method of a peripheral type
-         * Efective methods = method implemetned from object are removed
-         * @param the peripheral type
-         * @return a list containing every method (object method info)
-         */
+        /// <summary>
+        /// Method that returns all the effective method of a peripheral type
+        /// Efective methods = method implemetned from object are removed/ 
+        /// </summary> 
+        /// <param name="objectType"> type of the peripheral </param>
+        /// <returns> a list containing every method (object method info)</returns>
         public static List<MethodInfo> FindMethods(Type objectType)
         {
             List<MethodInfo> methodListResult = new List<MethodInfo>();

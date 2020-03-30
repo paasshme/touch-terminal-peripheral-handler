@@ -3,21 +3,26 @@ using PeripheralTools;
 
 namespace InteractiveTerminalCrossPlatformMicroservice.PeripheralRequestHandler
 {
-    /**
-     * Implementation of a PeripheralEventHanlder
-     * Add control before enqueueing events
-     * Allow the user to use method before and during the WebSocket initialisation (without loosing those events by storing them)
-     */
+    
+    /// <summary>
+    /// Implementation of a PeripheralEventHanlder
+    /// Add control before enqueueing events
+    /// Allow the user to use method before and during the WebSocket initialisation (without loosing those events by storing them)
+    /// </summary>
+    
     public class PeripheralEventHandlerProxy : IPeripheralEventHandler
     {
 
-        // Store the non yet treated event (because of the lack of WebSocket)
+        /// <summary>
+        /// Queue that stores the non treated event yet 
+        /// </summary>
         private ConcurrentQueue<Event> eventQueue;
 
         private PeripheralEventHandler eventHandler;
 
-        // Singleton in order to have only one proxy for the whole Application
-
+        /// <summary>
+        /// Singleton in order to have only one proxy for the whole Application
+        /// </summary>
         private static PeripheralEventHandlerProxy peripheralEventHandlerProxy = new PeripheralEventHandlerProxy();
 
 
@@ -27,20 +32,29 @@ namespace InteractiveTerminalCrossPlatformMicroservice.PeripheralRequestHandler
             this.eventHandler = null;
         }
 
-        /**
-        *   Get an instance of the peripheral event handler proxy
-        */
+        /// <summary>
+        /// Get an instance of the peripheral event handler proxy
+        /// </summary>
+        /// <returns></returns>
+
         public static PeripheralEventHandlerProxy GetInstance()
         {
             return peripheralEventHandlerProxy;
         }
 
         /*
-         *  Put event in event queue if the websocket of the event handler is up,
-         *  else store the event in a queue until a valid event handler is set
-         *  Return true if the event is put in queue, return false in other cases
+         *  
          */
-        public void putPeripheralEventInQueue(string objectName, string eventName, string value)
+
+        /// <summary>
+        /// Put event in event queue if the websocket of the event handler is up,
+        /// else store the event in a queue until a valid event handler is set
+        /// Return true if the event is put in queue, return false in other cases
+        /// </summary>
+        /// <param name="objectName"> The name of the object that sent this event</param>
+        /// <param name="eventName">The name of the event sent by the object</param>
+        /// <param name="value"> Value of the event sent by the object </param>
+        public void PutPeripheralEventInQueue(string objectName, string eventName, string value)
         {
 
             if (this.eventHandler == null)
@@ -57,29 +71,32 @@ namespace InteractiveTerminalCrossPlatformMicroservice.PeripheralRequestHandler
                 }
                 else
                 {
-                    this.eventHandler.putPeripheralEventInQueue(objectName, eventName, value);
+                    this.eventHandler.PutPeripheralEventInQueue(objectName, eventName, value);
                 }
             }
         }
 
-        // Set an eventHandler to the proxy
-        // It will empty the queue of events in order to treat them in the given PeripheralEventHandler
+        /// <summary>
+        /// Set an eventHandler to the proxy
+        /// It will empty the queue of events in order to treat them in the given PeripheralEventHandler
+        /// </summary>
+        /// <param name="eventHandler"></param>
         public void SetEventHandler(PeripheralEventHandler eventHandler)
         {
             this.eventHandler = eventHandler;
             CallEventInQueue();
         }
 
-        /*
-         * Call all events in enventQueue in putPeripheralEventInQueue method and empty the queue.
-         */
+        /// <summary>
+        /// Treat every events in enventQueue in putPeripheralEventInQueue method and empty the queue.
+        /// </summary>
         private void CallEventInQueue()
         {
             while (!this.eventQueue.IsEmpty)
             {
                 Event outEvent;
                 this.eventQueue.TryDequeue(out outEvent);
-                this.eventHandler.putPeripheralEventInQueue(outEvent.ObjectName, outEvent.EventName, outEvent.Value);
+                this.eventHandler.PutPeripheralEventInQueue(outEvent.ObjectName, outEvent.EventName, outEvent.Value);
             }
         }
 

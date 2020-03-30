@@ -1,10 +1,9 @@
 namespace PeripheralTools
 {
-    /**
-     * Service representing every device used
-     * Any device must be implementing this interface or one of this implementation
-     * 
-     */
+    /// <summary>
+    /// Service representing every device used
+    /// Any device must be implementing this interface or one of this implementation
+    /// </summary>
     public interface IDevice
     {
         // object allowing the communication with the microservice

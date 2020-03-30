@@ -5,9 +5,9 @@ using System.Threading.Tasks;
 
 namespace InteractiveTerminalCrossPlatformMicroservice
 {
-    /*
-     * Exception thrown when the controller tries to use a unimplemented or inexistant method on a peripheral
-     */
+    /// <summary>
+    /// Exception thrown when the controller tries to use a unimplemented or inexistant method on a peripheral
+    /// </summary>
     public class UncorrectMethodNameException : Exception
     {
         public UncorrectMethodNameException()

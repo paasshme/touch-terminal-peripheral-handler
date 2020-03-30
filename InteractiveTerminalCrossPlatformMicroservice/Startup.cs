@@ -14,9 +14,9 @@ using InteractiveTerminalCrossPlatformMicroservice.SwaggerCustom;
 
 namespace InteractiveTerminalCrossPlatformMicroservice
 {
-    /**
-     *  ASP.CORE Startup object, handle the initialisation and set up of the application
-     */
+    /// <summary>
+    /// ASP.CORE Startup object, handle the initialisation and set up of the application 
+    /// </summary>
 
     public class Startup
     {

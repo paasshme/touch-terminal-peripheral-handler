@@ -1,9 +1,9 @@
 using System;
 namespace InteractiveTerminalCrossPlatformMicroservice
 {
-    /*
-     * Exception thrown when the controller tries to use a peripheral that doesn't exists
-     */
+    /// <summary>
+    /// Exception thrown when the controller tries to use a peripheral that doesn't exists
+    /// </summary>
     public class InexistantObjectException: System.Exception
     {
         public InexistantObjectException() { }

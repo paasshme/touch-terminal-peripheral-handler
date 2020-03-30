@@ -5,29 +5,45 @@ using System.Xml;
 
 namespace InteractiveTerminalCrossPlatformMicroservice.PeripheralCreation.ConfigReader
 {
-    /*
-     * An object that can read an XML configuration files (see convention in documentation)
-     */
+    /// <summary>
+    ///An object that can read an XML configuration files (see convention in documentation) 
+    /// </summary>
     public class XMLConfigReader : IConfigReader
     {
         // Conventions used in the Config.xml file 
 
+        /// <summary>
+        /// Node for the library in the xml file
+        /// </summary>
         private const string LIBRARY_NODE = "library";
 
+
+        /// <summary>
+        /// Node for the library path in the xml file
+        /// </summary>
         private const string PATH_TO_LIBRARY = "path";
 
+
+        /// <summary>
+        /// Node for the name of the instance in the xml file
+        /// </summary>
         private const string INSTANCE_NAME = "name";
 
+        /// <summary>
+        /// Node for the type of the instance in the xml file
+        /// </summary>
         private const string INSTANCE_ATTRIBUTE_TYPE = "type";
 
-        // The actual config.xml file
-
+        /// <summary>
+        /// The used Config.xml file
+        /// </summary>
         private XmlDocument xmldoc;
 
-        /*
-         * Build an XML configuration file reader
-         * @param pathToXmlFile the path to the XML file (relative to this file)
-         */
+        
+        /// <summary>
+        /// Constructor for the xml configuration reader
+        /// </summary>
+        /// <param name="pathToXmlFile"> pathToXmlFile the path to the XML file(relative to this file) </param>
         public XMLConfigReader(string pathToXmlFile)
         {
             try
@@ -45,10 +61,11 @@ namespace InteractiveTerminalCrossPlatformMicroservice.PeripheralCreation.Config
             
         }
 
-        /*
-         * Reads the config file and get all the libraries in the XML file
-         * @return An array list that contains the path of every .dll file in the configuration file (without the .dll)
-         */
+
+        /// <summary>
+        /// Reads the config file and get all the libraries in the XML file 
+        /// </summary>
+        /// <returns>An array list that contains the path of every .dll file in the configuration file (without the .dll)</returns>
         public ArrayList GetAllDllName()
         {
             //Getting all the paths in xml
@@ -63,11 +80,12 @@ namespace InteractiveTerminalCrossPlatformMicroservice.PeripheralCreation.Config
             return listOfAllDllName;
         }
 
-        /*
-         * Get all the peripheral types from a library in the XML config file
-         * @param libName Name of the library that will be searched in the config file (without the '.dll')
-         * @return  An array list that contains the name of every peripheral in this library 
-         */
+        /// <summary>
+        ///Get all the peripheral types from a library in the XML config file 
+        /// </summary>
+        /// <param name="libName">libName Name of the library that will be searched in the config file (without the '.dll')</param>
+        /// <returns>An array list that contains the name of every peripheral in this library </returns>
+       
         public ArrayList GetAllInstancesFromOneDll(string libName)
         {
             //Getting all the libray paths
@@ -93,12 +111,13 @@ namespace InteractiveTerminalCrossPlatformMicroservice.PeripheralCreation.Config
             return instances;
         }
 
-        /*
-         * Getting all the constructor parameters values from a peripheral instance
-         * @param libName Name of the library that will be searched in the config file (without the .dll)
-         * @param instanceName name of the pperipheral instance (node instance, attribute name in the XML)
-         * @return An object array that contains the values of each constructor parameter
-         * */
+
+        /// <summary>
+        ///Getting all the constructor parameters values from a peripheral instance 
+        /// </summary>
+        /// <param name="libName"> Name of the library that will be searched in the config file (without the .dll) </param>
+        /// <param name="instanceName"> name of the peripheral instance (node instance, attribute name in the XML) </param>
+        /// <returns> An object array that contains the values of each constructor parameter </returns>
         public object[] GetParametersForOneInstance(string libName, string instanceName)
         {
             //Geting all the library paths

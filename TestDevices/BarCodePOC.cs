@@ -5,16 +5,15 @@ using System.IO.Ports;
 
 namespace TestDevices
 {
-    /**
-     * Proof of concept:
-     * This object allow the usage of a BarCode reader (here a Datalogic by Gyphon)
-     * It must be well configured in order to be triggered by
-     * 
-     */
+
+    /// <summary>
+    /// This object stands for a proof of concept:
+    /// It allows the usage of a BarCode reader (here a Datalogic by Gyphon)
+    /// It must be well configured in order to be used with this configuration
+    /// </summary>
 
     public class BarCodePOC : IDevice, IDisposable
     {
-
         public IPeripheralEventHandler eventHandler { get; set; }
 
         // Stop message (configured) that will be send in the serial port
@@ -95,10 +94,9 @@ namespace TestDevices
                 Console.WriteLine(serialPort.PortName + " is already open by another process ");
             }
         }
-
-        /*
-         * Allow the barcode reader to read barcodes
-         */
+        /// <summary>
+        /// Allow the barcode reader to read barcodes 
+        /// </summary>
         public void Start()
         {
             try
@@ -126,9 +124,9 @@ namespace TestDevices
             }
         }
 
-        /*
-         * Stôp the barcode reading
-         */
+        /// <summary>
+        /// Stop the barcode reading 
+        /// </summary>
         public void Stop()
         {
             try
@@ -157,19 +155,29 @@ namespace TestDevices
             }
         }
 
-        // Delegate that is used to communicate when something is read on the serial port
+        // 
+        /// <summary>
+        /// Delegate that is used to communicate when something is read on the serial port
+        /// </summary>
+        /// <param name="sender"> Object that send data</param>
+        /// <param name="e">Event args provided by the data received event </param>
         private void DataReceivedHandler(object sender, SerialDataReceivedEventArgs e)
         {
 
             try
             {
-                SerialPort sp = (SerialPort)sender;
-                string indata = sp.ReadExisting();
+                string indata = serialPort.ReadExisting();
+                
+                //Sometimes the reader read an empty set of data
+                if (indata.Length == 0)
+                {
+                    return;
+                }
                 Console.WriteLine("[BarCode] Data Received:");
                 Console.WriteLine(indata);
 
                 // Send the event to the microservice
-                eventHandler.putPeripheralEventInQueue(indata, "Barcode", "read data");
+                eventHandler.PutPeripheralEventInQueue(indata, "Barcode", "read data");
             }
             catch (InvalidOperationException)
             {

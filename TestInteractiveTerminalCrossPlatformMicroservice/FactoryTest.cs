@@ -7,21 +7,27 @@ using TestDevices;
 using InteractiveTerminalCrossPlatformMicroservice.PeripheralCreation;
 using InteractiveTerminalCrossPlatformMicroservice;
 using PeripheralTools;
+using InteractiveTerminalCrossPlatformMicroservice.PeripheralCreation.ConfigReader;
 
 namespace TestInteractiveTerminalCrossPlatformMicroservice
 {
     public class FactoryTest
     {
+        private XMLConfigReader reader;
+
+
 
         public FactoryTest()
         {
             InitFactoryForTest();
+            this.reader = new XMLConfigReader(ConfigReaderTest.configFilePath);
         }
+
 
         [Fact]
         public void InitTest()
         {
-
+            //this.reade
             int expectedInstanceNumber = 3; //Number of instance in the fake config file
             int nbInstance = PeripheralFactory.GetAllInstanceNames().Count;
 
@@ -48,8 +54,8 @@ namespace TestInteractiveTerminalCrossPlatformMicroservice
             Assert.All(methodList, x => Assert.NotNull(x));
 
             Assert.Collection(methodList,
-                x => Assert.Equal("IDeviceLib.IPeripheralEventHandler get_eventHandler()", x.ToString()),
-                x => Assert.Equal("Void set_eventHandler(IDeviceLib.IPeripheralEventHandler)", x.ToString()),
+                x => Assert.Equal("PeripheralTools.IPeripheralEventHandler get_eventHandler()", x.ToString()),
+                x => Assert.Equal("Void set_eventHandler(PeripheralTools.IPeripheralEventHandler)", x.ToString()),
                 x => Assert.Equal("Void Start()", x.ToString()),
                 x => Assert.Equal("Void Stop()", x.ToString()));
 

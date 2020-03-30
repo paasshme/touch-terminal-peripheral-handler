@@ -9,17 +9,28 @@ using InteractiveTerminalCrossPlatformMicroservice.PeripheralCreation;
 
 namespace InteractiveTerminalCrossPlatformMicroservice.Controllers
 {
-    /*
-     * Object which takes over the reception of the brower requests
-     */
+    /// <summary>
+    /// An ASP.CORE Controller which takes over the reception of the different HTTP requests.
+    /// </summary>
     public class Controller : Microsoft.AspNetCore.Mvc.Controller
     {
+        /// <summary>
+        /// http code sent to the browser in case of success
+        /// </summary>
+        public const int HTTP_CODE_SUCCESS = 200;
 
-        public const int HTTP_CODE_SUCCESS = 200; 
+        /// <summary>
+        /// http code sent to the browser in case of failure
+        /// </summary>
         public const int HTTP_CODE_FAILURE = 400;
 
-        //When browser sends a get request with the format : api/{ObjectName}/{Method}
-        //The controller tries to call the method on the peripheral instance and returns an adapted answer
+        /// <summary>
+        /// When browser sends a get request with the format : api/{ObjectName}/{Method}
+        /// The controller tries to call the method on the peripheral instance and returns an adapted answer
+        /// </summary>
+        /// <param name="ObjectName"> Name of the type of the object on which the method will be call</param>
+        /// <param name="Method"> Name of the method to invoke</param>
+        /// <returns>A StatusCode code indicating whether the invocation is a success or not with a description</returns>
         [HttpGet]
         [Route("api/{ObjectName}/{Method}")]
         public IActionResult CommunicateToPeripheral(string ObjectName, string Method)
@@ -28,7 +39,7 @@ namespace InteractiveTerminalCrossPlatformMicroservice.Controllers
             var query = this.HttpContext.Request.QueryString;
 
             //No parameters in GET request
-            if (String.IsNullOrEmpty(query.ToString()))
+            if (string.IsNullOrEmpty(query.ToString()))
             {
                 try
                 {
@@ -45,45 +56,27 @@ namespace InteractiveTerminalCrossPlatformMicroservice.Controllers
                 }
             }
 
-            
             else
             {
                 //Parameters string parsing
-
                 char[] separators = {'=', '&'};
                 int counter = 0;
 
                 //Removing the ? from the param string
                 string param = query.ToString().Substring(1);
 
-                string[] strlist = param.Split(separators);    
+                string[] parametersListWithSeparators = param.Split(separators);    
 
-                //Counting the number of parameters
-                for(int i = 0; i < strlist.Length; i++)
-                {
-                    if (i % 2 == 1)
-                    {
-                        //Increasing when arriving on parameter value
-                        counter++;
-                    }
-                }
-
-                object[] parametersArray = new object[counter];
-                counter = 0;
+                object[] parametersArray = new object[parametersListWithSeparators.Length/2];
 
                 //Filling the parameters array with the values only
-                for (int i = 0; i < strlist.Length; i++)
+                for (int i = 1; i < parametersListWithSeparators.Length; i+=2)
                 {
-                    // % 2 since we are getting what is between = and &
-                    if (i % 2 == 1)
-                    {
-                        parametersArray[counter] = strlist[i];
-                        counter++;
-                    }
+                    parametersArray[counter++] = parametersListWithSeparators[i];
                 }
+
                 try
                 {
-                    //Calling the method
                     UseMethod(ObjectName, Method, parametersArray);
                 }
                 catch (InexistantObjectException)
@@ -109,12 +102,12 @@ namespace InteractiveTerminalCrossPlatformMicroservice.Controllers
 
         }
 
-        /*
-         * Method that calls the method on the right peripheral instance
-         * @param objectName Type of the peripheral
-         * @param methodName Name of the method to call on the peripheral
-         * @param Array that contains all the parameters value (can be empty)
-         */
+        /// <summary>
+        /// Method that calls the method on the right peripheral instance
+        /// </summary>
+        /// <param name="objectName"> Type of the peripheral</param>
+        /// <param name="methodName"> Name of the method to call on the peripheral </param>
+        /// <param name="methodParams"> Array that contains all the parameters value (can be empty) </param>
         private void UseMethod(string objectName, string methodName, object[] methodParams) 
         {           
             // Getting the peripheral instance based on its name 
