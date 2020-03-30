@@ -5,154 +5,187 @@ using System.IO.Ports;
 
 namespace TestDevices
 {
+    /**
+     * Proof of concept:
+     * This object allow the usage of a BarCode reader (here a Datalogic by Gyphon)
+     * It must be well configured in order to be triggered by
+     * 
+     */
+
     public class BarCodePOC : IDevice, IDisposable
     {
 
         public IPeripheralEventHandler eventHandler { get; set; }
 
-        //SerialPort sp = new SerialPort("/dev/ttyACM1", 9600, 0, 8, StopBits.One);
-        private SerialPort sp;
+        // Stop message (configured) that will be send in the serial port
+        private const string STOP_MESSAGE = "D";
+
+        // Start message (configured) that will be send in the serial port
+        private const string START_MESSAGE = "E";
+
+
+        // serial port used to communicate with the barcode reader
+        private SerialPort serialPort;
 
 
         public BarCodePOC(string port)
         {
             string[] ports = SerialPort.GetPortNames();
-            Console.WriteLine("The following serial ports were found:");
 
-            foreach (string foundPort in ports)
+            if (ports.Length == 0)
             {
-                Console.WriteLine(foundPort);
+                Console.WriteLine("[BarCode]: No ports found");
             }
+            else
+            {
+                Console.WriteLine("[BarCode]: The following serial ports were found:");
+                foreach (string foundPort in ports)
+                {
+                    Console.WriteLine(foundPort);
+                }
+            }
+            
+            // Try to instanciate a serial port with the correct parameters
             try
             {
-                sp = new SerialPort(port, 9600, 0, 8, StopBits.One);
+                serialPort = new SerialPort(port, 9600, 0, 8, StopBits.One);
             }
             catch (IOException)
             {
-                Console.Error.WriteLine("Port " + sp.PortName + "couldn't be found");
+                Console.Error.WriteLine("Port " + serialPort.PortName + "couldn't be found");
             }
 
             try
             {
-                sp.Open();
+                serialPort.Open();
             }
             catch (UnauthorizedAccessException)
             {
-                System.Console.WriteLine("Unauthorized access to " + sp.PortName);
+                Console.WriteLine("Unauthorized access to " + serialPort.PortName);
             }
             catch (ArgumentOutOfRangeException)
             {
-                System.Console.WriteLine("Parity, databit or handshake are not valid for the " + sp.PortName);
+                Console.WriteLine("Parity, databit or handshake are not valid for the " + serialPort.PortName);
 
-                if (sp.BaudRate <= 0)
+                if (serialPort.BaudRate <= 0)
                 {
-                    System.Console.WriteLine("Baudrate is lower or equal to 0");
+                    Console.WriteLine("Baudrate is lower or equal to 0");
                 }
 
-                if (sp.WriteTimeout < 0)
+                if (serialPort.WriteTimeout < 0)
                 {
-                    System.Console.WriteLine("WriteTimeout is less than 0");
+                    Console.WriteLine("WriteTimeout is less than 0");
                 }
 
-                if (sp.ReadTimeout < 0)
+                if (serialPort.ReadTimeout < 0)
                 {
-                    System.Console.WriteLine("ReadTimeout is less than 0");
+                    Console.WriteLine("ReadTimeout is less than 0");
                 }
             }
             catch (ArgumentException)
             {
-                System.Console.WriteLine("Error on name " + sp.PortName + " or the file type of the port is not supported");
+                Console.WriteLine("Error on name " + serialPort.PortName + " or the file type of the port is not supported");
             }
             catch (IOException)
             {
-                System.Console.WriteLine("the port " + sp.PortName + " is in a invalid state or open parameter are invalid");
+                Console.WriteLine("the port " + serialPort.PortName + " is in a invalid state or open parameter are invalid");
             }
             catch (InvalidOperationException)
             {
-                System.Console.WriteLine(sp.PortName + " is already open by another process ");
+                Console.WriteLine(serialPort.PortName + " is already open by another process ");
             }
         }
 
-        void IDevice.Start()
+        /*
+         * Allow the barcode reader to read barcodes
+         */
+        public void Start()
         {
             try
             {
-                if (sp.IsOpen)
+                if (serialPort.IsOpen)
                 {
-                    sp.DataReceived += new SerialDataReceivedEventHandler(DataReceivedHandler);
-                    sp.Write("E");
-                    System.Console.WriteLine("Written");
+                    //Instanciate the delagate
+                    serialPort.DataReceived += new SerialDataReceivedEventHandler(DataReceivedHandler);
+                    serialPort.Write(START_MESSAGE);
+                    Console.WriteLine("[BarCode]:  BarCode start signal sent");
                 }
 
             }
             catch (InvalidOperationException)
             {
-                System.Console.WriteLine("The port" + sp.PortName + " is not open");
+                Console.WriteLine("The port" + serialPort.PortName + " is not open");
             }
             catch (ArgumentNullException)
             {
-                System.Console.WriteLine("The sent text is null");
+                Console.WriteLine("The sent text is null");
             }
             catch (TimeoutException)
             {
-                System.Console.WriteLine("The socket has timed out");
+                Console.WriteLine("The socket has timed out");
             }
         }
-        private void DataReceivedHandler(
-                    object sender,
-                    SerialDataReceivedEventArgs e)
+
+        /*
+         * Stôp the barcode reading
+         */
+        public void Stop()
+        {
+            try
+            {
+                if (serialPort.IsOpen)
+                {
+                    serialPort.ReadExisting();
+
+                    serialPort.Write(STOP_MESSAGE);
+
+                    Console.WriteLine("[BarCode]:  BarCode stop signal sent");
+                }
+
+            }
+            catch (InvalidOperationException)
+            {
+                Console.WriteLine("The port" + serialPort.PortName + " is not open");
+            }
+            catch (ArgumentNullException)
+            {
+                Console.WriteLine("The sent text is null");
+            }
+            catch (TimeoutException)
+            {
+                Console.WriteLine("The socket has timed out");
+            }
+        }
+
+        // Delegate that is used to communicate when something is read on the serial port
+        private void DataReceivedHandler(object sender, SerialDataReceivedEventArgs e)
         {
 
-            try {
+            try
+            {
                 SerialPort sp = (SerialPort)sender;
                 string indata = sp.ReadExisting();
-                Console.WriteLine("Data Received:");
+                Console.WriteLine("[BarCode] Data Received:");
                 Console.WriteLine(indata);
+
+                // Send the event to the microservice
                 eventHandler.putPeripheralEventInQueue(indata, "Barcode", "read data");
             }
             catch (InvalidOperationException)
             {
-                System.Console.WriteLine("The port" + sp.PortName + "is not currently open");
+                Console.WriteLine("The port" + serialPort.PortName + "is not currently open");
             }
         }
 
-        void IDevice.Stop()
-        {
-            try
-            {
-                if (sp.IsOpen)
-                {
-                    // sp.Open();
-                    sp.ReadExisting();
-
-                    sp.Write("D");
-
-                    System.Console.WriteLine("closed");
-                }
-
-            }
-            catch (InvalidOperationException)
-            {
-                System.Console.WriteLine("The port" + sp.PortName + " is not open");
-            }
-            catch (ArgumentNullException)
-            {
-                System.Console.WriteLine("The sent text is null");
-            }
-            catch (TimeoutException)
-            {
-                System.Console.WriteLine("The socket has timed out");
-            }
-        }
-
+        //Handle the close of the port correctly
         public void Dispose()
         {
             try {
-                sp.Close();
+                serialPort.Close();
             }
             catch (IOException)
             {
-                System.Console.WriteLine("The port" + sp.PortName + " is in an invalid state");
+                Console.WriteLine("The port" + serialPort.PortName + " is in an invalid state");
             }
         }
     }

@@ -46,7 +46,7 @@ namespace TestInteractiveTerminalCrossPlatformMicroservice
             XMLConfigReader reader = new XMLConfigReader(configFilePath);
             string dllName =(DLL_FOLDER_PATH + "TestDevices");
             string instanceName = "RandomDeviceWithParameters";
-            Object[] resParams = reader.GetParametersForOneInsance(dllName, instanceName);
+            Object[] resParams = reader.GetParametersForOneInstance(dllName, instanceName);
 
             Assert.NotNull(resParams);
 
