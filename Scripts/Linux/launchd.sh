@@ -24,15 +24,14 @@ if [ $# -eq 1 ]; then
 	port=$1
     fi
 fi
-
-
 dotnet restore $path 
 dotnet build $path 
 cp -f "$path/TestDevices/bin/Debug/netcoreapp3.1/TestDevices.dll" "$path/InteractiveTerminalCrossPlatformMicroservice/PeripheralLibraries"
 
 if [ -n "$a" ]; then
     echo "[STATUS] The project is already running"
-    docker stop $(docker ps | grep InteractiveTerminalCrossPlatformMicroservice.dll | cut -d ' ' -f 1) 
+    docker stop $(docker ps | grep InteractiveTerminalCrossPlatformMicroservice.dll 
+	| cut -d ' ' -f 1) 
     echo "[STATUS] Old project stopped !"
 fi
 

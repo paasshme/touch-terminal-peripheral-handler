@@ -14,7 +14,7 @@ namespace InteractiveTerminalCrossPlatformMicroservice.PeripheralCreation
 {
         
     /// <summary>
-    /// Static Factory pattern that is used to create instances of the differents peripheral using System.Reflection
+    /// Static Factory pattern that is used to create instances of the different peripherals using System.Reflection
     /// </summary>
     public class PeripheralFactory
     {
@@ -96,15 +96,15 @@ namespace InteractiveTerminalCrossPlatformMicroservice.PeripheralCreation
 
                     catch (Exception ex)
                     {
-                        if(ex is FileNotFoundException || ex is ArgumentNullException)
+                        if (ex is FileNotFoundException || ex is ArgumentNullException)
                         {
                             Console.WriteLine("Missing .dll file : " + assemblyName);
                         }
-                        if(ex is FileLoadException)
+                        if (ex is FileLoadException)
                         {
                             Console.WriteLine("Couldn't load the .dll file : " + assemblyName);
                         }
-                        if(ex is BadImageFormatException)
+                        if (ex is BadImageFormatException)
                         {
                             Console.WriteLine("invalid .dll file : " + assemblyName);
                         }
@@ -112,29 +112,29 @@ namespace InteractiveTerminalCrossPlatformMicroservice.PeripheralCreation
                     }
                 }
 
-                //Getting all the peripheral types from the curretn assembly
+                // Getting all the peripheral types from the current assembly
                 ArrayList instances = configReader.GetAllInstancesFromOneDll(aLibraryName);
 
-                //Browsing through each instance node
+                // Browsing through each instance node
                 foreach (string instanceName in instances)
                 {
                     string[] parsedPath = aLibraryName.Split("/");
                     string packageOfInstance = parsedPath[parsedPath.Length - 1];
 
-                    //Getting the constructor parameters
+                    // Getting the constructor parameters
                     object[] objectParameters = configReader.GetParametersForOneInstance(aLibraryName, instanceName);
                     Type typeOfInstance = null;
                     try
                     {
-                        //Getting the type of the peripheral to create
+                        // Getting the type of the peripheral to create
                         typeOfInstance = assembly.GetType(packageOfInstance + "." + instanceName);
-                        //Creating the peripheral with right constructor parameters
-                        //Build so as to the instance is an IDevice
+                        // Creating the peripheral with right constructor parameters
+                        // Build so as to the instance is an IDevice
                         var instance = Activator.CreateInstance(typeOfInstance, objectParameters) as IDevice;
 
-                        //adding the event handler to the new instance
+                        // Adding the event handler to the new instance
                         instance.eventHandler = PeripheralEventHandlerProxy.GetInstance();
-                        //Adding the instance to the dictionnary
+                        // Adding the instance to the dictionnary
                         devicesDictionnary.Add(instanceName, instance);
 
                     }
@@ -170,12 +170,14 @@ namespace InteractiveTerminalCrossPlatformMicroservice.PeripheralCreation
                     }
                     catch (TargetInvocationException e)
                     {
-                        Console.WriteLine("Invalid target on instance creation : " + typeOfInstance + ": the invoked constructor threw an exception.");
+                        Console.WriteLine("Invalid target on instance creation : " + typeOfInstance + 
+                            ": the invoked constructor threw an exception.");
                         Console.WriteLine(e.Message);
                     }
                     catch (MissingMethodException e)
                     {
-                        Console.WriteLine("Constructor of : " + typeOfInstance + " isn't defined with those parameters");
+                        Console.WriteLine("Constructor of : " + typeOfInstance + 
+                            " isn't defined with those parameters");
                         Console.WriteLine(e.Message);
                     }
                     catch (MethodAccessException e)

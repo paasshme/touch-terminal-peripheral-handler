@@ -13,9 +13,7 @@ namespace TestInteractiveTerminalCrossPlatformMicroservice
 {
     public class FactoryTest
     {
-        private XMLConfigReader reader;
-
-
+        private readonly XMLConfigReader reader;
 
         public FactoryTest()
         {
@@ -23,24 +21,31 @@ namespace TestInteractiveTerminalCrossPlatformMicroservice
             this.reader = new XMLConfigReader(ConfigReaderTest.configFilePath);
         }
 
-
         [Fact]
-        public void InitTest()
+        public void InstanceNumber()
         {
-            //this.reade
-            int expectedInstanceNumber = 3; //Number of instance in the fake config file
+            int counter = 0;
+            foreach (string libraryName in reader.GetAllDllName())
+            {
+                foreach (string instanceName in reader.GetAllInstancesFromOneDll(libraryName))
+                {
+                    ++counter;
+                }
+            }
             int nbInstance = PeripheralFactory.GetAllInstanceNames().Count;
-
-            Console.WriteLine(nbInstance);
-            Assert.Equal(expectedInstanceNumber, nbInstance);
+            Assert.Equal(counter, nbInstance);
         }
 
         [Fact]
         public void CreateObject()
         {
-            Assert.NotNull(PeripheralFactory.GetInstance("RandomDevice"));
-            Assert.NotNull(PeripheralFactory.GetInstance("RandomDeviceWithParameters"));
-            Assert.NotNull(PeripheralFactory.GetInstance("DeviceWithMethodParameter"));
+            foreach (string libraryName in reader.GetAllDllName())
+            {
+                foreach (string instanceName in reader.GetAllInstancesFromOneDll(libraryName))
+                {
+                    Assert.NotNull(PeripheralFactory.GetInstance(instanceName));
+                }
+            }
             Assert.Throws<InexistantObjectException>(() => PeripheralFactory.GetInstance("DeviceWithAnErrorInHisName"));
         }
 
@@ -48,8 +53,13 @@ namespace TestInteractiveTerminalCrossPlatformMicroservice
         public void FindMethodsTest()
         {
             IDevice device = PeripheralFactory.GetInstance("RandomDevice");
-            List<MethodInfo> methodList = PeripheralFactory.FindMethods(device.GetType());
             int nbMethodRandomDevice = 4;
+
+            List<MethodInfo> methodList = PeripheralFactory.FindMethods(device.GetType());
+     
+
+            Assert.All(methodList, x => Assert.NotNull(x));
+
             Assert.Equal(nbMethodRandomDevice, methodList.Count);
             Assert.All(methodList, x => Assert.NotNull(x));
 
@@ -68,15 +78,14 @@ namespace TestInteractiveTerminalCrossPlatformMicroservice
 
             List<string> list = methodList.Select(s => s.ToString()).ToList();
 
-            Assert.Contains<string>("Void MethodWithParameters(System.String)", list);
-            Assert.Contains<string>("Void MethodWithTwoParameters(System.String, System.String)", list);
+            Assert.Contains("Void MethodWithParameters(System.String)", list);
+            Assert.Contains("Void MethodWithTwoParameters(System.String, System.String)", list);
         }
 
         [Fact]
         public void HasConstructorParametersWellSet()
         {
             RandomDeviceWithParameters dev =(RandomDeviceWithParameters) PeripheralFactory.GetInstance("RandomDeviceWithParameters");
-
             Assert.Equal("stringTest", dev.stringTest);
             Assert.Equal(7357, dev.intTest);
             Assert.True(dev.boolTest);
@@ -98,6 +107,13 @@ namespace TestInteractiveTerminalCrossPlatformMicroservice
             Assert.Collection(PeripheralFactory.GetAllInstanceNames(), item => Assert.Equal("RandomDevice",item.ToString()),
                                                                        item => Assert.Equal("RandomDeviceWithParameters", item.ToString()),
                                                                        item => Assert.Equal("DeviceWithMethodParameter", item.ToString()));
+            foreach (string libraryName in reader.GetAllDllName())
+            {
+                foreach (string instanceName in reader.GetAllInstancesFromOneDll(libraryName))
+                {
+                    Assert.Contains<string>(instanceName,PeripheralFactory.GetAllInstanceNames());
+                }
+            }
         }
 
         //Init factory for test (with the specified config file)
