@@ -1,2 +1,2 @@
 dotnet run --project /home/InteractiveTerminalCrossPlatformMicroservice/InteractiveTerminalCrossPlatformMicroservice.csproj &
-chromium-browser 
+chromium-browser --no-sandbox
