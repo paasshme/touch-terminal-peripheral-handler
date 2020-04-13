@@ -36,7 +36,7 @@ namespace InteractiveTerminalCrossPlatformMicroservice.PeripheralRequestHandler
         /// <summary>
         /// Watch the event queue and handle events in queue
         /// </summary>
-        public void QueueListening()
+        private void QueueListening()
         {
             while (true)
             {
@@ -44,7 +44,7 @@ namespace InteractiveTerminalCrossPlatformMicroservice.PeripheralRequestHandler
                 if (this.PeripheralEventsQueue.Count != 0)
                 {
                     Event FirstTreated;
-                    //Récupérer les données du premier event (objectName, eventName, et value) et appeler send
+                    // Get data of first event(objectName, eventName, et value) and then send it
                     if (this.PeripheralEventsQueue.TryPeek(out FirstTreated))
                     {
                         this.Send(FirstTreated.ObjectName, FirstTreated.EventName, FirstTreated.Value); 

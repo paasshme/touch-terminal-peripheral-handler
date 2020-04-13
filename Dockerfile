@@ -13,7 +13,6 @@ COPY . .
 WORKDIR "/src/InteractiveTerminalCrossPlatformMicroservice"
 RUN dotnet build "InteractiveTerminalCrossPlatformMicroservice.csproj" -c Release -o /app/build
 
-
 FROM build AS publish
 RUN dotnet publish "InteractiveTerminalCrossPlatformMicroservice.csproj" -c Release -o /app/publish
 

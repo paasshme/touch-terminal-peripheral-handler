@@ -258,9 +258,9 @@ namespace InteractiveTerminalCrossPlatformMicroservice.PeripheralCreation
         /// </summary> 
         /// <param name="objectType"> type of the peripheral </param>
         /// <returns> a list containing every method (object method info)</returns>
-        public static List<MethodInfo> FindMethods(Type objectType)
+        public static HashSet<MethodInfo> FindMethods(Type objectType)
         {
-            List<MethodInfo> methodListResult = new List<MethodInfo>();
+            HashSet<MethodInfo> methodListResult = new HashSet<MethodInfo>();
             //Get every interfaces implemented by this type
             Type[] everyInterfaces = objectType.GetInterfaces();
 
@@ -279,12 +279,10 @@ namespace InteractiveTerminalCrossPlatformMicroservice.PeripheralCreation
                 //Before adding each method , check if it is already in the returned list
                 foreach (MethodInfo method in methodsOfTheObject)
                 {
-                    if (!methodListResult.Contains(method))
-                    {
-                            methodListResult.Add(method);
-                    }
+                    methodListResult.Add(method);
                 }
             }
+
             return methodListResult;
         }
 

@@ -81,20 +81,24 @@ namespace InteractiveTerminalCrossPlatformMicroservice.Controllers
                 }
                 catch (InexistantObjectException)
                 {
-                    return StatusCode(HTTP_CODE_FAILURE, "The object " + ObjectName + " doesn't exists");
+                    return StatusCode(HTTP_CODE_FAILURE, "The object " + ObjectName +
+                        " doesn't exists");
                 }
                 catch (UncorrectMethodNameException)
                 {
-                    return StatusCode(HTTP_CODE_FAILURE, "The object "+ObjectName+" doesn't implements the method " + Method);
+                    return StatusCode(HTTP_CODE_FAILURE, "The object "+ObjectName + 
+                        " doesn't implements the method " + Method);
                 }
                
                 catch (ArgumentException)
                 {
-                    return StatusCode(HTTP_CODE_FAILURE, "The method " + Method + " is used with wrong parameters types!");
+                    return StatusCode(HTTP_CODE_FAILURE, "The method " + Method + 
+                        " is used with wrong parameters types!");
                 }
                 catch(TargetParameterCountException)
                 {
-                    return StatusCode(HTTP_CODE_FAILURE, "The method " + Method + " isn't used with the good number of parameters!");
+                    return StatusCode(HTTP_CODE_FAILURE, "The method " + Method + 
+                        " isn't used with the good number of parameters!");
                 }
                 
             }
@@ -114,7 +118,7 @@ namespace InteractiveTerminalCrossPlatformMicroservice.Controllers
             IDevice device = PeripheralFactory.GetInstance(objectName);
             
             // Getting all the methods of the device
-            List<MethodInfo> methodList = PeripheralFactory.FindMethods(device.GetType());
+            HashSet<MethodInfo> methodList = PeripheralFactory.FindMethods(device.GetType());
 
             MethodInfo correctMethodName = null;
 
