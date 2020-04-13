@@ -17,16 +17,20 @@ fi
 if [ $# -eq 1 ]; then
 
     if ! [[ $1 =~ $re ]] ; then
-	echo "[ERROR] You need to provide a correct port or use the default one " ; exit 1
-    elif [ $1 -gt 65535 ] || [ $1 -lt 1 ]; then
+	echo "[ERROR] You need to provide a correct port or use the default one " 
+	exit 1
+    
+	elif [ $1 -gt 65535 ] || [ $1 -lt 1 ]; then
 	echo "[WARNING] Wrong port number: the $port will be used"
     else
 	port=$1
     fi
 fi
+
 dotnet restore $path 
 dotnet build $path 
-cp -f "$path/TestDevices/bin/Debug/netcoreapp3.1/TestDevices.dll" "$path/InteractiveTerminalCrossPlatformMicroservice/PeripheralLibraries"
+cp -f "$path/TestDevices/bin/Debug/netcoreapp3.1/TestDevices.dll" 
+"$path/InteractiveTerminalCrossPlatformMicroservice/PeripheralLibraries"
 
 if [ -n "$a" ]; then
     echo "[STATUS] The project is already running"
@@ -46,4 +50,8 @@ docker run -it --privileged -device=/dev/ttyACM1 -p $port:80 test:projets3
 echo "[STATUS] Project successfully launch"
 echo "[STATUS] http://localhost:$port/swagger/index.html"
 
-chromium --kiosk http://localhost:$port/swagger/index.html --no-sandbox --noerrdialogs --disable-infobars --no-default-browser-check --no-experiments --no-pings --silent-debugger-extension-api
+chromium --kiosk http://localhost:$port/swagger/index.html --no-sandbox 
+--noerrdialogs --disable-infobars --no-default-browser-check 
+--no-experiments --no-pings --silent-debugger-extension-api
+
+

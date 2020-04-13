@@ -93,7 +93,7 @@ namespace InteractiveTerminalCrossPlatformMicroservice.SwaggerCustom
 
                 IDevice currentPeripheralInstance = PeripheralFactory.GetInstance(currentPeripheralInstanceName);
 
-                List<MethodInfo> methodList = PeripheralFactory.FindMethods(currentPeripheralInstance.GetType());
+                HashSet<MethodInfo> methodList = PeripheralFactory.FindMethods(currentPeripheralInstance.GetType());
 
                 foreach(MethodInfo currentMethod in methodList)
                 {

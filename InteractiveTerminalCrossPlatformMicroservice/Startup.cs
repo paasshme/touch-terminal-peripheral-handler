@@ -123,12 +123,12 @@ namespace InteractiveTerminalCrossPlatformMicroservice
 
             app.UseSwagger();
 
-
-            app.UseSwaggerUI(c =>
+            app.UseSwaggerUI(swaggerUiOption =>
             {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "API Test Microservice IPM France");
+                swaggerUiOption.SwaggerEndpoint("/swagger/v1/swagger.json",
+                    "API Test Microservice IPM France");
             });
-            PeripheralFactory.Init();
+
         }
     }
 }

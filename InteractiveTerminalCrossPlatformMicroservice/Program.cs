@@ -1,3 +1,4 @@
+using InteractiveTerminalCrossPlatformMicroservice.PeripheralCreation;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 
@@ -9,6 +10,7 @@ namespace InteractiveTerminalCrossPlatformMicroservice
     {
         public static void Main(string[] args)
         {
+            PeripheralFactory.Init();
             CreateHostBuilder(args).Build().Run();
         }
 

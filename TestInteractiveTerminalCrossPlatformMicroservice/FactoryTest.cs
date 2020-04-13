@@ -55,7 +55,7 @@ namespace TestInteractiveTerminalCrossPlatformMicroservice
             IDevice device = PeripheralFactory.GetInstance("RandomDevice");
             int nbMethodRandomDevice = 4;
 
-            List<MethodInfo> methodList = PeripheralFactory.FindMethods(device.GetType());
+            HashSet<MethodInfo> methodList = PeripheralFactory.FindMethods(device.GetType());
      
 
             Assert.All(methodList, x => Assert.NotNull(x));
@@ -95,7 +95,6 @@ namespace TestInteractiveTerminalCrossPlatformMicroservice
         [Fact]
         public void HasEventHandlerTest()
         {
-            Assert.NotNull(PeripheralFactory.GetInstance("RandomDevice").eventHandler);
             Assert.All(PeripheralFactory.GetAllInstanceNames(), 
                 x => Assert.NotNull(PeripheralFactory.GetInstance(x).eventHandler));
         }
