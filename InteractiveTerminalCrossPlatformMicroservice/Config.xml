@@ -4,7 +4,7 @@
   <library path="PeripheralLibraries/TestDevices">
 
     <instance name="BarCodePOC">
-      <attribut type="string" name="port">COM5</attribut>
+	    <attribut type="string" name="port">/dev/ttyACM1</attribut>
     </instance>
 
     <instance name="RandomDevice"></instance>

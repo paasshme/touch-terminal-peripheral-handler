@@ -1,22 +1,35 @@
-FROM mcr.microsoft.com/dotnet/core/aspnet:3.1-buster-slim AS base
-WORKDIR /app
-COPY ["InteractiveTerminalCrossPlatformMicroservice/Config.xml","/app"]
-
-EXPOSE 80
+FROM ubuntu:bionic
 
-FROM mcr.microsoft.com/dotnet/core/sdk:3.1-buster AS build
-WORKDIR /src
-COPY ["InteractiveTerminalCrossPlatformMicroservice/InteractiveTerminalCrossPlatformMicroservice.csproj", "InteractiveTerminalCrossPlatformMicroservice/"]
-COPY ["PeripheralTools/PeripheralTools.csproj", "PeripheralTools/"]
-RUN dotnet restore "InteractiveTerminalCrossPlatformMicroservice/InteractiveTerminalCrossPlatformMicroservice.csproj"
-COPY . .
-WORKDIR "/src/InteractiveTerminalCrossPlatformMicroservice"
-RUN dotnet build "InteractiveTerminalCrossPlatformMicroservice.csproj" -c Release -o /app/build
+#Install dotnet core sdk 3.1 & Chromium
+RUN apt-get update; \ 
+	apt-get install -y  chromium-browser; \
+	apt-get install apt-transport-https; \
+	apt-get install -y wget; \
+	apt-get install -y gpg; \
+	apt-get install -y git; \
+	wget https://packages.microsoft.com/config/ubuntu/19.10/packages-microsoft-prod.deb O- packages-microsoft-prod.deb; \
+	dpkg -i packages-microsoft-prod.deb; \
+	wget O- https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor -o microsoft.asc.gpg; \
+	mv microsoft.asc.gpg /etc/apt/trusted.gpg.d/; \
+	wget https://packages.microsoft.com/config/ubuntu/19.04/prod.list; \
+	mv prod.list /etc/apt/sources.list.d/microsoft-prod.list; \
+	chown root:root /etc/apt/trusted.gpg.d/microsoft.asc.gpg; \
+	chown root:root /etc/apt/sources.list.d/microsoft-prod.list; \
+	apt-get install -y apt-transport-https; \
+	apt-get update -y; \
+	apt-get install -y dotnet-sdk-3.1
 
-FROM build AS publish
-RUN dotnet publish "InteractiveTerminalCrossPlatformMicroservice.csproj" -c Release -o /app/publish
+#Install project and use dotnet utils to set up it properly
+RUN git clone https://github.com/PashmiDev/Cross-platformMicroservice.git /home
 
-FROM markadams/chromium-xvfb
-WORKDIR /app
-COPY --from=publish /app/publish .
-ENTRYPOINT ["dotnet", "InteractiveTerminalCrossPlatformMicroservice.dll"]
+#Get configuration (DLL & Config file
+COPY InteractiveTerminalCrossPlatformMicroservice/PeripheralLibraries/ /home/InteractiveTerminalCrossPlatformMicroservice/PeripheralLibraries/
+COPY InteractiveTerminalCrossPlatformMicroservice/Config.xml /home/InteractiveTerminalCrossPlatformMicroservice/
+
+#Restore and build the project
+RUN dotnet restore /home; \
+	dotnet build /home
+
+#CMD dotnet run --project /home/InteractiveTerminalCrossPlatformMicroservice/InteractiveTerminalCrossPlatformMicroservice.csproj
+CMD bash /home/Scripts/Linux/dockerSetup.sh
+
