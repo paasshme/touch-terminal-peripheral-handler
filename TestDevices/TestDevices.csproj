@@ -2,11 +2,11 @@
 
   <ItemGroup>
     <PackageReference Include="System.IO.Ports" Version="4.7.0" />
+    <PackageReference Include="PeripheralTools" Version="1.1.0" />
+
   </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\PeripheralTools\PeripheralTools.csproj" />
-  </ItemGroup>
+
 
   <PropertyGroup>
 <Version>1.0.3</Version>
